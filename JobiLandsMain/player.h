@@ -86,26 +86,18 @@ typedef struct
 	D3DXVECTOR3 move;		//移動量
 	D3DXVECTOR3 rot;		//向き
 	D3DXVECTOR3 vecMove;	//移動ベクトル
-	D3DXVECTOR3 vecLine[4];	//境界線ベクトル
 	D3DXVECTOR3 vecToPos;	//ベクトルの長さ
 	float fRotDiff;			//向きの差分
 	float fRotDest;			//向きの差分
-	float fRot[4];			//ベクトルの向き
 	D3DXMATRIX mtxWorld;	//ワールドマトリックス
 	int nIdxShadow;			//影のインデックス番号
 	int nIdxHPGauge;		//体力ゲージのインデックス番号
-	int nIdxWave[MAX_WAVEINDEX];			//衝撃波のインデックス番号
-	int nIdxIcon;			//ミニマップアイコンのインデックス番号
-	int nIdxSerif;          //セリフのインデックス番号
-	int nIdxFlag;			//旗のインデックス番号
 	int nState;				//状態
 	int nCntState;			//状態カウント
 	bool bUse;				//使用しているか
 	bool bDisp;				//描画しているか
-	bool bFever;			//フィーバー状態か
-	bool bSetTalk;			//会話のセットしたか
 
-	//モーション系
+							//モーション系
 	int nNowMotionNum;		//現在のモーション番号
 	int nCntAllFrame;		//総フレームカウント
 	int nCntFrame;			//フレームのカウント
@@ -122,23 +114,17 @@ typedef struct
 	float fRadius;			//半径
 
 	Model aModel[MAX_MODEL];	//パーツ情報
-	Formation aFormation[MAX_CROWD];	//隊列情報
+	MotionData aMotionData[MAX_MOTION];		//モーション用の情報
 }Player;
 
 //プロトタイプ宣言
 void InitPlayer(void);
 void UninitPlayer(void);
 void UpdatePlayer(void);
-void UpdateTutorialPlayer(void);
-void UpdateTitlePlayer(void);
-void UpdateRankingPlayer(void);
-void UpdateResultPlayer(void);
 void DrawPlayer(void);
 Player *GetPlayer(void);
 void SetPlayer(void);
 void SetMotisonPlayer(int nMotionType);
-void HitPlayer(D3DXVECTOR3 move, int nDMG);
 D3DXMATRIX GetParentMatrix(int nIdxParts);
-int SetFormationPosPlayer(void);
 
 #endif
