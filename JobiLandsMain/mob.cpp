@@ -899,8 +899,8 @@ void UpdateStateMob(int nCntMob)
 		g_aMob[nCntMob].aModel.rot.x += ROT_ROUND * g_aMob[nCntMob].nTurnSwitchX;
 		g_aMob[nCntMob].aModel.rot.z += ROT_ROUND * g_aMob[nCntMob].nTurnSwitchZ;
 
-		g_aMob[nCntMob].aModel.rot.x = RotNormalize(g_aMob[nCntMob].aModel.rot.x);
-		g_aMob[nCntMob].aModel.rot.z = RotNormalize(g_aMob[nCntMob].aModel.rot.z);
+		RotNormalize(&g_aMob[nCntMob].aModel.rot.x);
+		RotNormalize(&g_aMob[nCntMob].aModel.rot.z);
 
 
 		//if (pPlayer->nNowMotionNum != PLAYERMOTION_ACTION && g_aMob[nCntMob].nHypnosis != 10)
@@ -972,9 +972,9 @@ void UpdateStateMob(int nCntMob)
 
 			g_aMob[nCntMob].fAlpha = 0.4f;	//“§–¾“x‰Šú‰»
 
-			g_aMob[nCntMob].aModel.rot.y = RotNormalize(g_aMob[nCntMob].aModel.rot.y);		//Šp“x‚Ì³‹K‰»
+			RotNormalize(&g_aMob[nCntMob].aModel.rot.y);		//Šp“x‚Ì³‹K‰»
 			g_aMob[nCntMob].aModel.rot.y += D3DXToRadian(90.0f);	//Œü‚«‚ğ‚X‚O“xŒX‚¯‚é
-			g_aMob[nCntMob].aModel.rot.y = RotNormalize(g_aMob[nCntMob].aModel.rot.y);		//Šp“x‚Ì³‹K‰»
+			RotNormalize(&g_aMob[nCntMob].aModel.rot.y);		//Šp“x‚Ì³‹K‰»
 
 			g_aMob[nCntMob].aModel.nState = MOBSTATE_NONE;			//’Êíó‘Ô
 		}
@@ -1019,7 +1019,7 @@ void UpdateCrawlMob(int nCntMob)
 		g_aMob[nCntMob].aModel.rot.y += D3DX_PI;
 
 		//Šp“x‚Ì³‹K‰»
-		g_aMob[nCntMob].aModel.rot.y = RotNormalize(g_aMob[nCntMob].aModel.rot.y);
+		RotNormalize(&g_aMob[nCntMob].aModel.rot.y);
 	}
 
 	//ƒ‚ƒu‚ÌˆÚ“®

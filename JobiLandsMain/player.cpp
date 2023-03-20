@@ -593,13 +593,13 @@ void UpdateGamePlayer(void)
 			g_aPlayer.fRotDiff = g_aPlayer.fRotDest - g_aPlayer.rot.y;
 
 			//Šp“x‚Ì³‹K‰»
-			g_aPlayer.fRotDiff = RotNormalize(g_aPlayer.fRotDiff);
+			RotNormalize(&g_aPlayer.fRotDiff);
 
 			//Šp“x‚Ì•â³‚ð‚·‚é
 			g_aPlayer.rot.y += g_aPlayer.fRotDiff;
 
 			//Šp“x‚Ì³‹K‰»
-			g_aPlayer.rot.y = RotNormalize(g_aPlayer.rot.y);
+			RotNormalize(&g_aPlayer.rot.y);
 		}
 
 
@@ -931,13 +931,13 @@ void ControllPlayer(void)
 	g_aPlayer.fRotDiff = g_aPlayer.fRotDest - g_aPlayer.rot.y;
 
 	//Šp“x‚Ì³‹K‰»
-	g_aPlayer.fRotDiff = RotNormalize(g_aPlayer.fRotDiff);
+	RotNormalize(&g_aPlayer.fRotDiff);
 
 	//Šp“x‚Ì•â³‚ð‚·‚é
 	g_aPlayer.rot.y += g_aPlayer.fRotDiff * 0.1f;
 
 	//Šp“x‚Ì³‹K‰»
-	g_aPlayer.rot.y = RotNormalize(g_aPlayer.rot.y);
+	RotNormalize(&g_aPlayer.rot.y);
 
 	//d—Íˆ—
 	//g_aPlayer.move.y -= 1.0f;
@@ -1720,9 +1720,9 @@ void UpdateMotionPlayer(void)
 				);
 
 		//Šp“x‚Ì³‹K‰»
-		g_aPlayer.aModel[g_aPlayer.nNowMotionNum].rot.x = RotNormalize(g_aPlayer.aModel[g_aPlayer.nNowMotionNum].rot.x);
-		g_aPlayer.aModel[g_aPlayer.nNowMotionNum].rot.y = RotNormalize(g_aPlayer.aModel[g_aPlayer.nNowMotionNum].rot.y);
-		g_aPlayer.aModel[g_aPlayer.nNowMotionNum].rot.z = RotNormalize(g_aPlayer.aModel[g_aPlayer.nNowMotionNum].rot.z);
+		RotNormalize(&g_aPlayer.aModel[g_aPlayer.nNowMotionNum].rot.x);
+		RotNormalize(&g_aPlayer.aModel[g_aPlayer.nNowMotionNum].rot.y);
+		RotNormalize(&g_aPlayer.aModel[g_aPlayer.nNowMotionNum].rot.z);
 
 
 		//ƒp[ƒc‚ÌˆÊ’u‚ðÝ’è
@@ -2475,13 +2475,13 @@ void UpdateTutorialPlayer(void)
 			g_aPlayer.fRotDiff = g_aPlayer.fRotDest - g_aPlayer.rot.y;
 
 			//Šp“x‚Ì³‹K‰»
-			g_aPlayer.fRotDiff = RotNormalize(g_aPlayer.fRotDiff);
+			RotNormalize(&g_aPlayer.fRotDiff);
 
 			//Šp“x‚Ì•â³‚ð‚·‚é
 			g_aPlayer.rot.y += g_aPlayer.fRotDiff;
 
 			//Šp“x‚Ì³‹K‰»
-			g_aPlayer.rot.y = RotNormalize(g_aPlayer.rot.y);
+			RotNormalize(&g_aPlayer.rot.y);
 		}
 
 		//‹OÕ‚Ìî•ñŽæ“¾
@@ -2806,13 +2806,13 @@ void ControllTutorialPlayer(void)
 	g_aPlayer.fRotDiff = g_aPlayer.fRotDest - g_aPlayer.rot.y;
 
 	//Šp“x‚Ì³‹K‰»
-	g_aPlayer.fRotDiff = RotNormalize(g_aPlayer.fRotDiff);
+	RotNormalize(&g_aPlayer.fRotDiff);
 
 	//Šp“x‚Ì•â³‚ð‚·‚é
 	g_aPlayer.rot.y += g_aPlayer.fRotDiff * 0.1f;
 
 	//Šp“x‚Ì³‹K‰»
-	g_aPlayer.rot.y = RotNormalize(g_aPlayer.rot.y);
+	RotNormalize(&g_aPlayer.rot.y);
 
 	//d—Íˆ—
 	//g_aPlayer.move.y -= 1.0f;
@@ -2872,7 +2872,7 @@ void UpdateTitlePlayer(void)
 		//Œü‚«ŒÅ’è
 		g_aPlayer.rot.y += 0.025f;
 
-		g_aPlayer.rot.y = RotNormalize(g_aPlayer.rot.y);
+		RotNormalize(&g_aPlayer.rot.y);
 
 		g_aPlayer.fRotDiff = 0.0f;									//Œü‚«‚Ì·•ª
 		g_aPlayer.fRotDest = g_aPlayer.rot.y;						//Œü‚«‚Ì·•ª
@@ -2965,7 +2965,7 @@ void UpdateRankingPlayer(void)
 		//Œü‚«ŒÅ’è
 		g_aPlayer.rot.y += 0.025f;
 
-		g_aPlayer.rot.y = RotNormalize(g_aPlayer.rot.y);
+		RotNormalize(&g_aPlayer.rot.y);
 
 		g_aPlayer.move.x += sinf(D3DX_PI + pCamera->rot.y + g_aPlayer.rot.y) * 1.0f;
 		g_aPlayer.move.z += cosf(D3DX_PI + pCamera->rot.y + g_aPlayer.rot.y) * 1.0f;

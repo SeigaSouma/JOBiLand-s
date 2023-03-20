@@ -136,9 +136,6 @@ void InitRanking(int nOldMode)
 		SetRanking(nCntRank);
 	}
 
-	//ライトのリセット処理
-	ResetLight();
-
 	//影の初期化処理
 	InitShadow();
 

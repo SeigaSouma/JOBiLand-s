@@ -365,13 +365,13 @@ void ControllCrowd(int nCntCrowd)
 	fRotDiff = fRotDest - g_aCrowd[nCntCrowd].aModel.rot.y;
 
 	//角度の正規化
-	fRotDiff = RotNormalize(fRotDiff);
+	RotNormalize(&fRotDiff);
 
 	//角度の補正をする
 	g_aCrowd[nCntCrowd].aModel.rot.y += fRotDiff * 0.2f;
 
 	//角度の正規化
-	g_aCrowd[nCntCrowd].aModel.rot.y = RotNormalize(g_aCrowd[nCntCrowd].aModel.rot.y);
+	RotNormalize(&g_aCrowd[nCntCrowd].aModel.rot.y);
 
 	if (CircleRange(g_aCrowd[nCntCrowd].formationPos, g_aCrowd[nCntCrowd].aModel.pos) >= (50.0f * 50.0f) && g_aCrowd[nCntCrowd].nState != CROWDSTATE_JOIN)
 	{//まだ規定値に着いていなかったら && 何もない状態

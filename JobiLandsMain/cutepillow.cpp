@@ -359,7 +359,7 @@ void UpdatePillowThrow(int nCntPillow, D3DXVECTOR3 *pos, float fRot)
 	}
 
 	//äpìxÇÃê≥ãKâª
-	g_aCutePillow[nCntPillow].rot.y = RotNormalize(g_aCutePillow[nCntPillow].rot.y);
+	RotNormalize(&g_aCutePillow[nCntPillow].rot.y);
 
 	for (int nCntHeight = 0; nCntHeight < HEIGHT; nCntHeight++)
 	{//ècÇÃí∏ì_êîï™åJÇËï‘Ç∑

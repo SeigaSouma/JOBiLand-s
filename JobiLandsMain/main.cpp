@@ -525,17 +525,11 @@ void Draw(void)
 			}
 
 			{
-				//カメラの設定処理
-				SetCamera(CAMERATYPE_MAP);
-
 				//各種オブジェクトの描画
 				DrawObject(DRAWTYPE_MAP);
 			}
 
 			{
-				//カメラの設定処理
-				SetCamera(CAMERATYPE_SIGN);
-
 				//レーダーの描画処理
 				DrawIventRadar();
 

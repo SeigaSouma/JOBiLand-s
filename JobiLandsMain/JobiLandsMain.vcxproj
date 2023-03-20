@@ -201,6 +201,7 @@
     <ClCompile Include="nofade.cpp" />
     <ClCompile Include="numberPeople.cpp" />
     <ClCompile Include="particle.cpp" />
+    <ClCompile Include="pause.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="powergage.cpp" />
     <ClCompile Include="ranking.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="nofade.h" />
     <ClInclude Include="numberPeople.h" />
     <ClInclude Include="particle.h" />
+    <ClInclude Include="pause.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="powergage.h" />
     <ClInclude Include="ranking.h" />

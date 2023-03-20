@@ -201,7 +201,7 @@ void SetPositionSearchFan(int nIdxSearchFan, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 
 	g_aSearchFan[nIdxSearchFan].rot.y = rot.y;
 
-	g_aSearchFan[nIdxSearchFan].rot.y = RotNormalize(g_aSearchFan[nIdxSearchFan].rot.y);
+	RotNormalize(&g_aSearchFan[nIdxSearchFan].rot.y);
 
 	//éwíËÇµÇΩêÓÇÃà íuÇê›íË
 	g_aSearchFan[nIdxSearchFan].pos.x = pos.x;

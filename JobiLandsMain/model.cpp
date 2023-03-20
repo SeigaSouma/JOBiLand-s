@@ -300,12 +300,12 @@ void UpdateAlphaModel(void)
 			//Ž‹“_‚©‚çŒ©‚Äƒ‚ƒfƒ‹‚ÌŒü‚«
 			float fRot = atan2f((g_aModel[nCntModel].pos.x - pCamera->posV.x), (g_aModel[nCntModel].pos.z - pCamera->posV.z));
 
-			fRot = RotNormalize(fRot);
+			RotNormalize(&fRot);
 
 			//–Ú•W‚Æ‚Ì·•ª
 			float fRotDiff = pCamera->rot.y - fRot;
 
-			fRotDiff = RotNormalize(fRotDiff);
+			RotNormalize(&fRotDiff);
 
 			//‹——£‚Ì”äŠr
 			if (fLenModel < fLenPosV &&

@@ -127,34 +127,7 @@ void InitTitleCamera(void)
 			//éãì_ÇÃë„ì¸èàóù
 			SetCameraV(nCntCamera);
 		}
-		if (nCntCamera == CAMERATYPE_SELECT)
-		{
-			g_aCamera[nCntCamera].posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//íçéãì_
-			g_aCamera[nCntCamera].posV = D3DXVECTOR3(0.0f, 0.0f, g_aCamera[nCntCamera].posR.z + -600.0f);	//éãì_
-			g_aCamera[nCntCamera].vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);		//è„ï˚å¸ÉxÉNÉgÉã
-			g_aCamera[nCntCamera].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//à⁄ìÆó 
-			g_aCamera[nCntCamera].nState = CAMERASTATE_NONE;				//èÛë‘
-			g_aCamera[nCntCamera].fDistance = 1500.0f;	//ãóó£
-			g_aCamera[nCntCamera].nMoveStep = 0;			//íiäK
-			g_aCamera[nCntCamera].nCntStep = 0;			//íiäKÇÃÉJÉEÉìÉg
-
-			g_aCamera[nCntCamera].bFollow = false;	//í«è]ON
-			g_aCamera[nCntCamera].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//å¸Ç´
-
-			g_aCamera[nCntCamera].bBackFollow = false;		//îwñ í«è]
-			g_aCamera[nCntCamera].nCntBackFollow = 0;		//í«è]ÉJÉEÉìÉg
-
-			g_aCamera[nCntCamera].posVDest = g_aCamera[nCntCamera].posV;	//ñ⁄ïWÇÃéãì_
-			g_aCamera[nCntCamera].posRDest = g_aCamera[nCntCamera].posR;	//ñ⁄ïWÇÃíçéãì_
-
-			g_aCamera[nCntCamera].rotVDest = g_aCamera[nCntCamera].rot;	//ñ⁄ïWÇÃå¸Ç´
-			g_aCamera[nCntCamera].rotVDiff = 0.0f;			//ñ⁄ïWÇÃéãì_ÇÃç∑ï™
-
-			g_aCamera[nCntCamera].viewport.Width = SCREEN_WIDTH/* / 2*/;	//ï`âÊÇ∑ÇÈâÊñ ÇÃïù
-			g_aCamera[nCntCamera].viewport.Height = SCREEN_HEIGHT;	//ï`âÊÇ∑ÇÈâÊñ ÇÃçÇÇ≥
-			g_aCamera[nCntCamera].viewport.X = 0;	//ï`âÊÇ∑ÇÈâÊñ ÇÃç∂è„Xç¿ïW
-			g_aCamera[nCntCamera].viewport.Y = 0;	//ï`âÊÇ∑ÇÈâÊñ ÇÃç∂è„Yç¿ïW
-		}
+		
 		if (nCntCamera == CAMERATYPE_UI)
 		{
 			g_aCamera[nCntCamera].posR = D3DXVECTOR3(0.0f, 200.0f, 0.0f);		//íçéãì_
@@ -319,27 +292,6 @@ void InitGameCamera(void)
 			SetCameraR(nCntCamera);
 		break;
 
-		case CAMERATYPE_SIGN:
-			g_aCamera[nCntCamera].viewport.Width = 250;	//ï`âÊÇ∑ÇÈâÊñ ÇÃïù
-			g_aCamera[nCntCamera].viewport.Height = 250;	//ï`âÊÇ∑ÇÈâÊñ ÇÃçÇÇ≥
-			g_aCamera[nCntCamera].viewport.X = SCREEN_WIDTH - g_aCamera[nCntCamera].viewport.Width;	//ï`âÊÇ∑ÇÈâÊñ ÇÃç∂è„Xç¿ïW
-			g_aCamera[nCntCamera].viewport.Y = SCREEN_HEIGHT - g_aCamera[nCntCamera].viewport.Height; //ï`âÊÇ∑ÇÈâÊñ ÇÃç∂è„Yç¿ïW
-			g_aCamera[nCntCamera].posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//íçéãì_
-			g_aCamera[nCntCamera].posV = D3DXVECTOR3(0.0f, 1000.0f, -100.0f);	//éãì_
-			g_aCamera[nCntCamera].fDistance = 90.0f;
-			break;
-
-		case CAMERATYPE_MAP:
-			g_aCamera[nCntCamera].viewport.Width = 200;				//ï`âÊÇ∑ÇÈâÊñ ÇÃïù
-			g_aCamera[nCntCamera].viewport.Height = 250;			//ï`âÊÇ∑ÇÈâÊñ ÇÃçÇÇ≥
-			g_aCamera[nCntCamera].viewport.X = 20;	//ï`âÊÇ∑ÇÈâÊñ ÇÃç∂è„Xç¿ïW
-			g_aCamera[nCntCamera].viewport.Y = SCREEN_HEIGHT - g_aCamera[nCntCamera].viewport.Height - 17; //ï`âÊÇ∑ÇÈâÊñ ÇÃç∂è„Yç¿ïW
-			g_aCamera[nCntCamera].posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//íçéãì_
-			g_aCamera[nCntCamera].posV = D3DXVECTOR3(0.0f, 3000.0f, -500.0f);	//éãì_
-			g_aCamera[nCntCamera].rot = D3DXVECTOR3(0.0f, 0.0f, -1.5f);	//å¸Ç´
-			g_aCamera[nCntCamera].fDistance = 2300.0f;
-			break;
-
 		case CAMERATYPE_UI:
 			g_aCamera[nCntCamera].viewport.X = 0;	//ï`âÊÇ∑ÇÈâÊñ ÇÃç∂è„Xç¿ïW
 			g_aCamera[nCntCamera].viewport.Y = 0;	//ï`âÊÇ∑ÇÈâÊñ ÇÃç∂è„Yç¿ïW
@@ -432,24 +384,10 @@ void UpdateCamera(void)
 		{
 			g_aCamera[CAMERATYPE_SIGN].fDistance = 70.0f;
 		}*/
-
-		g_aCamera[CAMERATYPE_SIGN].rot = D3DXVECTOR3(0.0f, g_aCamera[CAMERATYPE_MAIN].rot.y, MIN_ROT);
-		g_aCamera[CAMERATYPE_SIGN].posR = D3DXVECTOR3(pIventSign->pos.x, pIventSign->pos.y, pIventSign->pos.z);
-		g_aCamera[CAMERATYPE_SIGN].posV.x = g_aCamera[CAMERATYPE_SIGN].posR.x + cosf(g_aCamera[CAMERATYPE_SIGN].rot.z) * sinf(g_aCamera[CAMERATYPE_SIGN].rot.y) * -g_aCamera[CAMERATYPE_SIGN].fDistance;
-		g_aCamera[CAMERATYPE_SIGN].posV.z = g_aCamera[CAMERATYPE_SIGN].posR.z + cosf(g_aCamera[CAMERATYPE_SIGN].rot.z) * cosf(g_aCamera[CAMERATYPE_SIGN].rot.y) * -g_aCamera[CAMERATYPE_SIGN].fDistance;
-		g_aCamera[CAMERATYPE_SIGN].posV.y = g_aCamera[CAMERATYPE_SIGN].posR.y + sinf(g_aCamera[CAMERATYPE_SIGN].rot.z) * -g_aCamera[CAMERATYPE_SIGN].fDistance;
 	}
 
 	//ÉvÉåÉCÉÑÅ[ÇÃèÓïÒéÊìæ
 	Player *pPlayer = GetPlayer();
-
-	//íçéãì_ÇÃçXêV
-	g_aCamera[CAMERATYPE_MAP].posR.x = pPlayer->pos.x;
-	g_aCamera[CAMERATYPE_MAP].posR.z = pPlayer->pos.z;
-
-	//éãì_ÇÃë„ì¸èàóù
-	g_aCamera[CAMERATYPE_MAP].posV.x = g_aCamera[CAMERATYPE_MAP].posR.x + cosf(g_aCamera[CAMERATYPE_MAP].rot.z) * sinf(g_aCamera[CAMERATYPE_MAP].rot.y) * -g_aCamera[CAMERATYPE_MAP].fDistance;
-	g_aCamera[CAMERATYPE_MAP].posV.z = g_aCamera[CAMERATYPE_MAP].posR.z + cosf(g_aCamera[CAMERATYPE_MAP].rot.z) * cosf(g_aCamera[CAMERATYPE_MAP].rot.y) * -g_aCamera[CAMERATYPE_MAP].fDistance;
 }
 
 //==================================================================================
@@ -631,7 +569,7 @@ void UpdateManySpawnCamera(int nCntCamera)
 		g_aCamera[nCntCamera].aMany.fBeforDistance = g_aCamera[nCntCamera].fDistance;
 
 		//äpìxÇÃê≥ãKâª
-		g_aCamera[nCntCamera].aMany.rotVDest.y = RotNormalize(g_aCamera[nCntCamera].aMany.rotVDest.y);
+		RotNormalize(&g_aCamera[nCntCamera].aMany.rotVDest.y);
 	}
 	else if (g_aCamera[nCntCamera].nMoveStep == CAMERAMOVE_UP)
 	{
@@ -730,13 +668,13 @@ void UpdateManySpawnCamera(int nCntCamera)
 		g_aCamera[nCntCamera].aMany.rotVDiff = (g_aCamera[nCntCamera].aMany.rotVDest.z - g_aCamera[nCntCamera].rot.z);
 
 		//äpìxÇÃê≥ãKâª
-		g_aCamera[nCntCamera].aMany.rotVDiff = RotNormalize(g_aCamera[nCntCamera].aMany.rotVDiff);
+		RotNormalize(&g_aCamera[nCntCamera].aMany.rotVDiff);
 
 		//ç∑ï™Ç≈ï‚ê≥Ç∑ÇÈ
 		g_aCamera[nCntCamera].rot.z += g_aCamera[nCntCamera].aMany.rotVDiff * 0.025f;
 
 		//äpìxÇÃê≥ãKâª
-		g_aCamera[nCntCamera].rot.z = RotNormalize(g_aCamera[nCntCamera].rot.z);
+		RotNormalize(&g_aCamera[nCntCamera].rot.z);
 
 
 
@@ -744,13 +682,13 @@ void UpdateManySpawnCamera(int nCntCamera)
 		g_aCamera[nCntCamera].aMany.rotVDiff = (g_aCamera[nCntCamera].aMany.rotVDest.y - g_aCamera[nCntCamera].rot.y);
 
 		//äpìxÇÃê≥ãKâª
-		g_aCamera[nCntCamera].aMany.rotVDiff = RotNormalize(g_aCamera[nCntCamera].aMany.rotVDiff);
+		RotNormalize(&g_aCamera[nCntCamera].aMany.rotVDiff);
 
 		//ç∑ï™Ç≈ï‚ê≥Ç∑ÇÈ
 		g_aCamera[nCntCamera].rot.y += g_aCamera[nCntCamera].aMany.rotVDiff * 0.025f;
 
 		//äpìxÇÃê≥ãKâª
-		g_aCamera[nCntCamera].rot.y = RotNormalize(g_aCamera[nCntCamera].rot.y);
+		RotNormalize(&g_aCamera[nCntCamera].rot.y);
 
 
 
@@ -777,13 +715,13 @@ void UpdateManySpawnCamera(int nCntCamera)
 		g_aCamera[nCntCamera].aMany.rotVDiff = (g_aCamera[nCntCamera].aMany.BeforRotV.z - g_aCamera[nCntCamera].rot.z);
 
 		//äpìxÇÃê≥ãKâª
-		g_aCamera[nCntCamera].aMany.rotVDiff = RotNormalize(g_aCamera[nCntCamera].aMany.rotVDiff);
+		RotNormalize(&g_aCamera[nCntCamera].aMany.rotVDiff);
 
 		//ç∑ï™Ç≈ï‚ê≥Ç∑ÇÈ
 		g_aCamera[nCntCamera].rot.z += g_aCamera[nCntCamera].aMany.rotVDiff * 0.04f;
 
 		//äpìxÇÃê≥ãKâª
-		g_aCamera[nCntCamera].rot.z = RotNormalize(g_aCamera[nCntCamera].rot.z);
+		RotNormalize(&g_aCamera[nCntCamera].rot.z);
 
 		//íÜéãì_ÇÃà íuÇå≥Ç…ñﬂÇ∑
 		g_aCamera[nCntCamera].posR.x += (g_aCamera[nCntCamera].aMany.BeforPosR.x - g_aCamera[nCntCamera].posR.x) * 0.04f;
@@ -795,13 +733,13 @@ void UpdateManySpawnCamera(int nCntCamera)
 		g_aCamera[nCntCamera].aMany.rotVDiff = (g_aCamera[nCntCamera].aMany.BeforRotV.y - g_aCamera[nCntCamera].rot.y);
 
 		//äpìxÇÃê≥ãKâª
-		g_aCamera[nCntCamera].aMany.rotVDiff = RotNormalize(g_aCamera[nCntCamera].aMany.rotVDiff);
+		RotNormalize(&g_aCamera[nCntCamera].aMany.rotVDiff);
 
 		//ç∑ï™Ç≈ï‚ê≥Ç∑ÇÈ
 		g_aCamera[nCntCamera].rot.y += g_aCamera[nCntCamera].aMany.rotVDiff * 0.04f;
 
 		//äpìxÇÃê≥ãKâª
-		g_aCamera[nCntCamera].rot.y = RotNormalize(g_aCamera[nCntCamera].rot.y);
+		RotNormalize(&g_aCamera[nCntCamera].rot.y);
 
 
 		//ãóó£ï‚ê≥

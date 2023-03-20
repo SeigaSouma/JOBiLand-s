@@ -108,9 +108,6 @@ void InitResult(void)
 	//群衆数保存
 	int nCrowdValue = pCrowdInfo->nCrowdValue;
 
-	//ライトのリセット処理
-	ResetLight();
-
 	//タイトルのカメラ初期化処理
 	InitResultCamera();
 

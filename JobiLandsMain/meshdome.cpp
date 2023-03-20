@@ -92,8 +92,8 @@ void InitMeshDome(void)
 			fRotCalW = (fRotWidth * WIDTH) - ((float)(nCntWidth % (WIDTH + 1)) * fRotWidth);
 
 			////äpìxÇÃê≥ãKâª
-			fRotCalW = RotNormalize(fRotCalW);
-			fRotCalH = RotNormalize(fRotCalH);
+			RotNormalize(&fRotCalW);
+			RotNormalize(&fRotCalH);
 
 			////ç¿ïWäÑÇËèoÇµ
 			pos[nCntWidth + (nCntHeight * (WIDTH + 1))].x = cosf(fRotCalH) * sinf(fRotCalW) * POS_MESHDOME;

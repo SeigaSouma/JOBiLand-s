@@ -126,7 +126,7 @@ void UpdateTitleSelect(void)
 			g_aTitleSelect[pTitle->nSelect].aModel.rot.y += ROT_MOVE * nAngle;
 
 			//角度の正規化
-			g_aTitleSelect[pTitle->nSelect].aModel.rot.y = RotNormalize(g_aTitleSelect[pTitle->nSelect].aModel.rot.y);
+			RotNormalize(&g_aTitleSelect[pTitle->nSelect].aModel.rot.y);
 
 			//選択肢は浮かせる
 			g_aTitleSelect[pTitle->nSelect].aModel.pos.y += 0.08f * g_aTitleSelect[nCntTitleSelect].nFloating;
@@ -156,13 +156,13 @@ void UpdateTitleSelect(void)
 			fRotDiff = fRotDest - g_aTitleSelect[(pTitle->nSelect + 1) % TITLESELECT_MAX].aModel.rot.y;
 
 			//角度の正規化
-			fRotDiff = RotNormalize(fRotDiff);
+			RotNormalize(&fRotDiff);
 
 			//タイトルの選択肢と違うものは0.0fに向かせる
 			g_aTitleSelect[(pTitle->nSelect + 1) % TITLESELECT_MAX].aModel.rot.y += fRotDiff * 0.25f;
 
 			//角度の正規化
-			g_aTitleSelect[(pTitle->nSelect + 1) % TITLESELECT_MAX].aModel.rot.y = RotNormalize(g_aTitleSelect[(pTitle->nSelect + 1) % TITLESELECT_MAX].aModel.rot.y);
+			RotNormalize(&g_aTitleSelect[(pTitle->nSelect + 1) % TITLESELECT_MAX].aModel.rot.y);
 		}
 	}
 
@@ -221,7 +221,7 @@ void UpdateTitleSelectTKTK(int nSelect)
 		}
 
 		//角度の正規化
-		g_aTitleSelect[nSelect].aModel.rot.y = RotNormalize(g_aTitleSelect[nSelect].aModel.rot.y);
+		RotNormalize(&g_aTitleSelect[nSelect].aModel.rot.y);
 	}
 	else if (g_aTitleSelect[nSelect].nTurnCounter > 10)
 	{//30回転激アツ後
@@ -238,13 +238,13 @@ void UpdateTitleSelectTKTK(int nSelect)
 		fRotDiff = fRotDest - g_aTitleSelect[nSelect].aModel.rot.y;
 
 		//角度の正規化
-		fRotDiff = RotNormalize(fRotDiff);
+		RotNormalize(&fRotDiff);
 
 		//タイトルの選択肢と違うものは0.0fに向かせる
 		g_aTitleSelect[nSelect].aModel.rot.y = 0.0f;
 
 		//角度の正規化
-		g_aTitleSelect[nSelect].aModel.rot.y = RotNormalize(g_aTitleSelect[nSelect].aModel.rot.y);
+		RotNormalize(&g_aTitleSelect[nSelect].aModel.rot.y);
 
 		g_aTitleSelect[nSelect].aModel.pos.z -= 5.0f;
 

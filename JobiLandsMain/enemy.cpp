@@ -501,13 +501,13 @@ void RotFacePlayerEnemy(int nCntEnemy)
 	fRotDiff = fRotDest - g_aEnemy[nCntEnemy].rot.y;
 
 	//äpìxÇÃê≥ãKâª
-	fRotDiff = RotNormalize(fRotDiff);
+	RotNormalize(&fRotDiff);
 
 	//äpìxÇÃï‚ê≥ÇÇ∑ÇÈ
 	g_aEnemy[nCntEnemy].rot.y += fRotDiff * 0.15f;
 
 	//äpìxÇÃê≥ãKâª
-	g_aEnemy[nCntEnemy].rot.y = RotNormalize(g_aEnemy[nCntEnemy].rot.y);
+	RotNormalize(&g_aEnemy[nCntEnemy].rot.y);
 
 	//å¸Ç¢ÇƒÇÈï˚å¸Ç…É_ÉbÉVÉÖ
 	g_aEnemy[nCntEnemy].move.x += sinf(D3DX_PI + g_aEnemy[nCntEnemy].rot.y) * MOVE;
@@ -532,13 +532,13 @@ void UpdateCrawlEnemy(int nCntEnemy)
 	fRotDiff = fRotDest - g_aEnemy[nCntEnemy].rot.y;
 
 	//äpìxÇÃê≥ãKâª
-	fRotDiff = RotNormalize(fRotDiff);
+	RotNormalize(&fRotDiff);
 
 	//äpìxÇÃï‚ê≥ÇÇ∑ÇÈ
 	g_aEnemy[nCntEnemy].rot.y += fRotDiff * 0.2f;
 
 	//äpìxÇÃê≥ãKâª
-	g_aEnemy[nCntEnemy].rot.y = RotNormalize(g_aEnemy[nCntEnemy].rot.y);
+	RotNormalize(&g_aEnemy[nCntEnemy].rot.y);
 
 	if (CircleRange(g_aEnemy[nCntEnemy].PosCrawl[g_aEnemy[nCntEnemy].nNumPosCrawl], g_aEnemy[nCntEnemy].pos) >= (60.0f * 60.0f))
 	{//Ç‹ÇæãKíËílÇ…íÖÇ¢ÇƒÇ¢Ç»Ç©Ç¡ÇΩÇÁ
@@ -907,13 +907,13 @@ void ShotBulletEnemy(int nCntEnemy, D3DXVECTOR3 pos)
 		fRotDiff = fRotDest - g_aEnemy[nCntEnemy].rot.y;
 
 		//äpìxÇÃê≥ãKâª
-		fRotDiff = RotNormalize(fRotDiff);
+		RotNormalize(&fRotDiff);
 
 		//äpìxÇÃï‚ê≥ÇÇ∑ÇÈ
 		g_aEnemy[nCntEnemy].rot.y += fRotDiff * 1.0f;
 
 		//äpìxÇÃê≥ãKâª
-		g_aEnemy[nCntEnemy].rot.y = RotNormalize(g_aEnemy[nCntEnemy].rot.y);
+		RotNormalize(&g_aEnemy[nCntEnemy].rot.y);
 
 		if (g_aEnemy[nCntEnemy].nCntAllFrame == 15)
 		{//ÉJÉEÉìÉgÇ™15Ç…íBÇµÇΩÇÁ
@@ -1369,9 +1369,9 @@ void UpdateMotionEnemy(int nCntEnemy)
 				);
 
 		//äpìxÇÃê≥ãKâª
-		g_aEnemy[nCntEnemy].aModel[g_aEnemy[nCntEnemy].nNowMotionNum].rot.x = RotNormalize(g_aEnemy[nCntEnemy].aModel[g_aEnemy[nCntEnemy].nNowMotionNum].rot.x);
-		g_aEnemy[nCntEnemy].aModel[g_aEnemy[nCntEnemy].nNowMotionNum].rot.y = RotNormalize(g_aEnemy[nCntEnemy].aModel[g_aEnemy[nCntEnemy].nNowMotionNum].rot.y);
-		g_aEnemy[nCntEnemy].aModel[g_aEnemy[nCntEnemy].nNowMotionNum].rot.z = RotNormalize(g_aEnemy[nCntEnemy].aModel[g_aEnemy[nCntEnemy].nNowMotionNum].rot.z);
+		RotNormalize(&g_aEnemy[nCntEnemy].aModel[g_aEnemy[nCntEnemy].nNowMotionNum].rot.x);
+		RotNormalize(&g_aEnemy[nCntEnemy].aModel[g_aEnemy[nCntEnemy].nNowMotionNum].rot.y);
+		RotNormalize(&g_aEnemy[nCntEnemy].aModel[g_aEnemy[nCntEnemy].nNowMotionNum].rot.z);
 
 	}
 

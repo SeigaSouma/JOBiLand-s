@@ -22,9 +22,6 @@ typedef enum
 typedef enum
 {
 	CAMERATYPE_MAIN = 0,	//メインカメラ
-	CAMERATYPE_SIGN,		//矢印カメラ
-	CAMERATYPE_SELECT,		//選択肢カメラ
-	CAMERATYPE_MAP,         //マップカメラ
 	CAMERATYPE_UI,         //UI用カメラ
 	CAMERATYPE_MAX
 }CAMERATYPE;

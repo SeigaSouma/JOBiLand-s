@@ -137,7 +137,7 @@ void UpdateRotate(void)
 				//‰ñ“]‚³‚¹‚é
 				g_aRotate[nCntRotate].rot[nCntNumber].y += 0.05f;
 
-				g_aRotate[nCntRotate].rot[nCntNumber].y = RotNormalize(g_aRotate[nCntRotate].rot[nCntNumber].y);
+				RotNormalize(&g_aRotate[nCntRotate].rot[nCntNumber].y);
 			}
 		}
 	}

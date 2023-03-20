@@ -1531,13 +1531,13 @@ void RotCorrect(int nCntBuddy)
 	g_aBuddy[nCntBuddy].fRotDiff = g_aBuddy[nCntBuddy].fRotDest - g_aBuddy[nCntBuddy].rot.y;
 
 	//äpìxÇÃê≥ãKâª
-	g_aBuddy[nCntBuddy].fRotDiff = RotNormalize(g_aBuddy[nCntBuddy].fRotDiff);
+	RotNormalize(&g_aBuddy[nCntBuddy].fRotDiff);
 
 	//äpìxÇÃï‚ê≥ÇÇ∑ÇÈ
 	g_aBuddy[nCntBuddy].rot.y += g_aBuddy[nCntBuddy].fRotDiff * 0.2f;
 
 	//äpìxÇÃê≥ãKâª
-	g_aBuddy[nCntBuddy].rot.y = RotNormalize(g_aBuddy[nCntBuddy].rot.y);
+	RotNormalize(&g_aBuddy[nCntBuddy].rot.y);
 }
 
 //==================================================================================
@@ -1849,9 +1849,9 @@ void UpdateMotionBuddy(int nCntBuddy)
 			);
 
 		//äpìxÇÃê≥ãKâª
-		g_aBuddy[nCntBuddy].aModel[g_aBuddy[nCntBuddy].nNowMotionNum].rot.x = RotNormalize(g_aBuddy[nCntBuddy].aModel[g_aBuddy[nCntBuddy].nNowMotionNum].rot.x);
-		g_aBuddy[nCntBuddy].aModel[g_aBuddy[nCntBuddy].nNowMotionNum].rot.y = RotNormalize(g_aBuddy[nCntBuddy].aModel[g_aBuddy[nCntBuddy].nNowMotionNum].rot.y);
-		g_aBuddy[nCntBuddy].aModel[g_aBuddy[nCntBuddy].nNowMotionNum].rot.z = RotNormalize(g_aBuddy[nCntBuddy].aModel[g_aBuddy[nCntBuddy].nNowMotionNum].rot.z);
+		RotNormalize(&g_aBuddy[nCntBuddy].aModel[g_aBuddy[nCntBuddy].nNowMotionNum].rot.x);
+		RotNormalize(&g_aBuddy[nCntBuddy].aModel[g_aBuddy[nCntBuddy].nNowMotionNum].rot.y);
+		RotNormalize(&g_aBuddy[nCntBuddy].aModel[g_aBuddy[nCntBuddy].nNowMotionNum].rot.z);
 
 
 		//ÉpÅ[ÉcÇÃà íuÇê›íË
@@ -2693,7 +2693,7 @@ void UpdateTitleBuddy(void)
 				g_aBuddy[nCntBuddy].fRotDest = atan2f((g_aBuddy[nCntBuddy].pos.x - g_aBuddy[nCntBuddy].formationPos.x), (g_aBuddy[nCntBuddy].pos.z - g_aBuddy[nCntBuddy].formationPos.z));
 
 				//äpìxÇÃê≥ãKâª
-				g_aBuddy[nCntBuddy].fRotDest = RotNormalize(g_aBuddy[nCntBuddy].fRotDest);
+				RotNormalize(&g_aBuddy[nCntBuddy].fRotDest);
 
 				//ñ⁄ìIínå¸Ç©ÇπÇÈ
 				RotCorrect(nCntBuddy);
@@ -2707,7 +2707,7 @@ void UpdateTitleBuddy(void)
 				g_aBuddy[nCntBuddy].fRotDest = 0.0f;
 
 				//äpìxÇÃê≥ãKâª
-				g_aBuddy[nCntBuddy].fRotDest = RotNormalize(g_aBuddy[nCntBuddy].fRotDest);
+				RotNormalize(&g_aBuddy[nCntBuddy].fRotDest);
 
 				RotCorrect(nCntBuddy);
 				g_aBuddy[nCntBuddy].move.x = 0.0f;
@@ -2847,7 +2847,7 @@ void UpdateRankingBuddy(void)
 			//å¸Ç´å≈íË
 			g_aBuddy[nCntBuddy].rot.y += 0.025f;
 
-			g_aBuddy[nCntBuddy].rot.y = RotNormalize(g_aBuddy[nCntBuddy].rot.y);
+			RotNormalize(&g_aBuddy[nCntBuddy].rot.y);
 
 			g_aBuddy[nCntBuddy].move.x += sinf(D3DX_PI + g_aBuddy[nCntBuddy].rot.y) * 1.0f;
 			g_aBuddy[nCntBuddy].move.z += cosf(D3DX_PI + g_aBuddy[nCntBuddy].rot.y) * 1.0f;
