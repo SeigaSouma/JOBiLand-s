@@ -9,7 +9,7 @@
 #include "input.h"
 #include "camera.h"
 #include "game.h"
-#include "minimap.h"
+#include "shadow.h"
 #include "calculation.h"
 #include "debugproc.h"
 #include "edit.h"
@@ -78,8 +78,6 @@ void InitModel(void)
 		D3DXMatrixIdentity(&g_aModel[nCntModel].aXLoadMeshData.mtxWorld);
 		D3DXMatrixIdentity(&g_aModel[nCntModel].aXLoadMeshData.OldmtxWorld);
 		g_aModel[nCntModel].aXLoadMeshData.nIdxShadow = -1;			//影のインデックス番号
-		g_aModel[nCntModel].aXLoadMeshData.nIdxRotate = -1;	//ぐるぐるのインデックス番号
-		g_aModel[nCntModel].aXLoadMeshData.nIdxHypGauge = -1;		//体力ゲージのインデックス番号
 		g_aModel[nCntModel].aXLoadMeshData.nShadow = 1;			//影を使うかどうか
 
 		g_aModel[nCntModel].aXLoadMeshData.nNumVtx = 0;			//頂点数
@@ -122,9 +120,6 @@ void InitModel(void)
 		D3DXMatrixIdentity(&g_aXLoadMeshModel[nCntModel].OldmtxWorld);
 
 		g_aXLoadMeshModel[nCntModel].nIdxShadow = -1;			//影のインデックス番号
-		g_aXLoadMeshModel[nCntModel].nIdxRotate = -1;	//ぐるぐるのインデックス番号
-		g_aXLoadMeshModel[nCntModel].nIdxHypGauge = -1;		//体力ゲージのインデックス番号
-		g_aXLoadMeshModel[nCntModel].nIdxSerif = -1;		//セリフのインデックス番号
 		g_aXLoadMeshModel[nCntModel].nShadow = 1;			//影を使うかどうか
 
 		g_aXLoadMeshModel[nCntModel].nNumVtx = 0;			//頂点数
@@ -918,14 +913,9 @@ void SetModel(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nType, int nShadow)
 			//g_aModel[nCntModel].nState = MODELSTATE_NONE;
 			g_nModelNum++;
 
-			////影の位置更新
-			//SetPositionShadow(g_aModel[nCntModel].nIdxShadow, g_aModel[nCntModel].pos);
-
-			if ((GetMode() == MODE_GAME || GetMode() == MODE_TUTORIAL) && (g_aModel[nCntModel].nType < SMALL_NUM || g_aModel[nCntModel].nType >= CONE_NUM))
-			{
-				//ミニマップ上のビル設置
-				SetMiniMap(g_aModel[nCntModel].pos, g_aModel[nCntModel].vtxMax, g_aModel[nCntModel].vtxMin);
-			}
+			//影の位置更新
+			g_aModel[nCntModel].nIdxShadow = SetShadow(g_aModel[nCntModel].vtxMax.x * 0.5f, g_aModel[nCntModel].vtxMax.x * 0.5f);
+			SetPositionShadow(g_aModel[nCntModel].nIdxShadow, g_aModel[nCntModel].pos);
 			break;
 		}
 	}

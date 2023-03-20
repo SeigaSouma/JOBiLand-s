@@ -54,8 +54,6 @@ void InitEdit(void)
 		D3DXMatrixIdentity(&g_aEdit.aXLoadMeshData[nCntEdit].OldmtxWorld);
 
 		g_aEdit.aXLoadMeshData[nCntEdit].nIdxShadow = -1;			//影のインデックス番号
-		g_aEdit.aXLoadMeshData[nCntEdit].nIdxRotate = -1;	//ぐるぐるのインデックス番号
-		g_aEdit.aXLoadMeshData[nCntEdit].nIdxHypGauge = -1;		//体力ゲージのインデックス番号
 		g_aEdit.aXLoadMeshData[nCntEdit].nShadow = 1;			//影を使うかどうか
 
 		g_aEdit.aXLoadMeshData[nCntEdit].nNumVtx = 0;			//頂点数

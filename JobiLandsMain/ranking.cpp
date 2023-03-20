@@ -500,7 +500,7 @@ void SetRankingPos(void)
 			}
 
 			//SE‚ðƒZƒbƒg
-			PlaySound(SOUND_LABEL_SE_IDOU);
+			//PlaySound(SOUND_LABEL_SE_IDOU);
 
 			break;
 		}

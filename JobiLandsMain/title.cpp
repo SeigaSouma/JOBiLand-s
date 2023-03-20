@@ -145,7 +145,7 @@ void UpdateTitle(void)
 	{//チカチカ状態のとき
 
 		//選択肢のチカチカ処理
-		UpdateTitleTKTK();
+		//UpdateTitleTKTK();
 	}
 	else if (g_Title.nState == TITLESTATE_FADE)
 	{//遷移状態のとき
@@ -154,7 +154,7 @@ void UpdateTitle(void)
 		{
 
 		case TITLESELECT_START:
-			SetFade(MODE_TUTORIAL);
+			SetFade(MODE_GAME);
 			break;
 
 		case TITLESELECT_END:
@@ -262,7 +262,7 @@ void UpdateSelectTitle(void)
 		g_Title.nCntChange = 0;
 
 		//サウンド再生
-		PlaySound(SOUND_LABEL_SE_DHUHUHUHU);
+		PlaySound(SOUND_LABEL_SE_CURSOR);
 	}
 	else if (GetKeyboardTrigger(DIK_A) == true || GetGamepadTrigger(BUTTON_LEFT, 0) ||
 		(GetStickSelect() == false && XGetStickPressL(BUTTON_LX, 0) < 0))
@@ -278,7 +278,7 @@ void UpdateSelectTitle(void)
 		g_Title.nCntChange = 0;
 
 		//サウンド再生
-		PlaySound(SOUND_LABEL_SE_DHUHUHUHU);
+		PlaySound(SOUND_LABEL_SE_CURSOR);
 	}
 
 
@@ -301,7 +301,7 @@ void UpdateSelectTitle(void)
 		}
 
 		//サウンド再生
-		PlaySound(SOUND_LABEL_SE_SYUTUGEKI);
+		//PlaySound(SOUND_LABEL_SE_SYUTUGEKI);
 	}
 
 	//選択肢の色更新

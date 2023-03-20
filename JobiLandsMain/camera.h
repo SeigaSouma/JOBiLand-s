@@ -76,8 +76,6 @@ typedef struct
 	int nCntBackFollow;		//”w–Ê•â³‚·‚é‚Ü‚Å‚ÌŠÔ
 	bool bBackFollow;		//”w–Ê’Ç]‚·‚é‚©‚Ç‚¤‚©
 	bool bFollow;			//’Ç]‚·‚é‚©‚Ç‚¤‚©
-	bool bManySE;			//SE–Â‚ç‚µ‚½‚©
-	bool bSPush;            //SŒn‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©
 
 	ManySpawnCamera aMany;	//‘å—Ê”­¶
 }Camera;

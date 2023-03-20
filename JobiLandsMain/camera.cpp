@@ -11,15 +11,8 @@
 #include "input.h"
 #include "model.h"
 #include "tutorial.h"
-#include "dispatch.h"
-#include "buddy.h"
 #include "player.h"
 #include "calculation.h"
-#include "iventsign.h"
-#include "manypoint.h"
-#include "serif.h"
-#include "cutin.h"
-#include "tutorial_talk.h"
 #include "sound.h"
 
 //マクロ
@@ -110,8 +103,6 @@ void InitTitleCamera(void)
 
 			g_aCamera[nCntCamera].bBackFollow = false;		//背面追従
 			g_aCamera[nCntCamera].nCntBackFollow = 0;		//追従カウント
-
-			g_aCamera[nCntCamera].bSPush = false;           //S系が押されているかどうか
 
 			g_aCamera[nCntCamera].posVDest = g_aCamera[nCntCamera].posV;	//目標の視点
 			g_aCamera[nCntCamera].posRDest = g_aCamera[nCntCamera].posR;	//目標の注視点
@@ -264,7 +255,6 @@ void InitGameCamera(void)
 		g_aCamera[nCntCamera].rotVDest = g_aCamera[nCntCamera].rot;	//目標の向き
 		g_aCamera[nCntCamera].rotVDiff = 0.0f;			//目標の視点の差分
 		g_aCamera[nCntCamera].bFollow = true;	//追従ON
-		g_aCamera[nCntCamera].bManySE = false;	//大量発生SE使わない
 
 		//カメラごとの設定
 		switch (nCntCamera)
@@ -374,20 +364,7 @@ void UpdateCamera(void)
 				break;
 			}
 		}
-
-		//矢印カメラをメインと同期させる
-		IventSign *pIventSign = GetIventSign();		//イベントサインの取得
-
-		/*g_aCamera[CAMERATYPE_SIGN].fDistance = g_aCamera[CAMERATYPE_MAIN].fDistance - 500.0f;
-
-		if (g_aCamera[CAMERATYPE_SIGN].fDistance <= 70.0f)
-		{
-			g_aCamera[CAMERATYPE_SIGN].fDistance = 70.0f;
-		}*/
 	}
-
-	//プレイヤーの情報取得
-	Player *pPlayer = GetPlayer();
 }
 
 //==================================================================================
@@ -395,13 +372,7 @@ void UpdateCamera(void)
 //==================================================================================
 void UpdateTutorialCamera(int nCntCamera)
 {
-	//カットイン情報取得
-	CUTIN *pCutin = GetCutin();
-
-	//チュートリアルトークの情報取得
-	TutorialTalk *pTutorialTalk = GetTutorialTalk();
-
-	if (pCutin->bUse == false && pTutorialTalk->bUse == false)
+	//if (pCutin->bUse == false && pTutorialTalk->bUse == false)
 	{//大量発生のカメラじゃなかったら && カットイン中じゃなかったら
 
 		UpdateGameCamera(nCntCamera);
@@ -425,11 +396,6 @@ void UpdateGameCamera(int nCntCamera)
 		MoveCameraR(nCntCamera);
 		MoveCameraV(nCntCamera);
 		MoveCameraDistance(nCntCamera);
-	}
-	else if (g_aCamera[nCntCamera].nState == CAMERASTATE_MANYSPAWN)
-	{//大量発生の時
-
-		UpdateManySpawnCamera(nCntCamera);
 	}
 
 #ifdef _DEBUG
@@ -498,266 +464,6 @@ void UpdateTitleCamera(int nCntCamera)
 	//注視点の位置更新
 	SetCameraR(nCntCamera);
 	SetCameraV(nCntCamera);
-}
-
-//==================================================================================
-//大量発生時の更新
-//==================================================================================
-void UpdateManySpawnCamera(int nCntCamera)
-{
-	//プレイヤーの情報取得
-	Player *pPlayer = GetPlayer();
-
-	//相棒の情報取得
-	Buddy *pBuddy = GetBuddy();
-
-	//派遣カーソルの情報取得
-	DISPATCH *pDispatch = GetDispatch();
-
-	if (GetKeyboardRelease(DIK_L) == true || GetGamepadRelease(BUTTON_A, 0))
-	{//Lが押された && Aボタンが離された
-
-		//攻撃状態解除
-		pBuddy[BUDDYTYPE_HYOROGARI].bATK = false;
-		pBuddy[BUDDYTYPE_DEPPA].bATK = false;
-		pPlayer->bATK = false;
-
-		//モーションの設定
-		SetMotisonBuddy(BUDDYTYPE_HYOROGARI, BUDDYMOTION_DEF);
-		SetMotisonBuddy(BUDDYTYPE_DEPPA, BUDDYMOTION_DEF);
-		SetMotisonPlayer(PLAYERMOTION_DEF);
-	}
-
-	if (pDispatch->bUse == true)
-	{
-		if (GetGamepadRelease(BUTTON_LB + pDispatch->nType, 0) || GetKeyboardRelease(DIK_LSHIFT) == true || GetKeyboardRelease(DIK_RSHIFT) == true)
-		{//派遣の使用状況入れ替え
-
-			if (pDispatch->nType == 0)
-			{
-				//モーションの設定
-				SetMotisonPlayer(PLAYERMOTION_DISPATCHL);
-
-				//セリフをセット
-				//pPlayer->nIdxSerif = SetSerif(0.0f, 0.0f, 150, SERIFSTATE_DISPATCH, { pPlayer->pos.x, pPlayer->pos.y + 150.0f, pPlayer->pos.z });
-			}
-			else if (pDispatch->nType == 1)
-			{
-				//モーションの設定
-				SetMotisonPlayer(PLAYERMOTION_DISPATCHR);
-
-				//セリフをセット
-				//pPlayer->nIdxSerif = SetSerif(0.0f, 0.0f, 150, SERIFSTATE_DISPATCH, { pPlayer->pos.x, pPlayer->pos.y + 150.0f, pPlayer->pos.z });
-			}
-
-			//派遣する
-			SetBuddyDispatch(pDispatch->pos, pDispatch->nType);
-			pDispatch->bUse = false;
-			pDispatch->nType = -1;
-		}
-	}
-
-	StopSound(SOUND_LABEL_BGM_HYPNOSIS);
-	StopSound(SOUND_LABEL_SE_PIYOPIYO);
-
-	if (g_aCamera[nCntCamera].nMoveStep == CAMERAMOVE_SET)
-	{
-		g_aCamera[nCntCamera].aMany.BeforRotV = g_aCamera[nCntCamera].rot;
-		g_aCamera[nCntCamera].aMany.rotVDest.y = (D3DX_PI + g_aCamera[nCntCamera].aMany.rotVDest.y) + D3DX_PI * 0.25f;
-		g_aCamera[nCntCamera].aMany.BeforPosR = g_aCamera[nCntCamera].posR;
-		g_aCamera[nCntCamera].aMany.BeforPosV = g_aCamera[nCntCamera].posV;
-		g_aCamera[nCntCamera].aMany.fBeforDistance = g_aCamera[nCntCamera].fDistance;
-
-		//角度の正規化
-		RotNormalize(&g_aCamera[nCntCamera].aMany.rotVDest.y);
-	}
-	else if (g_aCamera[nCntCamera].nMoveStep == CAMERAMOVE_UP)
-	{
-		//段階のカウント加算
-		g_aCamera[nCntCamera].nCntStep++;
-
-		//上を目標にする
-		g_aCamera[nCntCamera].aMany.rotVDest.z = D3DX_PI * 1.54f;
-
-		//補正する
-		g_aCamera[nCntCamera].aMany.rotVDiff = (g_aCamera[nCntCamera].aMany.rotVDest.z - g_aCamera[nCntCamera].rot.z);
-
-		if (g_aCamera[nCntCamera].aMany.rotVDiff > D3DX_PI)
-		{
-			g_aCamera[nCntCamera].aMany.rotVDiff += (-D3DX_PI * 2.0f);
-		}
-		else if (g_aCamera[nCntCamera].aMany.rotVDiff < -D3DX_PI)
-		{
-			g_aCamera[nCntCamera].aMany.rotVDiff += (D3DX_PI * 2.0f);
-		}
-
-		//差分で補正する
-		g_aCamera[nCntCamera].rot.z += g_aCamera[nCntCamera].aMany.rotVDiff * 0.035f;
-
-		if (g_aCamera[nCntCamera].rot.z > D3DX_PI)
-		{
-			g_aCamera[nCntCamera].rot.z += (-D3DX_PI * 2.0f);
-		}
-		else if (g_aCamera[nCntCamera].rot.z < -D3DX_PI)
-		{
-			g_aCamera[nCntCamera].rot.z += (D3DX_PI * 2.0f);
-		}
-
-		//距離も補正
-		g_aCamera[nCntCamera].fDistance += (3500.0f - g_aCamera[nCntCamera].fDistance) * 0.035f;
-
-		//回転の補正
-		SetCameraRot(nCntCamera);
-
-		//注視点の位置更新
-		SetCameraR(nCntCamera);
-
-		//視点の代入処理
-		g_aCamera[nCntCamera].posV.x = g_aCamera[nCntCamera].posR.x + cosf(g_aCamera[nCntCamera].rot.z) * sinf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
-		g_aCamera[nCntCamera].posV.z = g_aCamera[nCntCamera].posR.z + cosf(g_aCamera[nCntCamera].rot.z) * cosf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
-		g_aCamera[nCntCamera].posV.y = g_aCamera[nCntCamera].posR.y + sinf(g_aCamera[nCntCamera].rot.z) * -g_aCamera[nCntCamera].fDistance;
-
-		if (g_aCamera[nCntCamera].nCntStep >= 110)
-		{
-			g_aCamera[nCntCamera].nCntStep = 0;
-			g_aCamera[nCntCamera].nMoveStep = CAMERAMOVE_MOVE;
-		}
-
-	}
-	else if (g_aCamera[nCntCamera].nMoveStep == CAMERAMOVE_MOVE)
-	{
-		//段階のカウント加算
-		g_aCamera[nCntCamera].nCntStep++;
-
-		g_aCamera[nCntCamera].posR.x += (g_aCamera[nCntCamera].aMany.posRDest.x - g_aCamera[nCntCamera].posR.x) * 0.035f;
-		g_aCamera[nCntCamera].posR.z += (g_aCamera[nCntCamera].aMany.posRDest.z - g_aCamera[nCntCamera].posR.z) * 0.035f;
-
-		//視点の代入処理
-		g_aCamera[nCntCamera].posV.x = g_aCamera[nCntCamera].posR.x + cosf(g_aCamera[nCntCamera].rot.z) * sinf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
-		g_aCamera[nCntCamera].posV.z = g_aCamera[nCntCamera].posR.z + cosf(g_aCamera[nCntCamera].rot.z) * cosf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
-
-		if (g_aCamera[nCntCamera].nCntStep >= 100)
-		{
-			g_aCamera[nCntCamera].nCntStep = 0;
-			g_aCamera[nCntCamera].nMoveStep = CAMERAMOVE_DOWN;
-		}
-
-		if (g_aCamera[nCntCamera].bManySE == true)
-		{
-			g_aCamera[nCntCamera].bManySE = false;	//SE使用してない状態にする
-		}
-	}
-	else if (g_aCamera[nCntCamera].nMoveStep == CAMERAMOVE_DOWN)
-	{
-		if (g_aCamera[nCntCamera].bManySE == false)
-		{//SE鳴らしてないとき
-
-			//大量発生SE
-			PlaySound(SOUND_LABEL_SE_MANYPOS);
-
-			g_aCamera[nCntCamera].bManySE = true;	//SE鳴らした
-		}
-
-		//段階のカウント加算
-		g_aCamera[nCntCamera].nCntStep++;
-
-		//上を目標にする
-		g_aCamera[nCntCamera].aMany.rotVDest.z = -0.45f;
-
-		//補正する
-		g_aCamera[nCntCamera].aMany.rotVDiff = (g_aCamera[nCntCamera].aMany.rotVDest.z - g_aCamera[nCntCamera].rot.z);
-
-		//角度の正規化
-		RotNormalize(&g_aCamera[nCntCamera].aMany.rotVDiff);
-
-		//差分で補正する
-		g_aCamera[nCntCamera].rot.z += g_aCamera[nCntCamera].aMany.rotVDiff * 0.025f;
-
-		//角度の正規化
-		RotNormalize(&g_aCamera[nCntCamera].rot.z);
-
-
-
-		//補正する
-		g_aCamera[nCntCamera].aMany.rotVDiff = (g_aCamera[nCntCamera].aMany.rotVDest.y - g_aCamera[nCntCamera].rot.y);
-
-		//角度の正規化
-		RotNormalize(&g_aCamera[nCntCamera].aMany.rotVDiff);
-
-		//差分で補正する
-		g_aCamera[nCntCamera].rot.y += g_aCamera[nCntCamera].aMany.rotVDiff * 0.025f;
-
-		//角度の正規化
-		RotNormalize(&g_aCamera[nCntCamera].rot.y);
-
-
-
-		//距離補正
-		g_aCamera[nCntCamera].fDistance += (1500.0f - g_aCamera[nCntCamera].fDistance) * 0.025f;
-
-		//視点の代入処理
-		g_aCamera[nCntCamera].posV.x = g_aCamera[nCntCamera].posR.x + cosf(g_aCamera[nCntCamera].rot.z) * sinf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
-		g_aCamera[nCntCamera].posV.z = g_aCamera[nCntCamera].posR.z + cosf(g_aCamera[nCntCamera].rot.z) * cosf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
-		g_aCamera[nCntCamera].posV.y = 100.0f + sinf(g_aCamera[nCntCamera].rot.z) * -g_aCamera[nCntCamera].fDistance;
-
-		if (g_aCamera[nCntCamera].nCntStep >= 270)
-		{
-			g_aCamera[nCntCamera].nCntStep = 0;
-			g_aCamera[nCntCamera].nMoveStep = CAMERAMOVE_RETURN;
-		}
-	}
-	else if (g_aCamera[nCntCamera].nMoveStep == CAMERAMOVE_RETURN)
-	{
-		//段階のカウント加算
-		g_aCamera[nCntCamera].nCntStep++;
-
-		//補正する
-		g_aCamera[nCntCamera].aMany.rotVDiff = (g_aCamera[nCntCamera].aMany.BeforRotV.z - g_aCamera[nCntCamera].rot.z);
-
-		//角度の正規化
-		RotNormalize(&g_aCamera[nCntCamera].aMany.rotVDiff);
-
-		//差分で補正する
-		g_aCamera[nCntCamera].rot.z += g_aCamera[nCntCamera].aMany.rotVDiff * 0.04f;
-
-		//角度の正規化
-		RotNormalize(&g_aCamera[nCntCamera].rot.z);
-
-		//中視点の位置を元に戻す
-		g_aCamera[nCntCamera].posR.x += (g_aCamera[nCntCamera].aMany.BeforPosR.x - g_aCamera[nCntCamera].posR.x) * 0.04f;
-		g_aCamera[nCntCamera].posR.z += (g_aCamera[nCntCamera].aMany.BeforPosR.z - g_aCamera[nCntCamera].posR.z) * 0.04f;
-		g_aCamera[nCntCamera].posR.y += (g_aCamera[nCntCamera].aMany.BeforPosR.y - g_aCamera[nCntCamera].posR.y) * 0.04f;
-
-
-		//補正する
-		g_aCamera[nCntCamera].aMany.rotVDiff = (g_aCamera[nCntCamera].aMany.BeforRotV.y - g_aCamera[nCntCamera].rot.y);
-
-		//角度の正規化
-		RotNormalize(&g_aCamera[nCntCamera].aMany.rotVDiff);
-
-		//差分で補正する
-		g_aCamera[nCntCamera].rot.y += g_aCamera[nCntCamera].aMany.rotVDiff * 0.04f;
-
-		//角度の正規化
-		RotNormalize(&g_aCamera[nCntCamera].rot.y);
-
-
-		//距離補正
-		g_aCamera[nCntCamera].fDistance += (g_aCamera[nCntCamera].aMany.fBeforDistance - g_aCamera[nCntCamera].fDistance) * 0.04f;
-
-		//視点の代入処理
-		g_aCamera[nCntCamera].posV.x += (g_aCamera[nCntCamera].aMany.BeforPosV.x - g_aCamera[nCntCamera].posV.x) * 0.04f;
-		g_aCamera[nCntCamera].posV.z += (g_aCamera[nCntCamera].aMany.BeforPosV.z - g_aCamera[nCntCamera].posV.z) * 0.04f;
-		g_aCamera[nCntCamera].posV.y += (g_aCamera[nCntCamera].aMany.BeforPosV.y - g_aCamera[nCntCamera].posV.y) * 0.04f;
-
-		if (g_aCamera[nCntCamera].nCntStep >= 150)
-		{
-			g_aCamera[nCntCamera].nCntStep = 0;
-			g_aCamera[nCntCamera].nMoveStep = CAMERAMOVE_SET;
-			g_aCamera[nCntCamera].nState = CAMERASTATE_NONE;
-			g_aCamera[nCntCamera].move = D3DXVECTOR3(0.0f,  0.0f, 0.0f);
-		}
-	}
 }
 
 //==================================================================================
@@ -1069,13 +775,6 @@ void SetCameraV(int nCntCamera)
 	//プレイヤーの情報取得
 	Player *pPlayer = GetPlayer();
 
-	//相棒の情報取得
-	Buddy *pBuddy = GetBuddy();
-	pBuddy++;
-
-	//群衆の情報取得
-	CrowdInfo *pCrowdInfo = GetCrowdInfo();
-
 	if (g_aCamera[nCntCamera].bFollow == false)
 	{//追従しないとき
 
@@ -1089,99 +788,11 @@ void SetCameraV(int nCntCamera)
 
 		float fYcamera = 0.0f;
 
-		
-		g_aCamera[nCntCamera].fDistance = 800.0f;
-
-		if (pCrowdInfo->nCrowdValue >= 1 && pCrowdInfo->nCrowdValue < 3)
-		{//群衆の数が2以上かつ3未満だったら
-			g_aCamera[nCntCamera].fDistance = 900.0f;
-		}
-
-		if (pCrowdInfo->nCrowdValue >= 3 && pCrowdInfo->nCrowdValue < 7)
-		{//群衆の数が3以上かつ5未満だったら
-			g_aCamera[nCntCamera].fDistance = 1000.0f;
-		}
-
-		if (pCrowdInfo->nCrowdValue >= 7 && pCrowdInfo->nCrowdValue < 15)
-		{//群衆の数が5以上かつ9未満だったら
-			g_aCamera[nCntCamera].fDistance = 1100.0f;
-		}
-
-		if (pCrowdInfo->nCrowdValue >= 15 && pCrowdInfo->nCrowdValue < 31)
-		{//群衆の数が9以上かつ17未満だったら
-			g_aCamera[nCntCamera].fDistance = 1200.0f;
-		}
-
-		if (pCrowdInfo->nCrowdValue >= 31 && pCrowdInfo->nCrowdValue < 63)
-		{//群衆の数が17以上かつ33未満だったら
-			g_aCamera[nCntCamera].fDistance = 1300.0f;
-		}
-
-		if (pCrowdInfo->nCrowdValue >= 63)
-		{//群衆の数が33以上かつ65未満だったら
-
-			int nNum = pCrowdInfo->nParentPlayerNum - 63;
-			int nCntFormation = 1;
-			while (1)
-			{
-				nNum -= 49;
-
-				if (nNum > 0)
-				{//0より大きかったら
-
-					nCntFormation++;
-				}
-				else
-				{//0以下で抜ける
-
-					break;
-				}
-			}
-
-			g_aCamera[nCntCamera].fDistance = 1300.0f + (nCntFormation * 100);
-		}
-
-		//if (g_aCamera[nCntCamera].bBackFollow == true)
-		//{
-		//	g_aCamera[nCntCamera].rotVDest.y = (D3DX_PI + pPlayer->rot.y);
-
-		//	//補正する
-		//	g_aCamera[nCntCamera].rotVDiff = (g_aCamera[nCntCamera].rotVDest.y - g_aCamera[nCntCamera].rot.y);
-
-		//	if (g_aCamera[nCntCamera].rotVDiff > D3DX_PI)
-		//	{
-		//		g_aCamera[nCntCamera].rotVDiff += (-D3DX_PI * 2.0f);
-		//	}
-		//	else if (g_aCamera[nCntCamera].rotVDiff < -D3DX_PI)
-		//	{
-		//		g_aCamera[nCntCamera].rotVDiff += (D3DX_PI * 2.0f);
-		//	}
-
-		//	//差分で補正する
-		//	g_aCamera[nCntCamera].rot.y += g_aCamera[nCntCamera].rotVDiff * 0.025f;
-
-		//	if (g_aCamera[nCntCamera].rot.y > D3DX_PI)
-		//	{
-		//		g_aCamera[nCntCamera].rot.y += (-D3DX_PI * 2.0f);
-		//	}
-		//	else if (g_aCamera[nCntCamera].rot.y < -D3DX_PI)
-		//	{
-		//		g_aCamera[nCntCamera].rot.y += (D3DX_PI * 2.0f);
-		//	}
-		//}
-
-#if 1
 		//視点の代入処理
 		g_aCamera[nCntCamera].posVDest.x = (pPlayer->pos.x + sinf(D3DX_PI + pPlayer->rot.y) * 90.0f) + cosf(g_aCamera[nCntCamera].rot.z) * sinf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
 		g_aCamera[nCntCamera].posVDest.z = (pPlayer->pos.z + cosf(D3DX_PI + pPlayer->rot.y) * 90.0f) + cosf(g_aCamera[nCntCamera].rot.z) * cosf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
 		g_aCamera[nCntCamera].posVDest.y = fYcamera + DIS_Y + sinf(g_aCamera[nCntCamera].rot.z) * -g_aCamera[nCntCamera].fDistance;
-#else
-		//視点の代入処理
-		g_aCamera[nCntCamera].posVDest.x = (pBuddy->pos.x + sinf(D3DX_PI + pBuddy->rot.y) * 90.0f) + cosf(g_aCamera[nCntCamera].rot.z) * sinf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
-		g_aCamera[nCntCamera].posVDest.z = (pBuddy->pos.z + cosf(D3DX_PI + pBuddy->rot.y) * 90.0f) + cosf(g_aCamera[nCntCamera].rot.z) * cosf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
-		g_aCamera[nCntCamera].posVDest.y = fYcamera + DIS_Y + sinf(g_aCamera[nCntCamera].rot.z) * -g_aCamera[nCntCamera].fDistance;
 
-#endif
 		//補正する
 		g_aCamera[nCntCamera].posV += (g_aCamera[nCntCamera].posVDest - g_aCamera[nCntCamera].posV) * 0.12f;
 	}
@@ -1277,18 +888,6 @@ void MoveCameraFollow(int nCntCamera)
 		//{
 		//	g_aCamera[nCntCamera].nCntBackFollow++;	//カウント加算
 		//}
-
-		if (g_aCamera[nCntCamera].bSPush == false)
-		{//S系が押されてない
-
-			g_aCamera[nCntCamera].nCntBackFollow = BACKFOLLOW_TIME;
-		}
-		else
-		{//S系が押されてるとき
-
-			//g_aCamera[nCntCamera].nCntBackFollow++;	//カウント加算
-		}
-		
 
 		if (g_aCamera[nCntCamera].nCntBackFollow >= BACKFOLLOW_TIME)
 		{//背面補正のカウントが規定値超えたら

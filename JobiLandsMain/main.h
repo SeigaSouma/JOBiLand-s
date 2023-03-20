@@ -37,7 +37,6 @@
 #define LIMIT_POS			(5000.0f)	//大人の箱庭
 #define CHARA_MOVE			(1.7f)		//キャラクターの移動速度
 #define MOVE_FACTOR			(0.25f)		//キャラクターの移動補正係数
-#define MOVE_FACTOR_HYPNOSIS	(0.5f)		//キャラクターの移動補正係数
 
 //画面(モード)の種類
 typedef enum
@@ -54,7 +53,6 @@ typedef enum
 typedef enum
 {
 	DRAWTYPE_MAIN = 0,
-	DRAWTYPE_MAP,
 	DRAWTYPE_UI,
 	DRAWTYPE_MAX
 }DRAWTYPE;
@@ -101,11 +99,7 @@ typedef struct
 	D3DXMATRIX OldmtxWorld;	//ワールドマトリックス
 
 	int nIdxShadow;			//影のインデックス番号
-	int nIdxRotate;			//ぐるぐるのインデックス番号
-	int nIdxHypGauge;		//体力ゲージのインデックス番号
-	int nIdxSerif;			//セリフのインデックス番号
 	int nShadow;			//影を使うかどうか
-	int nFever;				//影を使うかどうか
 
 	int nNumVtx;			//頂点数
 	DWORD dwSizeFVF;		//頂点フォーマットのサイズ
@@ -117,7 +111,6 @@ typedef struct
 	int nParent;		//親の番号
 	bool bUse;			//使用しているか
 	int nState;			//状態
-	
 
 	LPD3DXMESH pMesh;			//メッシュ(頂点情報)へのポインタ
 	LPD3DXBUFFER pBuffMat;		//マテリアルへのポインタ

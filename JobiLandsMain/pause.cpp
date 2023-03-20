@@ -10,8 +10,6 @@
 #include "input.h"
 #include "fade.h"
 #include "sound.h"
-#include "dispatch.h"
-#include "buddy.h"
 #include "player.h"
 
 //マクロ定義
@@ -206,7 +204,7 @@ void UpdatePause(void)
 			g_nPauseSelect = (g_nPauseSelect + (PAUSEMENU_MAX - 1)) % PAUSEMENU_MAX;
 
 			//サウンド再生
-			PlaySound(SOUND_LABEL_SE_DHUHUHUHU);
+			PlaySound(SOUND_LABEL_SE_CURSOR);
 		}
 		else if (GetKeyboardTrigger(DIK_S) == true || GetGamepadTrigger(BUTTON_DOWN, 0))
 		{//下系が押された
@@ -215,7 +213,7 @@ void UpdatePause(void)
 			g_nPauseSelect = (g_nPauseSelect + 1) % PAUSEMENU_MAX;
 
 			//サウンド再生
-			PlaySound(SOUND_LABEL_SE_DHUHUHUHU);
+			PlaySound(SOUND_LABEL_SE_CURSOR);
 		}
 
 
@@ -229,7 +227,7 @@ void UpdatePause(void)
 			g_nPauseSelect = (g_nPauseSelect + (PAUSEMENU_MAX - 1)) % PAUSEMENU_MAX;
 
 			//サウンド再生
-			PlaySound(SOUND_LABEL_SE_DHUHUHUHU);
+			PlaySound(SOUND_LABEL_SE_CURSOR);
 		}
 		else if (GetStickSelect() == false && YGetStickPressL(BUTTON_LY, 0) < 0)
 		{//下に倒された, スティックの判定がOFFの場合
@@ -241,7 +239,7 @@ void UpdatePause(void)
 			g_nPauseSelect = (g_nPauseSelect + 1) % PAUSEMENU_MAX;
 
 			//サウンド再生
-			PlaySound(SOUND_LABEL_SE_DHUHUHUHU);
+			PlaySound(SOUND_LABEL_SE_CURSOR);
 		}
 
 
@@ -258,7 +256,7 @@ void UpdatePause(void)
 			case PAUSEMENU_RETRY:
 
 				//サウンド再生
-				PlaySound(SOUND_LABEL_SE_AMURO);
+				//PlaySound(SOUND_LABEL_SE_AMURO);
 
 				//ゲームをリトライする
 				SetVoiceFade(MODE_GAME);
@@ -269,7 +267,7 @@ void UpdatePause(void)
 			case PAUSEMENU_LEVELSELECT:
 
 				//サウンド再生
-				PlaySound(SOUND_LABEL_SE_MODORU);
+				//PlaySound(SOUND_LABEL_SE_MODORU);
 
 				//ゲームをリトライする
 				SetVoiceFade(MODE_TITLE);
@@ -283,59 +281,6 @@ void UpdatePause(void)
 
 	//頂点バッファをアンロックする
 	g_pVtxBuffPause->Unlock();
-
-
-	//プレイヤーの情報取得
-	Player *pPlayer = GetPlayer();
-
-	//相棒の情報取得
-	Buddy *pBuddy = GetBuddy();
-
-	//派遣カーソルの情報取得
-	DISPATCH *pDispatch = GetDispatch();
-
-	if (GetKeyboardRelease(DIK_L) == true || GetGamepadRelease(BUTTON_A, 0))
-	{//Lが押された && Aボタンが離された
-
-	 //攻撃状態解除
-		pBuddy[BUDDYTYPE_HYOROGARI].bATK = false;
-		pBuddy[BUDDYTYPE_DEPPA].bATK = false;
-		pPlayer->bATK = false;
-
-		//モーションの設定
-		SetMotisonBuddy(BUDDYTYPE_HYOROGARI, BUDDYMOTION_DEF);
-		SetMotisonBuddy(BUDDYTYPE_DEPPA, BUDDYMOTION_DEF);
-		SetMotisonPlayer(PLAYERMOTION_DEF);
-	}
-
-	if (pDispatch->bUse == true)
-	{
-		if (GetGamepadRelease(BUTTON_LB + pDispatch->nType, 0) || GetKeyboardRelease(DIK_LSHIFT) == true || GetKeyboardRelease(DIK_RSHIFT) == true)
-		{//派遣の使用状況入れ替え
-
-			if (pDispatch->nType == 0)
-			{
-				//モーションの設定
-				SetMotisonPlayer(PLAYERMOTION_DISPATCHL);
-
-				//セリフをセット
-				//pPlayer->nIdxSerif = SetSerif(0.0f, 0.0f, 150, SERIFSTATE_DISPATCH, { pPlayer->pos.x, pPlayer->pos.y + 150.0f, pPlayer->pos.z });
-			}
-			else if (pDispatch->nType == 1)
-			{
-				//モーションの設定
-				SetMotisonPlayer(PLAYERMOTION_DISPATCHR);
-
-				//セリフをセット
-				//pPlayer->nIdxSerif = SetSerif(0.0f, 0.0f, 150, SERIFSTATE_DISPATCH, { pPlayer->pos.x, pPlayer->pos.y + 150.0f, pPlayer->pos.z });
-			}
-
-			//派遣する
-			SetBuddyDispatch(pDispatch->pos, pDispatch->nType);
-			pDispatch->bUse = false;
-			pDispatch->nType = -1;
-		}
-	}
 
 }
 

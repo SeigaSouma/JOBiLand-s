@@ -92,7 +92,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -154,7 +154,6 @@
     <ClCompile Include="2D_effect.cpp" />
     <ClCompile Include="calculation.cpp" />
     <ClCompile Include="camera.cpp" />
-    <ClCompile Include="crowd.cpp" />
     <ClCompile Include="debugproc.cpp" />
     <ClCompile Include="edit.cpp" />
     <ClCompile Include="effect.cpp" />
@@ -178,7 +177,6 @@
     <ClCompile Include="result.cpp" />
     <ClCompile Include="resultscore.cpp" />
     <ClCompile Include="score.cpp" />
-    <ClCompile Include="search_fan.cpp" />
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="title.cpp" />
@@ -210,6 +208,7 @@
     <ClInclude Include="pause.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="ranking.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="resultscore.h" />
     <ClInclude Include="score.h" />
