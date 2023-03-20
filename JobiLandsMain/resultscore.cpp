@@ -138,7 +138,7 @@ void UpdateResultScore(void)
 			if (g_aResultScore[nCntRS].bUse == false)
 			{
 				//SEをセット
-				PlaySound(SOUND_LABEL_SE_IDOU);
+				//PlaySound(SOUND_LABEL_SE_IDOU);
 			}
 
 			g_aResultScore[nCntRS].bUse = true;		//使用されている

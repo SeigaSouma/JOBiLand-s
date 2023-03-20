@@ -6,7 +6,6 @@
 //==============================================================
 #include "nofade.h"
 #include "game.h"
-#include "fenish.h"
 
 //マクロ定義
 #define DEF_POSX_UP			(0.0f)		//pos.xの上の初期値
@@ -137,7 +136,7 @@ void UpdateNoFade(void)
 				{
 					g_Nofade.colorNoFade.a = 1.0f;
 					g_Nofade.nState = NOFADE_IN;		//フェードイン状態に
-					SetGameState(GAMESTATE_BEFOREEND, 0);
+					//SetGameState(GAMESTATE_BEFOREEND, 0);
 				}
 			}
 		}

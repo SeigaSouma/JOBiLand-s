@@ -40,49 +40,12 @@ DWORD g_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
 // サウンドの情報
 SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] =
 {
-	{ "data/BGM/takumi2.wav", -1 },	// ゲーム
 	{ "data/BGM/takumi.wav", -1 },	// タイトル
-	{ "data/BGM/fever.wav", -1 },	// フィーバーのBGM
-	{ "data/SE/piyopiyo.wav", -1 },	// 頭にひよこ
-	{ "data/SE/get.wav", 0 },	// 見つかった！！
-	{ "data/SE/ha-to.wav", 0 },	// 洗脳完了
-	{ "data/SE/asioto.wav", 0 },	// 足音
-	{ "data/SE/keibikyouka.wav", 0 },	// 警備強化
-	{ "data/SE/dakimakura.wav", 0 },	// 抱き枕発射
-	{ "data/SE/amuro.wav", 0 },	// アムロ行きま～す
-	{ "data/SE/dhuhuhu1.wav", 0 },	// デュフフフ
-	{ "data/SE/onmino.wav", 0 },	// 御身の前に
-	{ "data/SE/orangekun.wav", 0 },	// 戻ってまいりました
-	{ "data/SE/syutugeki.wav", 0 },	// 出撃でござる
-	{ "data/SE/yattyae.wav", 0 },	// やっちゃえ
-	{ "data/SE/click.wav", 0 },	// これは使わないよ！！
-	{ "data/SE/wheel.wav", 0 },	// これは使わないよ！！
-	{ "data/SE/hypnosis.wav", -1 },	// 催眠中
-	{ "data/SE/EventText.wav", 0 },	// 大量発生
-	{ "data/SE/watergun.wav", 0 },	// これは使わないよ！！
-	{ "data/SE/shibuki.wav", 0 },	// 水鉄砲の音～～
-	{ "data/SE/kyuwawa-n.wav", 0 },	// きゅわわ～ン
-	{ "data/SE/doga-n.wav", 0 },	// ドガーン
-	{ "data/SE/gekia2.wav", 0 },	// 激アツキター！
-	{ "data/SE/bokunitikara.wav", 0 },	// ユニコーーーーン！！！
-	{ "data/SE/modoruwo.wav", 0 },	// 戻るお
-	{ "data/SE/security.wav", 0 },	// 警備強化きたお
-	{ "data/SE/TheWorld.wav", 0 },	// 警備強化きたお
-	{ "data/SE/manyPos.wav", 0 },	// 大量発生地点
-	{ "data/SE/dhufu.wav", 0 },		// デュフ単発
-	{ "data/SE/cutin.wav", 0 },		// カットイン
-	{ "data/SE/batibati.wav", 0 },		// 警備強化バチバチ
-	{ "data/BGM/tutorial.wav", -1 },	// チュートリアルのBGM
-	{ "data/BGM/yutori_adv.wav", -1 },	// リザルトのBGM
-	{ "data/BGM/1234_short.wav", -1 },	// ランキングのBGM
-	{ "data/SE/moziidou.wav", 0 },	// ランキング、リザルトとかの数字が移動するときの音
-	{ "data/SE/kokekokko.wav", 0 },	// ｺｹｺｯｺｰ
-	{ "data/SE/textwindow.wav", 0 },	// チュートリアルウィンドウ設置
-	{ "data/SE/wind.wav", 0 },	// カウントダウン
-	{ "data/SE/finish.wav", 0 },	// 終了
-	{ "data/SE/tutorial_clear.wav", 0 },	//  チュートリアルのステップクリア
-	{ "data/SE/game_clear.wav", 0 },	//  ゲームクリア
-	{ "data/SE/game_failed.wav", 0 },	//  ゲームクリアじゃない
+	{ "data/BGM/takumi.wav", -1 },	// ゲーム
+	{ "data/BGM/takumi.wav", -1 },	// リザルト
+	{ "data/BGM/takumi.wav", -1 },	// ランキング
+	{ "data/BGM/takumi.wav", -1 },	// チュートリアル
+	{ "data/SE/dhuhuhu.wav", 0 },	// カーソル移動
 };
 
 //=============================================================================

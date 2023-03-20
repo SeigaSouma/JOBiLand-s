@@ -220,7 +220,7 @@ void UpdateGame(void)
 			if (g_bPause == false)
 			{
 				//サウンド再生
-				PlaySound(SOUND_LABEL_SE_THEWORLD);
+				//PlaySound(SOUND_LABEL_SE_THEWORLD);
 			}
 
 			g_bPause = (g_bPause == false) ? true : false;		//ポーズメニューが使われている状態にする
