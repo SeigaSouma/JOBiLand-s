@@ -1,0 +1,10 @@
+/team000/Debug
+/team000/Release
+/team000/*.exe
+/team000/*.db
+/team000/*.pdb
+/team000/*.ipdb
+/team000/*.iobj
+/team000/.vs/team000/v14/*.suo
+/team000/*.filters
+/team000/data/TEXT/*.bin
