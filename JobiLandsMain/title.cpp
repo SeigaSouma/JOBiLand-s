@@ -153,9 +153,6 @@ void InitTitle(void)
 	//頂点バッファをアンロックする
 	g_pVtxBuffTitle->Unlock();
 
-	//ライトのリセット処理
-	ResetLight();
-
 	//影の初期化処理
 	InitShadow();
 

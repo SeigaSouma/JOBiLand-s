@@ -1,2 +1,6 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
+<<<<<<< HEAD
 Debug|Win32|C:\Users\student\Desktop\HGS2022_Spring\JOBiLand-s\JobiLandsMain\|
+=======
+Debug|Win32|C:\Users\student\Desktop\HGS_2022_spling\JOBiLand-s\JobiLandsMain\|
+>>>>>>> 96a2aeb07dcc53b9c6fc9a038bd7a0d2accd5230

@@ -66,9 +66,6 @@ void InitTutorial(void)
 
 	g_bSkip = false;		//スキップ確認画面描画しない
 
-	//ライトのリセット処理
-	ResetLight();
-
 	//影の初期化処理
 	InitShadow();
 

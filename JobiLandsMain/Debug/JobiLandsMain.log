@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  tutorial.cpp
 c:\users\student\desktop\hgs2022_spring\jobiland-s\jobilandsmain\player.h(21): fatal error C1083: include ファイルを開けません。'crowd.h':No such file or directory
   titleselect.cpp
@@ -33,3 +34,7 @@ c:\users\student\desktop\hgs2022_spring\jobiland-s\jobilandsmain\edit.cpp(336): 
   camera.cpp
 c:\users\student\desktop\hgs2022_spring\jobiland-s\jobilandsmain\camera.cpp(14): fatal error C1083: include ファイルを開けません。'dispatch.h':No such file or directory
   コードを生成中...
+=======
+﻿  JobiLandsMain.vcxproj -> C:\Users\student\Desktop\HGS_2022_spling\JOBiLand-s\JobiLandsMain\Debug\JobiLandsMain.exe
+  JobiLandsMain.vcxproj -> C:\Users\student\Desktop\HGS_2022_spling\JOBiLand-s\JobiLandsMain\Debug\JobiLandsMain.pdb (Full PDB)
+>>>>>>> 96a2aeb07dcc53b9c6fc9a038bd7a0d2accd5230

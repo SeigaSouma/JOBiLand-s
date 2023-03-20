@@ -333,7 +333,7 @@ void ControllEdit(D3DXVECTOR3 *pPos, D3DXVECTOR3 *pRot)
 	}
 
 	//Šp“x³‹K‰»
-	pRot->y = RotNormalize(pRot->y);
+	RotNormalize(&pRot->y);
 
 }
 
