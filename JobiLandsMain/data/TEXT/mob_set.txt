@@ -1,0 +1,431 @@
+#==============================================================================
+# モブのスポーン地点(左側)
+#==============================================================================
+#エディオン入口
+MOBSET
+	MANY = 1
+	TYPE = 0
+	POS = -850.0.0 -554.0
+	ROT = 0.0 90.0 0.0
+END_MOBSET
+
+#安心お宿入口
+MOBSET
+	MANY = 1
+	TYPE = 1
+	POS = -1622.0 0.0 -800.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#安心お宿とLAOXの間の建物
+MOBSET
+	MANY = 1
+	TYPE = 2
+	POS = -2057.0 0.0 -800.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#LAOX(小)入口
+MOBSET
+	MANY = 1
+	TYPE = 3
+	POS = -2501.0 0.0 -800.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#LAOX(大)入口
+MOBSET
+	MANY = 1
+	TYPE = 4
+	POS = -2901.0 0.0 -800.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#LAOX(大)車庫
+MOBSET
+	MANY = 0
+	TYPE = 5
+	POS = -3005.0 0.0 -115.0
+	ROT = 0.0 -90.0 0.0
+END_MOBSET
+
+#DVD会館入口
+MOBSET
+	MANY = 0
+	TYPE = 6
+	POS = -3536.0 0.0 -411.0
+	ROT = 0.0 90.0 0.0
+END_MOBSET
+
+#LAOX路地
+MOBSET
+	MANY = 0
+	TYPE = 7
+	POS = -1663.0 0.0 142.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#LAOX入り口
+MOBSET
+	MANY = 1
+	TYPE = 8
+	POS = -870.0 0.0 59.0
+	ROT = 0.0 90.0 0.0
+END_MOBSET
+
+#オノデン入口
+MOBSET
+	MANY = 1
+	TYPE = 9
+	POS = -850.0 0.0 761.0
+	ROT = 0.0 90.0 0.0
+END_MOBSET
+
+#ラブメルシー入口
+MOBSET
+	MANY = 1
+	TYPE = 10
+	POS = -850.0 0.0 1358.0
+	ROT = 0.0 90.0 0.0
+END_MOBSET
+
+#オノデン商品搬入口
+MOBSET
+	MANY = 0
+	TYPE = 11
+	POS = -1612.0 0.0 1500.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#肉屋入口
+MOBSET
+	MANY = 0
+	TYPE = 12
+	POS = -3416.0 0.0 1366.0
+	ROT = 0.0 -90.0 0.0
+END_MOBSET
+
+#オノデン裏口
+MOBSET
+	MANY = 0
+	TYPE = 13
+	POS = -3430.0 0.0 746.0
+	ROT = 0.0 -90.0 0.0
+END_MOBSET
+
+#スーパードラッグストアオノデン側
+MOBSET
+	MANY = 0
+	TYPE = 14
+	POS = -1150.0 0.0 2275.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#KFC横
+MOBSET
+	MANY = 0
+	TYPE = 15
+	POS = -2908.0 0.0 2320.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#左下の橋のゲオ
+MOBSET
+	MANY = 1
+	TYPE = 16
+	POS = -850.0 0.0 -2800.0
+	ROT = 0.0 90.0 0.0
+END_MOBSET
+
+#左下不死そば
+MOBSET
+	MANY = 1
+	TYPE = 17
+	POS = -1201.0 0.0 -2200.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#左下不死そばの隣
+MOBSET
+	MANY = 1
+	TYPE = 18
+	POS = -1542.0 0.0 -2200.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#左下QUEENDOM
+MOBSET
+	MANY = 1
+	TYPE = 19
+	POS = -2147.0 0.0 -2200.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#==============================================================================
+# モブのスポーン地点(右側)
+#==============================================================================
+#右下道路側
+MOBSET
+	MANY = 1
+	TYPE = 20
+	POS = 1246.0 0.0 -3302.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#右下テナント募集
+MOBSET
+	MANY = 1
+	TYPE = 21
+	POS = 930.0 0.0 -3933.0
+	ROT = 0.0 -90.0 0.0
+END_MOBSET
+
+#右下DEATHFOREST
+MOBSET
+	MANY = 1
+	TYPE = 22
+	POS = 1832.0 0.0 -3302.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#右下DEATHFORESTの隣
+MOBSET
+	MANY = 1
+	TYPE = 23
+	POS = 2365.0 0.0 -3302.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#コーヒー会館
+MOBSET
+	MANY = 1
+	TYPE = 24
+	POS = 2740.0 0.0 -3302.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#コーヒー会館横
+MOBSET
+	MANY = 1
+	TYPE = 25
+	POS = 3130.0 0.0 -3302.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#奥定ビル入り口側
+MOBSET
+	MANY = 1
+	TYPE = 26
+	POS = 850.0 0.0 -1284.0
+	ROT = 0.0 -90.0 0.0
+END_MOBSET
+
+#奥定ビル下側
+MOBSET
+	MANY = 1
+	TYPE = 27
+	POS = 1060.0 0.0 -1733.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#テナント募集ビル(細長)
+MOBSET
+	MANY = 0
+	TYPE = 28
+	POS = 870.0 0.0 -627.0
+	ROT = 0.0 -90.0 0.0
+END_MOBSET
+
+#テナント募集ビル(大)大きい道路側
+MOBSET
+	MANY = 0
+	TYPE = 29
+	POS = 857.0 0.0 -239.0
+	ROT = 0.0 -90.0 0.0
+END_MOBSET
+
+
+#### モブのスポーン地点(小さい道路側)
+
+
+#テナント募集ビル(大)
+MOBSET
+	MANY = 0
+	TYPE = 30
+	POS = 1154.0 0.0 54.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#コーヒー会館
+MOBSET
+	MANY = 1
+	TYPE = 31
+	POS = 1587.0 0.0 54.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#ISHIKORO
+MOBSET
+	MANY = 1
+	TYPE = 32
+	POS = 2011.0 0.0 54.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#ISHIKORO路地1
+MOBSET
+	MANY = 0
+	TYPE = 33
+	POS = 2130.0 0.0 -373.0
+	ROT = 0.0 90.0 0.0
+END_MOBSET
+
+#ISHIKORO路地2
+MOBSET
+	MANY = 0
+	TYPE = 34
+	POS = 2130.0 0.0 -857.0
+	ROT = 0.0 90.0 0.0
+END_MOBSET
+
+#LAOX
+MOBSET
+	MANY = 1
+	TYPE = 35
+	POS = 1944.0 0.0 -1670.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#CD会館
+MOBSET
+	MANY = 1
+	TYPE = 36
+	POS = 3060.0 0.0 54.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#CD会館路地1
+MOBSET
+	MANY = 0
+	TYPE = 37
+	POS = 3362.0 0.0 -373.0
+	ROT = 0.0 90.0 0.0
+END_MOBSET
+
+#CD会館路地2
+MOBSET
+	MANY = 0
+	TYPE = 38
+	POS = 3362.0 0.0 -857.0
+	ROT = 0.0 90.0 0.0
+END_MOBSET
+
+#CD会館後ろ側
+MOBSET
+	MANY = 1
+	TYPE = 39
+	POS = 3196.0 0.0 -1500.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#アイフル
+MOBSET
+	MANY = 1
+	TYPE = 40
+	POS = 3870.0 0.0 54.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#ソフマップ
+MOBSET
+	MANY = 1
+	TYPE = 41
+	POS = 4165.0 0.0 54.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#ソフマップ楽十
+MOBSET
+	MANY = 1
+	TYPE = 42
+	POS = 4500.0 0.0 54.0
+	ROT = 0.0 0.0 0.0
+END_MOBSET
+
+#ソフマップ下側
+MOBSET
+	MANY = 0
+	TYPE = 43
+	POS = 4469.0 0.0 -800.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#マンガ・ネット館
+MOBSET
+	MANY = 1
+	TYPE = 44
+	POS = 4249.0 0.0 -800.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#アクオム下側
+MOBSET
+	MANY = 0
+	TYPE = 45
+	POS = 3805.0 0.0 -800.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+
+#### モブのスポーン地点(右上)
+
+
+#不死そば入口
+MOBSET
+	MANY = 1
+	TYPE = 46
+	POS = 1088.0 0.0 1247.0
+	ROT = 0.0 -137.0 0.0
+END_MOBSET
+
+#カードゲームショップ
+MOBSET
+	MANY = 1
+	TYPE = 47
+	POS = 1730.0 0.0 1182.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#カードキングダム入口
+MOBSET
+	MANY = 1
+	TYPE = 48
+	POS = 2233.0 0.0 1182.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#atre1入口
+MOBSET
+	MANY = 1
+	TYPE = 49
+	POS = 2893.0 0.0 1182.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#秋葉原駅入口
+MOBSET
+	MANY = 1
+	TYPE = 50
+	POS = 4045.0 0.0 1132.0
+	ROT = 0.0 180.0 0.0
+END_MOBSET
+
+#ゲオ
+MOBSET
+	MANY = 0
+	TYPE = 51
+	POS = 860.0 0.0 1882.0
+	ROT = 0.0 -90.0 0.0
+END_MOBSET
+
+END_SCRIPT		# この行は絶対消さないこと！

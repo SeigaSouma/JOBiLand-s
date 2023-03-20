@@ -1,0 +1,144 @@
+//=============================================================================
+//
+// プレイヤー処理 [player.h]
+// Author : 相馬靜雅
+//
+//=============================================================================
+#ifndef _PLAYER_H_		//このマクロ定義がされていなかったら
+#define _PLAYER_H_		//二重インクルード防止のマクロを定義する
+
+//マクロ定義
+#define JUMP		(20.0f)	//ジャンプ移動量
+#define GRAVITY		(1.0f)	//重力
+#define PENLIGHT_RADIUS	(300.0f)
+#define PENLIGHT_RADIUS_MOVE	(200.0f)
+#define PENLIGHT_ANGLE	(D3DX_PI * 0.18f)
+#define PENLIGHT_ANGLE_MOVE	(D3DX_PI * 0.1f)
+#define MAX_WAVEINDEX	(16)
+
+#include "main.h"
+#include "model.h"
+#include "crowd.h"
+
+//モデルの種類
+typedef enum
+{
+	PLAYERPARTS_BODY = 0,	//体
+	PLAYERPARTS_HEAD,		//頭
+	PLAYERPARTS_R_NINO,		//右二の腕
+	PLAYERPARTS_R_UDE,		//右腕
+	PLAYERPARTS_R_HAND,		//右手
+	PLAYERPARTS_R_MOMO,		//右もも
+	PLAYERPARTS_R_LEG,		//右ふくらはぎ
+	PLAYERPARTS_R_ASIKUBI,	//右足首
+	PLAYERPARTS_R_FOOT,		//右足
+	PLAYERPARTS_L_NINO,		//左二の腕
+	PLAYERPARTS_L_UDE,		//左腕
+	PLAYERPARTS_L_HAND,		//左手
+	PLAYERPARTS_L_MOMO,		//左もも
+	PLAYERPARTS_L_LEG,		//左ふくらはぎ
+	PLAYERPARTS_L_ASIKUBI,	//左足首
+	PLAYERPARTS_L_FOOT,		//左足
+	PLAYERPARTS_HANDGUN,
+	PLAYERPARTS_WOODSTICK,
+	PLAYERPARTS_STONE,
+	PLAYERPARTS_MAX
+}PLAYERPARTS;
+
+typedef enum
+{
+	MOTION_LOOP_OFF = 0,	//ループ無し
+	MOTION_LOOP_ON,		//ループする
+	MOTION_LOOP_MAX
+}MOTION_LOOP;
+
+typedef enum
+{
+	PLAYERMOTION_DEF = 0,	//ニュートラルモーション
+	PLAYERMOTION_WALK,		//移動モーション
+	PLAYERMOTION_ACTION,	//アクションモーション
+	PLAYERMOTION_DISPATCHL, //派遣モーション(チビデブ)
+	PLAYERMOTION_DISPATCHR, //派遣モーション(ひょろがり)
+	PLAYERMOTION_RETURNL,   //帰ってこいモーションパターン1
+	PLAYERMOTION_RETURNR,   //帰ってこいモーションパターン2
+	PLAYERMOTION_MOVEACTION,	//移動催眠モーション
+	PLAYERMOTION_MOVECURSOR,    //派遣カーソル移動中モーション
+	PLAYERMOTION_FEVERWALK,     //フィーバー中の移動モーション
+	PLAYERMOTION_FEVERACTION,   //フィーバー中のアクションモーション
+	PLAYERMOTION_FEVERMOVEACTION,   //フィーバー中の移動アクションモーション
+	PLAYERMOTION_RANKING,       //ランキングのモーション
+	PLAYERMOTION_MAX
+}PLAYERMOTION;
+
+//プレイヤーの状態
+typedef enum
+{
+	PLAYERSTATE_NONE = 0,	//何もしていない状態
+	PLAYERSTATE_FEAVER,		//フィーバー状態
+	PLAYERSTATE_MAX
+}PLAYERSTATE;
+
+//プレイヤーの構造体
+typedef struct
+{
+	D3DXVECTOR3 pos;		//現在の位置
+	D3DXVECTOR3 posOld;		//前回の位置
+	D3DXVECTOR3 move;		//移動量
+	D3DXVECTOR3 rot;		//向き
+	D3DXVECTOR3 vecMove;	//移動ベクトル
+	D3DXVECTOR3 vecLine[4];	//境界線ベクトル
+	D3DXVECTOR3 vecToPos;	//ベクトルの長さ
+	float fRotDiff;			//向きの差分
+	float fRotDest;			//向きの差分
+	float fRot[4];			//ベクトルの向き
+	D3DXMATRIX mtxWorld;	//ワールドマトリックス
+	int nIdxShadow;			//影のインデックス番号
+	int nIdxHPGauge;		//体力ゲージのインデックス番号
+	int nIdxWave[MAX_WAVEINDEX];			//衝撃波のインデックス番号
+	int nIdxIcon;			//ミニマップアイコンのインデックス番号
+	int nIdxSerif;          //セリフのインデックス番号
+	int nIdxFlag;			//旗のインデックス番号
+	int nState;				//状態
+	int nCntState;			//状態カウント
+	bool bUse;				//使用しているか
+	bool bDisp;				//描画しているか
+	bool bFever;			//フィーバー状態か
+	bool bSetTalk;			//会話のセットしたか
+
+	//モーション系
+	int nNowMotionNum;		//現在のモーション番号
+	int nCntAllFrame;		//総フレームカウント
+	int nCntFrame;			//フレームのカウント
+	int nPatternKey;		//何個目のキーか
+	int nPartsNum;			//パーツ数
+	bool bMove;				//移動しているか
+	bool bJump;				//ジャンプしているか
+	bool bATK;				//攻撃してるか
+
+	int nCntWalk;			//移動のカウント
+	int nCntPenlight;		//催眠のカウント
+	int nCntDis;            //派遣のカウント
+	int nCntReturn;         //帰還のカウント
+	float fRadius;			//半径
+
+	Model aModel[MAX_MODEL];	//パーツ情報
+	Formation aFormation[MAX_CROWD];	//隊列情報
+}Player;
+
+//プロトタイプ宣言
+void InitPlayer(void);
+void UninitPlayer(void);
+void UpdatePlayer(void);
+void UpdateTutorialPlayer(void);
+void UpdateTitlePlayer(void);
+void UpdateRankingPlayer(void);
+void UpdateResultPlayer(void);
+void DrawPlayer(void);
+Player *GetPlayer(void);
+void SetPlayer(void);
+void SetMotisonPlayer(int nMotionType);
+void HitPlayer(D3DXVECTOR3 move, int nDMG);
+D3DXMATRIX GetParentMatrix(int nIdxParts);
+int SetFormationPosPlayer(void);
+
+#endif

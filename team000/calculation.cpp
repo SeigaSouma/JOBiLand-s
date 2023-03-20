@@ -30,19 +30,18 @@ void InitCalculastion(void)
 //==================================================================================
 //角度の正規化処理
 //==================================================================================
-float RotNormalize(float fRot)
+void RotNormalize(float *fRot)
 {
 	//1周分越えたら補正する
-	if (fRot < -D3DX_PI)
+	if (*fRot < -D3DX_PI)
 	{
-		fRot += D3DX_PI * 2.0f;
+		*fRot += D3DX_PI * 2.0f;
 	}
-	else if (fRot > D3DX_PI)
+	else if (*fRot > D3DX_PI)
 	{
-		fRot -= D3DX_PI * 2.0f;
+		*fRot -= D3DX_PI * 2.0f;
 	}
 
-	return fRot;
 }
 
 //==================================================================================
@@ -374,7 +373,7 @@ bool CollisionFan(D3DXVECTOR3 posChar, D3DXVECTOR3 posLeft, D3DXVECTOR3 posRight
 }
 
 //==================================================================================
-// 線の当たり判定  
+// 線の当たり判定  (単独使用不可)
 //==================================================================================
 bool CollisionLine(D3DXVECTOR3 pos0, D3DXVECTOR3 pos1, D3DXVECTOR3 MainPos, D3DXVECTOR3 MainPosOld)
 {
