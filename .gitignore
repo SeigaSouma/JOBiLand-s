@@ -355,7 +355,8 @@ MigrationBackup/
 /JobiLandsMain/Release
 /JobiLandsMain/*.exe
 /JobiLandsMain/*.db
+/JobiLandsMain/*.VC.db
 /JobiLandsMain/*.pdb
 /JobiLandsMain/*.ipdb
 /JobiLandsMain/*.iobj
-/JobiLandsMain/.vc/JobiLandsMain/v14/*.suo
+/JobiLandsMain/.vs/JobiLandsMain/v14/*.suo
