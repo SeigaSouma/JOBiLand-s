@@ -8,7 +8,6 @@
 #include "meshfield.h"
 #include "input.h"
 #include "debugproc.h"
-#include "mapshape.h"
 
 //プロトタイプ宣言
 void CreatMeshFieldIndex(void);

@@ -10,8 +10,7 @@
 #include "input.h"
 #include "shadow.h"
 #include "calculation.h"
-#include "camera.h"
-#include "buddy.h"
+#include "camera.h"\
 
 //マクロ定義
 #define MOVE		(4.0f)
@@ -52,8 +51,6 @@ void InitTitleSelect(void)
 		D3DXMatrixIdentity(&g_aTitleSelect[nCntTitleSelect].aModel.OldmtxWorld);
 
 		g_aTitleSelect[nCntTitleSelect].aModel.nIdxShadow = -1;			//影のインデックス番号
-		g_aTitleSelect[nCntTitleSelect].aModel.nIdxRotate = -1;	//ぐるぐるのインデックス番号
-		g_aTitleSelect[nCntTitleSelect].aModel.nIdxHypGauge = -1;		//体力ゲージのインデックス番号
 		g_aTitleSelect[nCntTitleSelect].aModel.nShadow = 1;			//影を使うかどうか
 
 		g_aTitleSelect[nCntTitleSelect].aModel.nNumVtx = 0;			//頂点数
@@ -84,6 +81,9 @@ void InitTitleSelect(void)
 		g_aTitleSelect[nCntTitleSelect].aModel.dwNumMat = NULL;			//マテリアルの数
 	}
 
+	//タイトルの選択肢セット
+	SetTitleSelect(D3DXVECTOR3(-100.0f, 0.0f, -300.0f), 25);
+	SetTitleSelect(D3DXVECTOR3(100.0f, 0.0f, -300.0f), 26);
 }
 
 //==================================================================================
@@ -183,9 +183,6 @@ void UpdateTitleSelectTKTK(int nSelect)
 	//タイトルの情報取得
 	Title *pTitle = GetTitle();
 
-	//相棒の情報取得
-	Buddy *pBuddy = GetBuddy();
-
 	if (g_aTitleSelect[nSelect].nTurnCounter == 0)
 	{
 		//目標との差分
@@ -195,11 +192,6 @@ void UpdateTitleSelectTKTK(int nSelect)
 
 	if (g_aTitleSelect[nSelect].nTurnCounter <= 10)
 	{//回転数が30以下の時
-
-		pBuddy[BUDDYTYPE_HYOROGARI].formationPos.z = -350.0f;
-		pBuddy[BUDDYTYPE_HYOROGARI].formationPos.x = -100.0f;
-		pBuddy[BUDDYTYPE_DEPPA].formationPos.z = -350.0f;
-		pBuddy[BUDDYTYPE_DEPPA].formationPos.x = 100.0f;
 
 		//タイトルの選択肢と違うものは0.0fに向かせる
 		g_aTitleSelect[nSelect].aModel.pos.x += g_aTitleSelect[nSelect].fPosDiffX / (float)50;
@@ -225,11 +217,6 @@ void UpdateTitleSelectTKTK(int nSelect)
 	}
 	else if (g_aTitleSelect[nSelect].nTurnCounter > 10)
 	{//30回転激アツ後
-
-		pBuddy[BUDDYTYPE_HYOROGARI].formationPos.z = -700.0f;
-		pBuddy[BUDDYTYPE_HYOROGARI].formationPos.x = -100.0f;
-		pBuddy[BUDDYTYPE_DEPPA].formationPos.z = -700.0f;
-		pBuddy[BUDDYTYPE_DEPPA].formationPos.x = 100.0f;
 
 		float fRotDest = 0.0f;	//目標の角度
 		float fRotDiff = 0.0f;	//現在と目標の差分

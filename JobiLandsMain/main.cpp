@@ -1,11 +1,10 @@
 //==============================================================
 //
-//DirectX[main.cpp]
-//Author:佐藤根詩音
+//HGS2022_Springs[main.cpp]
+//Author:相馬靜雅
 //
 //==============================================================
 #include "main.h"
-#include "resource.h"
 #include "input.h"
 #include "debugproc.h"
 #include "camera.h"
@@ -16,16 +15,13 @@
 #include "logo.h"
 #include "fade.h"
 #include "ranking.h"
-#include "iventsign.h"
 #include "titleselect.h"
 #include "light.h"
 #include "model.h"
 #include "calculation.h"
-#include "comment.h"
 #include "sound.h"
 #include "nofade.h"
-#include "iventradar.h"
-#include "minimapframe.h"
+#include "resource.h"
 
 //メモリリーク出力用
 #define _CRTDBG_MAP_ALLOC
@@ -34,7 +30,7 @@
 
 //マクロ定義
 #define CLASS_NAME			"Window Class"			//ウインドウクラスの名前
-#define WINDOW_NAME			"反逆のニート"			//ウインドウの名前
+#define WINDOW_NAME			"無題"			//ウインドウの名前
 
 //プロトタイプ宣言
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -512,40 +508,11 @@ void Draw(void)
 		//現在のビューポートを取得
 		g_pD3DDevice->GetViewport(&viewportDef);
 
-		if (g_mode == MODE_GAME || g_mode == MODE_TUTORIAL)
-		{
-			
+		//カメラの設定処理
+		SetCamera(CAMERATYPE_MAIN);
 
-			{
-				//カメラの設定処理
-				SetCamera(CAMERATYPE_MAIN);
-
-				//各種オブジェクトの描画
-				DrawObject(DRAWTYPE_MAIN);
-			}
-
-			{
-				//各種オブジェクトの描画
-				DrawObject(DRAWTYPE_MAP);
-			}
-
-			{
-				//レーダーの描画処理
-				DrawIventRadar();
-
-				//矢印の描画
-				DrawIventSign();
-			}
-
-		}
-		else
-		{
-			//カメラの設定処理
-			SetCamera(CAMERATYPE_MAIN);
-
-			//各種オブジェクトの描画
-			DrawObject(DRAWTYPE_MAIN);
-		}
+		//各種オブジェクトの描画
+		DrawObject(DRAWTYPE_MAIN);
 
 		//カメラの設定処理
 		SetCamera(CAMERATYPE_UI);

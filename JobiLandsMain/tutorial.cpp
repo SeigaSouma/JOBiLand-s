@@ -21,9 +21,6 @@
 #include "score.h"
 #include "debugproc.h"
 #include "shadow.h"
-#include "meshorbit.h"
-#include "minimap.h"
-#include "minimap_icon.h"
 #include "particle.h"
 #include "2D_effect.h"
 #include "effect.h"
@@ -90,12 +87,6 @@ void InitTutorial(void)
 	//メッシュドームの初期化処理
 	InitMeshDome();
 
-	//ミニマップの初期化
-	InitMinimap();
-
-	//アイコンの初期化処理
-	InitMiniIcon();
-
 	//モデルの初期化処理
 	InitModel();
 
@@ -134,12 +125,6 @@ void UninitTutorial(void)
 
 	//影の終了処理
 	UninitShadow();
-
-	//ミニマップの終了処理
-	UninitMinimap();
-
-	//アイコンの終了処理
-	UninitMiniIcon();
 
 	//プレイヤーの終了処理
 	UninitPlayer();
@@ -199,12 +184,6 @@ void UpdateTutorial(void)
 
 			//衝撃波の更新処理
 			UpdateImpactWave();
-
-			//ミニマップの更新処理
-			UpdateMinimap();
-
-			//アイコンの更新処理
-			UpdateMiniIcon();
 		}
 	}
 
@@ -249,18 +228,6 @@ void DrawTutorial(int nType)
 
 		//モデルの描画処理
 		DrawModel(1);
-	}
-
-	if (nType == DRAWTYPE_MAP)
-	{
-		//フィールドの描画
-		DrawMeshField(DRAWFIELD_TYPE_MAP);
-
-		//プレイヤーの描画
-		DrawMiniIcon();
-
-		//ミニマップの描画
-		DrawMinimap();
 	}
 
 	if (nType == DRAWTYPE_UI)
