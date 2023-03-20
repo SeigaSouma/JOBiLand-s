@@ -18,7 +18,6 @@
 
 #include "main.h"
 #include "model.h"
-#include "crowd.h"
 
 //ƒ‚ƒfƒ‹‚ÌŽí—Þ
 typedef enum

@@ -44,12 +44,6 @@ bool g_bPause = false;		//ポーズ状態のON/OFF
 //==============================================================
 void InitGame(void)
 {
-<<<<<<< HEAD
-	//ライトのリセット処理
-	ResetLight();
-
-=======
->>>>>>> 96a2aeb07dcc53b9c6fc9a038bd7a0d2accd5230
 	//影の初期化処理
 	InitShadow();
 
