@@ -234,6 +234,11 @@ void UpdateGamePlayer(void)
 	if (g_aPlayer.bUse == true)
 	{//Žg—p‚µ‚Ä‚¢‚½‚ç
 
+		if (GetKeyboardTrigger(DIK_V) == true)
+		{
+			SetParticle(g_aPlayer.pos, PARTICLE_TYPE_OFFSETTINGPARTICLE);
+		}
+
 	 //‰ß‹Ž‚ÌˆÊ’u•Û‘¶
 		g_aPlayer.posOld = g_aPlayer.pos;
 
