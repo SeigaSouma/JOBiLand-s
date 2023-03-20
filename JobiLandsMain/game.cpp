@@ -21,9 +21,6 @@
 #include "score.h"
 #include "debugproc.h"
 #include "shadow.h"
-#include "meshorbit.h"
-#include "minimap.h"
-#include "minimap_icon.h"
 #include "particle.h"
 #include "2D_effect.h"
 #include "effect.h"
@@ -70,12 +67,6 @@ void InitGame(void)
 
 	//メッシュドームの初期化処理
 	InitMeshDome();
-
-	//ミニマップの初期化
-	InitMinimap();
-
-	//アイコンの初期化処理
-	InitMiniIcon();
 
 	//モデルの初期化処理
 	InitModel();
@@ -127,12 +118,6 @@ void UninitGame(void)
 
 	//エディットの終了処理
 	UninitEdit();
-
-	//ミニマップの終了処理
-	UninitMinimap();
-
-	//アイコンの終了処理
-	UninitMiniIcon();
 
 	//プレイヤーの終了処理
 	UninitPlayer();
@@ -217,12 +202,6 @@ void UpdateGame(void)
 
 				////軌跡の更新処理
 				//UpdateMeshOrbit();
-
-				//ミニマップの更新処理
-				UpdateMinimap();
-
-				//アイコンの更新処理
-				UpdateMiniIcon();
 			}
 		}
 	}
@@ -264,9 +243,6 @@ void UpdateGame(void)
 		}
 		break;
 	}
-
-
-
 }
 
 //==============================================================

@@ -7,7 +7,6 @@
 #include "ranking.h"
 #include "input.h"
 #include "fade.h"
-#include "crowd.h"
 #include "game.h"
 #include "light.h"
 #include "camera.h"
@@ -20,10 +19,7 @@
 #include "effect.h"
 #include "2D_effect.h"
 #include "player.h"
-#include "buddy.h"
-#include "comment.h"
 #include "sound.h"
-#include "ranking_comment.h"
 #include "sound.h"
 
 //マクロ定義
@@ -105,11 +101,7 @@ void InitRanking(int nOldMode)
 	g_Ranking.nCntSetCounter = 0;	//セットするまでのカウンター
 	g_Ranking.nCntUse = 0;		//使用カウント
 
-	//群衆の情報取得
-	CrowdInfo *pCrowdInfo = GetCrowdInfo();
-
 	//今回のスコア取得
-	g_Ranking.nThisScore = pCrowdInfo->nCrowdValue;
 	g_Ranking.nNewRecordNum = -1;	//ニューレコードの番号
 	g_Ranking.bNewRecord = false;	//ニューレコードの判定
 	g_Ranking.nOldMode = nOldMode;		//遷移前のモード
@@ -148,9 +140,6 @@ void InitRanking(int nOldMode)
 	//プレイヤーの初期化処理
 	InitPlayer();
 
-	//相棒の初期化処理
-	InitBuddy();
-
 	//メッシュフィールドの初期化処理
 	InitMeshField();
 
@@ -171,12 +160,6 @@ void InitRanking(int nOldMode)
 
 	//カメラ初期化処理
 	InitCamera();
-
-	//コメント初期化処理
-	InitCommnet();
-
-	//ランキングコメントの初期化処理
-	InitRankingComment();
 
 	//サウンドの再生
 	PlaySound(SOUND_LABEL_BGM_RANKING);
@@ -203,9 +186,6 @@ void UninitRanking(void)
 	//プレイヤーの終了処理
 	UninitPlayer();
 
-	//相棒の終了処理
-	UninitBuddy();
-
 	//メッシュフィールドの終了処理
 	UninitMeshField();
 
@@ -223,12 +203,6 @@ void UninitRanking(void)
 
 	//パーティクルの終了処理
 	UninitParticle();
-
-	//コメント終了処理
-	UninitCommnet();
-
-	//ランキングコメントの終了処理
-	UninitRankingComment();
 
 	//テクスチャの破棄
 	if (g_pTextureRanking != NULL)
@@ -268,7 +242,6 @@ void UninitRanking(void)
 //==============================================================
 void UpdateRanking(void)
 {
-
 	//セットするまでのカウンター加算
 	g_Ranking.nCntSetCounter++;
 
@@ -278,21 +251,6 @@ void UpdateRanking(void)
 		//ランキングを下から設定
 		SetRankingPos();
 	}
-
-	if (SET_TIME < g_Ranking.nCntSetCounter)
-	{//全部セットし終わっていたら
-
-		if (g_Ranking.nChangeTime == 0)
-		{
-			//コメントを設定
-			SetComment();
-		}
-
-		//自動遷移のカウンター加算
-		g_Ranking.nChangeTime++;
-	}
-
-	
 
 	if (g_Ranking.nOldMode == MODE_RESULT && g_Ranking.bNewRecord == true &&
 		SET_TIME < g_Ranking.nCntSetCounter && g_Ranking.nCntUse >= MIN_RANKING)
@@ -318,103 +276,11 @@ void UpdateRanking(void)
 		}
 	}
 
-
-	VERTEX_2D *pVtx;
-
-	//頂点バッファをロックし、頂点情報へのポインタを取得
-	g_pVtxBuffRanking->Lock(0, 0, (void**)&pVtx, 0);
-
-	for (int nCntRank = 0; nCntRank < MIN_RANKING; nCntRank++)
-	{
-		if (g_Ranking.aEachRealRanking[nCntRank].bUse == true)
-		{//使用されていたら
-
-			pVtx += 4 * NUM_PLACE * nCntRank;
-
-			if (SET_TIME > g_Ranking.nCntSetCounter)
-			{//全部セットし終わっていたら
-
-				//位置補正
-				g_Ranking.aEachRealRanking[nCntRank].pos.y += (g_Ranking.aEachRealRanking[nCntRank].posDest.y - g_Ranking.aEachRealRanking[nCntRank].pos.y) * 0.25f;
-
-				//長さ補正
-				g_Ranking.aEachRealRanking[nCntRank].fWidth += (WIDTH - g_Ranking.aEachRealRanking[nCntRank].fWidth) * 0.25f;
-				g_Ranking.aEachRealRanking[nCntRank].fHeight += (HEIGHT - g_Ranking.aEachRealRanking[nCntRank].fHeight) * 0.25f;
-			}
-
-			for (int nCntScore = 0; nCntScore < NUM_PLACE; nCntScore++)
-			{
-				g_Ranking.aEachRealRanking[nCntRank].aScoreNum[nCntScore].pos =
-					D3DXVECTOR3(
-						g_Ranking.aEachRealRanking[nCntRank].pos.x + (nCntScore * DIS_X),
-						g_Ranking.aEachRealRanking[nCntRank].pos.y,
-						0.0f);
-			}
-
-			for (int nCntScore = 0; nCntScore < NUM_PLACE; nCntScore++)
-			{
-				//頂点座標の設定
-				pVtx[0].pos = D3DXVECTOR3(g_Ranking.aEachRealRanking[nCntRank].aScoreNum[nCntScore].pos.x - g_Ranking.aEachRealRanking[nCntRank].fWidth, g_Ranking.aEachRealRanking[nCntRank].aScoreNum[nCntScore].pos.y - g_Ranking.aEachRealRanking[nCntRank].fHeight, 0.0f);
-				pVtx[1].pos = D3DXVECTOR3(g_Ranking.aEachRealRanking[nCntRank].aScoreNum[nCntScore].pos.x + g_Ranking.aEachRealRanking[nCntRank].fWidth, g_Ranking.aEachRealRanking[nCntRank].aScoreNum[nCntScore].pos.y - g_Ranking.aEachRealRanking[nCntRank].fHeight, 0.0f);
-				pVtx[2].pos = D3DXVECTOR3(g_Ranking.aEachRealRanking[nCntRank].aScoreNum[nCntScore].pos.x - g_Ranking.aEachRealRanking[nCntRank].fWidth, g_Ranking.aEachRealRanking[nCntRank].aScoreNum[nCntScore].pos.y + g_Ranking.aEachRealRanking[nCntRank].fHeight, 0.0f);
-				pVtx[3].pos = D3DXVECTOR3(g_Ranking.aEachRealRanking[nCntRank].aScoreNum[nCntScore].pos.x + g_Ranking.aEachRealRanking[nCntRank].fWidth, g_Ranking.aEachRealRanking[nCntRank].aScoreNum[nCntScore].pos.y + g_Ranking.aEachRealRanking[nCntRank].fHeight, 0.0f);
-
-				pVtx += 4;
-			}
-
-			pVtx -= (4 * NUM_PLACE * nCntRank) + (4 * NUM_PLACE);
-		}
-	}
-
-	//頂点バッファをアンロックする
-	g_pVtxBuffRanking->Unlock();
-
-
 	for (int nCntRank = 0; nCntRank < MIN_RANKING; nCntRank++)
 	{
 		//数字のテクスチャ設定
 		SetRanking(nCntRank);
 	}
-
-	//影の更新処理
-	UpdateShadow();
-
-	//モデルの更新処理
-	UpdateModel();
-
-	//エディットの初期化
-	UpdateEdit();
-
-	//プレイヤーの更新処理
-	UpdateRankingPlayer();
-
-	//相棒の更新処理
-	UpdateRankingBuddy();
-
-	//メッシュフィールドの更新処理
-	UpdateMeshField();
-
-	//メッシュシリンダーの更新処理
-	UpdateMeshCylinder();
-
-	//メッシュドームの更新処理
-	UpdateMeshDome();
-
-	//エフェクトの更新処理
-	UpdateEffect();
-
-	//2Dエフェクトの更新処理
-	UpdateEffect_2D();
-
-	//パーティクルの更新処理
-	UpdateParticle();
-
-	//コメント更新処理
-	UpdateCommnet();
-
-	//ランキングコメントの更新処理
-	UpdateRankingComment();
-
 }
 
 //==============================================================
@@ -481,9 +347,6 @@ void DrawRanking(int nType)
 		//プレイヤーの描画処理
 		DrawPlayer();
 
-		//相棒の描画処理
-		DrawBuddy();
-
 		//メッシュフィールドの描画処理
 		DrawMeshField(DRAWFIELD_TYPE_MAIN);
 
@@ -501,17 +364,9 @@ void DrawRanking(int nType)
 
 		//パーティクルの描画処理
 		DrawParticle();
-
-		//コメント描画処理
-		DrawCommnet();
-
 	}
 	else if (nType == DRAWTYPE_UI)
 	{
-
-		//ランキングコメントの描画処理
-		DrawRankingComment();
-
 		//2Dエフェクトの描画処理
 		DrawEffect_2D();
 
@@ -696,9 +551,6 @@ void CalRanking(void)
 	//ランキングの数加算
 	g_Ranking.nNumRanking++;
 
-	//群衆情報取得
-	CrowdInfo *pCrowdInfo = GetCrowdInfo();
-
 	//降順処理
 	for (int nCntData = 0; nCntData < g_Ranking.nNumRanking - 1; nCntData++)
 	{
@@ -716,7 +568,7 @@ void CalRanking(void)
 	}
 
 	//今回の数を取得
-	int NowData = pCrowdInfo->nCrowdValue;
+	int NowData = 0;
 
 	//ランキング最大値よりも今回のが小さかったら
 	if (g_Ranking.nScore[g_Ranking.nNumRanking - 1] < NowData)
