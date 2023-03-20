@@ -14,12 +14,10 @@
 #include"model.h"
 #include"edit.h"
 #include"player.h"
-#include"buddy.h"
 #include"meshfield.h"
 #include"meshcylinder.h"
 #include"meshdome.h"
 #include"fade.h"
-#include"crowd.h"
 
 //マクロ定義
 #define NUM_RESULT		(3)		//背景の数
@@ -102,12 +100,6 @@ void InitResult(void)
 	//頂点バッファをアンロックする
 	g_pVtxBuffResult->Unlock();
 
-	//群衆の情報取得
-	CrowdInfo *pCrowdInfo = GetCrowdInfo();
-
-	//群衆数保存
-	int nCrowdValue = pCrowdInfo->nCrowdValue;
-
 	//タイトルのカメラ初期化処理
 	InitResultCamera();
 
@@ -123,9 +115,6 @@ void InitResult(void)
 	//プレイヤーの初期化処理
 	InitPlayer();
 
-	//相棒の初期化処理
-	InitBuddy();
-
 	//メッシュフィールドの初期化処理
 	InitMeshField();
 
@@ -135,28 +124,8 @@ void InitResult(void)
 	//メッシュドームの初期化処理
 	InitMeshDome();
 
-	//群衆の初期化処理
-	InitCrowd();
-
 	//スコアの初期化処理
 	InitResultScore();
-
-	//セットスコア
-	SetResultScore(nCrowdValue);
-
-	for (int nCntCrowd = 0; nCntCrowd < nCrowdValue; nCntCrowd++)
-	{//取得数分
-
-		D3DXVECTOR3 pos = D3DXVECTOR3((rand() % 17 - 8) * 100.0f, (rand() % 40) * 10.0f + 400.0f, (rand() % 11 - 5) * 10.0f + -100);
-		pos.x += (rand() % 21 - 10) * 20.0f;
-
-		D3DXVECTOR3 rot = D3DXVECTOR3((float)(rand() % 629 - 314) / 100.0f, (float)(rand() % 629 - 314) / 100.0f, (float)(rand() % 629 - 314) / 100.0f);
-		int nType = rand() % 3 + 33;
-		int nTexType = ((nType - 33) * 2) + (rand() % 2);	//テクスチャタイプ
-
-		SetCrowdResult(pos, rot, nType, nTexType, 0);
-	}
-
 
 	//サウンドの再生
 	PlaySound(SOUND_LABEL_BGM_RESULT);
@@ -183,9 +152,6 @@ void UninitResult(void)
 	//プレイヤーの終了処理
 	UninitPlayer();
 
-	//相棒の終了処理
-	UninitBuddy();
-
 	//メッシュフィールドの終了処理
 	UninitMeshField();
 
@@ -194,9 +160,6 @@ void UninitResult(void)
 
 	//メッシュドームの終了処理
 	UninitMeshDome();
-
-	//群衆の終了処理
-	UninitCrowd();
 
 	//スコアの終了処理
 	UninitResultScore();
@@ -236,40 +199,6 @@ void UpdateResult(void)
 		//モード設定(ゲーム画面に移行)
 		SetFade(MODE_RANKING);				//フェードアウト
 	}
-
-	//影の更新処理
-	UpdateShadow();
-
-	//モデルの更新処理
-	UpdateModel();
-
-	//エディットの更新処理
-	UpdateEdit();
-
-	//プレイヤーの更新処理
-	UpdateResultPlayer();
-
-	//相棒の更新処理
-	UpdateResultBuddy();
-
-	//メッシュフィールドの更新処理
-	UpdateMeshField();
-
-	//メッシュシリンダーの更新処理
-	UpdateMeshCylinder();
-
-	//メッシュドームの更新処理
-	UpdateMeshDome();
-
-	//群衆の更新処理
-	UpdateResultCrowd();
-
-	if (g_nCounterRS >= 200)
-	{
-
-		//スコアリザルトの更新処理
-		UpdateResultScore();
-	}
 }
 
 //==============================================================
@@ -291,9 +220,6 @@ void DrawResult(int nType)
 		//プレイヤーの描画処理
 		DrawPlayer();
 
-		//相棒の描画処理
-		DrawBuddy();
-
 		//メッシュフィールドの描画処理
 		DrawMeshField(DRAWFIELD_TYPE_MAIN);
 
@@ -302,9 +228,6 @@ void DrawResult(int nType)
 
 		//メッシュドームの描画処理
 		DrawMeshDome();
-
-		//群衆の描画処理
-		DrawCrowd();
 	}
 
 	if (nType == DRAWTYPE_UI)
