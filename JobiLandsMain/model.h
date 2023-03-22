@@ -9,11 +9,6 @@
 
 //マクロ定義
 #define MAX_MODEL	(312)	//モデルの最大数
-#define MAX_MOTION	(16)	//モーションの最大数
-#define MAX_KEY		(24)	//キーの最大数
-#define MAX_PARTS	(32)	//パーツの最大数
-#define SMALL_NUM	(43)	//小物の番号
-#define CONE_NUM	(52)	//三角コーンの番号
 
 #include "main.h"
 
@@ -45,41 +40,6 @@ typedef enum
 	MODELTYPE_MAX
 
 }MODELTYPE;
-
-//モーションの構造体
-typedef struct
-{
-	D3DXVECTOR3 rot;		//向き
-	D3DXVECTOR3 rotDest;	//目標の向き
-	D3DXVECTOR3 rotDiff;	//向きの差分
-	D3DXVECTOR3 pos;		//位置
-	D3DXVECTOR3 posDest;	//目標の位置
-	D3DXVECTOR3 posDiff;	//位置の差分
-}Parts;
-
-typedef struct
-{
-	Parts aParts[MAX_PARTS];
-	int nFrame;			//再生フレーム
-}Key;
-
-typedef struct
-{
-	Key aKey[MAX_KEY];
-	int nNumKey;		//キーの数
-	int nLoop;			//ループ判定
-	bool bUse;			//使用しているか
-}MotionData;
-
-//モーションの構造体
-typedef struct
-{
-	int nNowMotionNum;		//現在のモーション番号
-	int nCntAllFrame;		//総フレームカウント
-	int nCntFrame;			//フレームのカウント
-	int nPatternKey;		//何個目のキーか
-	int nPartsNum;			//パーツ数
-}Motion;
 
 typedef struct
 {

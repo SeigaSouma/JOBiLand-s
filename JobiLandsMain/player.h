@@ -18,6 +18,7 @@
 
 #include "main.h"
 #include "model.h"
+#include "motion.h"
 
 //モデルの種類
 typedef enum
@@ -88,17 +89,16 @@ typedef struct
 	int nCntState;			//状態カウント
 	bool bUse;				//使用しているか
 	bool bDisp;				//描画しているか
+	float fRadius;			//半径
 
 	//モーション系
 	bool bMove;				//移動しているか
 	bool bJump;				//ジャンプしているか
 	bool bATK;				//攻撃してるか
-
 	int nCntWalk;			//移動のカウント
 	int nCntPenlight;		//催眠のカウント
 	int nCntDis;            //派遣のカウント
 	int nCntReturn;         //帰還のカウント
-	float fRadius;			//半径
 
 	Model aModel[MAX_MODEL];	//パーツ情報
 	MotionData aMotionData[MAX_MOTION];		//各モーションの情報
