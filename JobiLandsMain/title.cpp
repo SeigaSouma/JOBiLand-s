@@ -161,7 +161,7 @@ void UpdateTitle(void)
 		{
 
 		case TITLESELECT_START:
-			SetFade(MODE_GAME);
+			SetFade(MODE_TUTORIAL);
 			break;
 
 		case TITLESELECT_END:

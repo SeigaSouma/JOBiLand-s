@@ -211,6 +211,11 @@ void SetParticle(D3DXVECTOR3 pos, int nType)
 				g_aParticle[nCntParticle].nLife = 40;
 				FeverPushParticle(nCntParticle);
 				break;
+
+			case PARTICLE_TYPE_OFFSETTINGPARTICLE:
+				g_aParticle[nCntParticle].nLife = 40;
+				OffSettingParticle(nCntParticle);
+				break;
 			}
 
 			//パーティクルの数加算

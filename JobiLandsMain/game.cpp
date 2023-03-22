@@ -157,6 +157,14 @@ void UpdateGame(void)
 	//プレイヤーの情報取得
 	Player *pPlayer = GetPlayer();
 
+	if (GetFade() == FADE_NONE)
+	{//何もしていないとき
+		if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true)
+		{
+			SetFade(MODE_RESULT);
+		}
+	}
+
 	if (g_bPause == false)
 	{
 		//エディットの更新処理
