@@ -46,13 +46,6 @@ typedef enum
 
 typedef enum
 {
-	MOTION_LOOP_OFF = 0,	//ループ無し
-	MOTION_LOOP_ON,		//ループする
-	MOTION_LOOP_MAX
-}MOTION_LOOP;
-
-typedef enum
-{
 	PLAYERMOTION_DEF = 0,	//ニュートラルモーション
 	PLAYERMOTION_WALK,		//移動モーション
 	PLAYERMOTION_ACTION,	//アクションモーション
@@ -96,12 +89,7 @@ typedef struct
 	bool bUse;				//使用しているか
 	bool bDisp;				//描画しているか
 
-							//モーション系
-	int nNowMotionNum;		//現在のモーション番号
-	int nCntAllFrame;		//総フレームカウント
-	int nCntFrame;			//フレームのカウント
-	int nPatternKey;		//何個目のキーか
-	int nPartsNum;			//パーツ数
+	//モーション系
 	bool bMove;				//移動しているか
 	bool bJump;				//ジャンプしているか
 	bool bATK;				//攻撃してるか
@@ -113,8 +101,8 @@ typedef struct
 	float fRadius;			//半径
 
 	Model aModel[MAX_MODEL];	//パーツ情報
-	MotionData aMotionData[MAX_MOTION];		//モーション用の情報
-	Motion aMotion;
+	MotionData aMotionData[MAX_MOTION];		//各モーションの情報
+	Motion aMotion;			//モーションの全体情報
 }Player;
 
 //プロトタイプ宣言
@@ -124,7 +112,6 @@ void UpdatePlayer(void);
 void DrawPlayer(void);
 Player *GetPlayer(void);
 void SetPlayer(void);
-void SetMotisonPlayer(int nMotionType);
 D3DXMATRIX GetParentMatrix(int nIdxParts);
 
 #endif

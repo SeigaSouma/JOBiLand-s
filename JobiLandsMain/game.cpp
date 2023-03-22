@@ -397,19 +397,19 @@ void DebugEdit(void)
 //==============================================================
 void SetGameEnd(void)
 {
-	//プレイヤーの情報取得
-	Player *pPlayer = GetPlayer();
+	////プレイヤーの情報取得
+	//Player *pPlayer = GetPlayer();
 
-	//カメラの情報取得
-	Camera *pCamera = GetCamera();
+	////カメラの情報取得
+	//Camera *pCamera = GetCamera();
 
-	//カメラの位置設定
-	pCamera->rot = D3DXVECTOR3(0.0f, 0.0f, -0.35f);
-	pCamera->fDistance = 800;	//距離
+	////カメラの位置設定
+	//pCamera->rot = D3DXVECTOR3(0.0f, 0.0f, -0.35f);
+	//pCamera->fDistance = 800;	//距離
 
-	//プレイヤーの位置設定
-	pPlayer->pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	////プレイヤーの位置設定
+	//pPlayer->pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	//ニュートラルモーション設定
-	SetMotisonPlayer(PLAYERMOTION_DEF);
+	////ニュートラルモーション設定
+	//SetMotisonPlayer(PLAYERMOTION_DEF);
 }
