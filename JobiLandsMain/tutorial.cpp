@@ -154,6 +154,14 @@ void UpdateTutorial(void)
 	//カメラの情報取得
 	Camera *pCamera = GetCamera();
 
+	if (GetFade() == FADE_NONE)
+	{//何もしていないとき
+		if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true)
+		{
+			SetFade(MODE_GAME);
+		}
+	}
+
 	if (g_bSkip == false)
 	{
 		//モデルの更新処理

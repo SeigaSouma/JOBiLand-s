@@ -10,7 +10,7 @@
 #include "input.h"
 #include "shadow.h"
 #include "calculation.h"
-#include "camera.h"\
+#include "camera.h"
 
 //マクロ定義
 #define MOVE		(4.0f)
@@ -27,7 +27,6 @@ TitleSelect g_aTitleSelect[MAX_TITLESELECT];		//タイトル選択肢の情報
 //==================================================================================
 void InitTitleSelect(void)
 {
-
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -101,9 +100,6 @@ void UninitTitleSelect(void)
 //==================================================================================
 void UpdateTitleSelect(void)
 {
-	//カメラの情報取得
-	Camera *pCamera = GetCamera();
-
 	//タイトルの情報取得
 	Title *pTitle = GetTitle();
 

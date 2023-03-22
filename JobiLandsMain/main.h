@@ -92,6 +92,8 @@ typedef struct
 	D3DXVECTOR3 pos;		//現在の位置
 	D3DXVECTOR3 posOld;		//前回の位置
 	D3DXVECTOR3 posOrigin;	//元の位置
+	D3DXVECTOR3 posDest;	//目的の位置
+	D3DXVECTOR3 posDiff;	//位置の差分
 	D3DXVECTOR3 rot;		//向き
 	D3DXVECTOR3 rotOrigin;	//元の向き
 	D3DXVECTOR3 move;		//移動量
@@ -125,11 +127,11 @@ typedef struct
 {
 	D3DXVECTOR3 pos;	//頂点座標
 	D3DXCOLOR col;		//頂点カラー
+	D3DXVECTOR3 rot;	//向き
 	float fWidth;		//幅
 	float fHeight;		//高さ
 	int nPatternAnim;	//アニメーションパターンNo
 	int nCntAnim;		//アニメーションカウンター
-	D3DXVECTOR3 rot;	//向き
 	float fAngle;		//角度
 	float fLength;		//対角線の長さ
 	int nCount;			//雑カウント

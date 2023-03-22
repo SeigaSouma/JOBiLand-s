@@ -89,12 +89,12 @@ void InitTitleCamera(void)
 	{
 		if (nCntCamera == CAMERATYPE_MAIN)
 		{
-			g_aCamera[nCntCamera].posR = D3DXVECTOR3(0.0f, 200.0f, 0.0f);		//注視点
-			g_aCamera[nCntCamera].posV = D3DXVECTOR3(0.0f, 300.0f, g_aCamera[nCntCamera].posR.z + -400.0f);	//視点
+			g_aCamera[nCntCamera].posR = D3DXVECTOR3(0.0f, 200.0f, -0.0f);		//注視点
+			g_aCamera[nCntCamera].posV = D3DXVECTOR3(0.0f, 300.0f, g_aCamera[nCntCamera].posR.z - 200.0f);	//視点
 			g_aCamera[nCntCamera].vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);		//上方向ベクトル
 			g_aCamera[nCntCamera].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//移動量
 			g_aCamera[nCntCamera].nState = CAMERASTATE_NONE;				//状態
-			g_aCamera[nCntCamera].fDistance = 1500.0f;	//距離
+			g_aCamera[nCntCamera].fDistance = 500.0f;	//距離
 			g_aCamera[nCntCamera].nMoveStep = 0;			//段階
 			g_aCamera[nCntCamera].nCntStep = 0;			//段階のカウント
 
