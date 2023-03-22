@@ -114,6 +114,7 @@ typedef struct
 
 	Model aModel[MAX_MODEL];	//パーツ情報
 	MotionData aMotionData[MAX_MOTION];		//モーション用の情報
+	Motion aMotion;
 }Player;
 
 //プロトタイプ宣言

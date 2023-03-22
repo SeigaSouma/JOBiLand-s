@@ -71,6 +71,16 @@ typedef struct
 	bool bUse;			//使用しているか
 }MotionData;
 
+//モーションの構造体
+typedef struct
+{
+	int nNowMotionNum;		//現在のモーション番号
+	int nCntAllFrame;		//総フレームカウント
+	int nCntFrame;			//フレームのカウント
+	int nPatternKey;		//何個目のキーか
+	int nPartsNum;			//パーツ数
+}Motion;
+
 typedef struct
 {
 	D3DXVECTOR3 pos;		//現在の位置

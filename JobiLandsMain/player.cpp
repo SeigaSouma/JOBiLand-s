@@ -78,7 +78,7 @@ void InitPlayer(void)
 	g_aPlayer.bDisp = true;										//描画しているか
 
 
-																//モーション系初期化
+	//モーション系初期化
 	g_aPlayer.nNowMotionNum = -1;		//現在のモーション番号
 	g_aPlayer.nCntAllFrame = 0;			//総フレームカウント
 	g_aPlayer.nCntFrame = 0;			//フレームのカウント
@@ -718,9 +718,6 @@ void SetMotisonPlayer(int nMotionType)
 //==================================================================================
 void UpdateMotionPlayer(void)
 {
-	//カメラの情報取得
-	Camera *pCamera = GetCamera();
-
 	for (int nCntParts = 0; nCntParts < g_aPlayer.nPartsNum; nCntParts++)
 	{//パーツ分繰り返す
 

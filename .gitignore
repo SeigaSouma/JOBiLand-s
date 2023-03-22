@@ -360,3 +360,7 @@ MigrationBackup/
 /JobiLandsMain/*.ipdb
 /JobiLandsMain/*.iobj
 /JobiLandsMain/.vs/JobiLandsMain/v14/*.suo
+/JobiLandsMain/.vs/JobiLandsMain/v14/*.suo
+/JobiLandsMain/*.db
+/JobiLandsMain/data/TEXT/realtime_ranking.bin
+/JobiLandsMain/data/TEXT/*.bin
