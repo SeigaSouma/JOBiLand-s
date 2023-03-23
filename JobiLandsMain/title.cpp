@@ -296,7 +296,8 @@ void UpdateTitle(void)
 	if (GetKeyboardTrigger(DIK_RETURN) == true/* || GetPadTrigger(BUTTON_A, 0) == true*/ && g_TitleFade == false)
 	{
 		//モード設定(チュートリアルに移行)
-		SetFade(MODE_GAME);
+		SetFade(MODE_TUTORIAL);
+
 		g_TitleFade = true;
 	}
 
