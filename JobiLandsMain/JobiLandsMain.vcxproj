@@ -161,6 +161,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="impactwave.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="launch.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="logo.cpp" />
     <ClCompile Include="main.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="impactwave.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="launch.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="logo.h" />
     <ClInclude Include="main.h" />
