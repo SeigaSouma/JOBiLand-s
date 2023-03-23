@@ -40,11 +40,11 @@ DWORD g_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
 // サウンドの情報
 SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] =
 {
-	{ "data/BGM/takumi.wav", -1 },	// タイトル
-	{ "data/BGM/takumi.wav", -1 },	// ゲーム
-	{ "data/BGM/takumi.wav", -1 },	// リザルト
+	{ "data/BGM/bgm004.wav", -1 },	// タイトル
+	{ "data/BGM/clear.wav", -1 },	// ゲーム
+	{ "data/BGM/bgm006.wav", -1 },	// リザルト
 	{ "data/BGM/takumi.wav", -1 },	// ランキング
-	{ "data/BGM/takumi.wav", -1 },	// チュートリアル
+	{ "data/BGM/tutorial.wav", -1 },	// チュートリアル
 	{ "data/SE/dhuhuhu.wav", 0 },	// カーソル移動
 	{ "data/SE/arm_move.wav",0},	//腕の動く音
 	{ "data/SE/arm_push.wav",0 },	//腕がものに当たる音

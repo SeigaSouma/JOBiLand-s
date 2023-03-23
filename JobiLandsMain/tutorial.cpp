@@ -180,74 +180,77 @@ void UpdateTutorial(void)
 	pFade = GetFade();
 	int nCnt = 0;
 
-	if (g_Tutorial == 0)
-	{
-		g_aTutorial[0].bUse = true;
-
-		g_aTutorial[2].bUse = true;
-	}
-
-	else
-	{
-		g_aTutorial[1].bUse = true;
-
-		g_aTutorial[2].bUse = true;
-
-		g_aTutorial[3].bUse = true;
-	}
-
-	//次のページへ移動する処理
-	if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true)
+	if (GetFade() == FADE_NONE)
 	{
 		if (g_Tutorial == 0)
 		{
+			g_aTutorial[0].bUse = true;
 
-			g_Tutorial = 1;
-
-			g_aTutorial[1].bUse = true;
-
-			g_aTutorial[3].bUse = true;
-
-			//サウンドの再生
-			PlaySound(SOUND_LABEL_SE_ENTER);
-
-			/*g_Movcol = g_Moventer;*/
+			g_aTutorial[2].bUse = true;
 		}
 
-		//ゲーム画面へ移行する処理
-		else if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true)
-		{//決定(ENTERキー)が押された
-		 //モード設定(ゲーム画面に移行)
+		else
+		{
+			g_aTutorial[1].bUse = true;
 
-			if (g_Kcheck == false && g_Tutorial == 1)
+			g_aTutorial[2].bUse = true;
+
+			g_aTutorial[3].bUse = true;
+		}
+
+		//次のページへ移動する処理
+		if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true)
+		{
+			if (g_Tutorial == 0)
 			{
-				g_Kcheck = true;
+
+				g_Tutorial = 1;
+
+				g_aTutorial[1].bUse = true;
+
+				g_aTutorial[3].bUse = true;
 
 				//サウンドの再生
 				PlaySound(SOUND_LABEL_SE_ENTER);
 
 				/*g_Movcol = g_Moventer;*/
+			}
 
-				SetFade(MODE_GAME);
+			//ゲーム画面へ移行する処理
+			else if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true)
+			{//決定(ENTERキー)が押された
+			 //モード設定(ゲーム画面に移行)
+
+				if (g_Kcheck == false && g_Tutorial == 1)
+				{
+					g_Kcheck = true;
+
+					//サウンドの再生
+					PlaySound(SOUND_LABEL_SE_ENTER);
+
+					/*g_Movcol = g_Moventer;*/
+
+					SetFade(MODE_GAME);
+				}
 			}
 		}
-	}
 
-	//前のページへ戻る処理
-	if (GetKeyboardTrigger(DIK_BACK) == true || GetGamepadTrigger(BUTTON_B, 0) == true)
-	{
-		if (g_Tutorial == 1)
+		//前のページへ戻る処理
+		if (GetKeyboardTrigger(DIK_BACK) == true || GetGamepadTrigger(BUTTON_B, 0) == true)
 		{
-			g_Tutorial = 0;
+			if (g_Tutorial == 1)
+			{
+				g_Tutorial = 0;
 
-			g_aTutorial[1].bUse = false;
+				g_aTutorial[1].bUse = false;
 
-			g_aTutorial[3].bUse = false;
+				g_aTutorial[3].bUse = false;
 
-			//サウンドの再生
-			PlaySound(SOUND_LABEL_SE_ENTER);
+				//サウンドの再生
+				PlaySound(SOUND_LABEL_SE_ENTER);
 
-			/*g_Movcol = g_Moventer;*/
+				/*g_Movcol = g_Moventer;*/
+			}
 		}
 	}
 }
