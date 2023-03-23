@@ -179,6 +179,7 @@
     <ClCompile Include="score.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="resultscore.cpp" />
+    <ClCompile Include="scorecircle.cpp" />
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="title.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="resultscore.h" />
+    <ClInclude Include="scorecircle.h" />
     <ClInclude Include="shadow.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="title.h" />
