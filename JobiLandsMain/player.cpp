@@ -341,8 +341,18 @@ void ControllPlayer(void)
 			PlaySound(SOUND_LABEL_SE_ARMMOVE);
 			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
 		}
+		if (GetKeyboardTrigger(DIK_W) == true)
+		{//W‚ª‰Ÿ‚³‚ê‚½,Œ™‚È‚à‚Ì
+			PlaySound(SOUND_LABEL_SE_ARMMOVE);
+			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
+		}
 
 		if (GetKeyboardTrigger(DIK_S) == true || GetGamepadTrigger(BUTTON_B, 0))
+		{//W‚ª‰Ÿ‚³‚ê‚½,Œ™‚È‚à‚Ì
+			PlaySound(SOUND_LABEL_SE_ARMMOVE);
+			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_DOWN);
+		}
+		if (GetKeyboardTrigger(DIK_S) == true)
 		{//W‚ª‰Ÿ‚³‚ê‚½,Œ™‚È‚à‚Ì
 			PlaySound(SOUND_LABEL_SE_ARMMOVE);
 			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_DOWN);
@@ -370,6 +380,13 @@ void UpdateATKPlayer(void)
 		CollisionATKPlayer(PENLIGHT_RADIUS, PENLIGHT_ANGLE, 1);
 
 		break;
+
+	case PLAYERMOTION_UP:
+
+		//UŒ‚‚Ì“–‚½‚è”»’è
+		CollisionATKPlayer(PENLIGHT_RADIUS, PENLIGHT_ANGLE, 1);
+
+		break;
 	}
 }
 
@@ -378,6 +395,7 @@ void UpdateATKPlayer(void)
 //==================================================================================
 void CollisionATKPlayer(float fDistance, float fAngle, int nValue)
 {
+	
 }
 
 //==================================================================================
@@ -515,9 +533,8 @@ void CollisionCharPlayer(void)
 				if (pLaunch->modelData.pos.x <= -150.0f)
 				{
 
-					//SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
-					//ReturnLaunch(pLaunch);
-					
+					SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
+					ReturnLaunch(pLaunch);
 				}
 
 				//ƒLƒƒƒ‰ƒNƒ^[“¯Žm‚Ì“–‚½‚è”»’è
