@@ -81,6 +81,7 @@ typedef struct
 	bool bUse;				//使用しているか
 	bool bDisp;				//描画しているか
 	float fRadius;			//半径
+	int nLife;				//体力
 
 	//モーション系
 	bool bMove;				//移動しているか

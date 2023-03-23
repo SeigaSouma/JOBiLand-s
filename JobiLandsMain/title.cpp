@@ -67,6 +67,7 @@ void InitTitle(void)
 	g_Title.nCntChange = 0;
 	g_Title.nState = TITLESTATE_NONE;	//ó‘Ô
 	g_bEndFrag = false;
+	g_TitleFade = false;
 
 	//‰e‚Ì‰Šú‰»ˆ—
 	InitShadow();

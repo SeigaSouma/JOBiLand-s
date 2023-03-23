@@ -10,7 +10,7 @@
 #include "sound.h"
 
 //マクロ定義
-#define NUM_PLACE		(4)			//スコアの桁数
+#define NUM_PLACE		(2)			//スコアの桁数
 #define WIDTH	(100.0f)
 #define HEIGHT	(100.0f)
 
@@ -60,10 +60,8 @@ void InitResultScore(void)
 	//頂点バッファをロックし、頂点情報へのポインタを取得
 	g_pVtxBuffResultScore->Lock(0, 0, (void**)&pVtx, 0);
 
-	aTexU[0] = g_nResultScore % 10000 / 1000;
-	aTexU[1] = g_nResultScore % 1000 / 100;
-	aTexU[2] = g_nResultScore % 100 / 10;
-	aTexU[3] = g_nResultScore % 10 / 1;
+	aTexU[0] = g_nResultScore % 100 / 10;
+	aTexU[1] = g_nResultScore % 10 / 1;
 
 	for (int nCntRS = 0; nCntRS < NUM_PLACE; nCntRS++)
 	{
@@ -211,10 +209,8 @@ void SetResultScore(int nScore)
 
 	g_nResultScore = nScore;
 
-	aTexU[0] = g_nResultScore % 10000 / 1000;
-	aTexU[1] = g_nResultScore % 1000 / 100;
-	aTexU[2] = g_nResultScore % 100 / 10;
-	aTexU[3] = g_nResultScore % 10 / 1;
+	aTexU[0] = g_nResultScore % 100 / 10;
+	aTexU[1] = g_nResultScore % 10 / 1;
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
 	g_pVtxBuffResultScore->Lock(0, 0, (void**)&pVtx, 0);
@@ -245,10 +241,8 @@ void AddResultScore(int nValue)
 
 	g_nResultScore += nValue;
 
-	aTexU[0] = g_nResultScore % 10000 / 1000;
-	aTexU[1] = g_nResultScore % 1000 / 100;
-	aTexU[2] = g_nResultScore % 100 / 10;
-	aTexU[3] = g_nResultScore % 10 / 1;
+	aTexU[0] = g_nResultScore % 100 / 10;
+	aTexU[1] = g_nResultScore % 10 / 1;
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
 	g_pVtxBuffResultScore->Lock(0, 0, (void**)&pVtx, 0);
