@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 5
+NUM_MODEL = 8
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -11,6 +11,9 @@ MODEL_FILENAME = data/MODEL/monster_bock0.x # [1]
 MODEL_FILENAME = data/MODEL/cone000.x		# [2]
 MODEL_FILENAME = data/MODEL/monster_bock1.x # [3]
 MODEL_FILENAME = data/MODEL/monster_bock2.x # [4]
+MODEL_FILENAME = data/MODEL/rorimagazin_01.x # [5]
+MODEL_FILENAME = data/MODEL/gyarumagazin_02.x # [6]
+MODEL_FILENAME = data/MODEL/cospreymagazin_03.x # [7]
 #==============================================================================
 # モデルの配置
 #==============================================================================
