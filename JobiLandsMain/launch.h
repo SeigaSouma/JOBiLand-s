@@ -33,11 +33,11 @@ typedef enum
 //プレイヤーの構造体
 typedef struct
 {
-	Model modelData;	// モデル情報
-	float fGravity;		// 重力
-	int nScore;			// スコア
-	float fSpeed;		// 速度
-	int nLevel;			// レベル
+	Model modelData;		// モデル情報
+	float fGravity;			// 重力
+	int nScore;				// スコア
+	float fSpeed;			// 速度
+	int nLevel;				// レベル
 }Launch;
 
 // 構造体定義
