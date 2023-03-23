@@ -111,14 +111,6 @@ void UpdateLaunch(void)
 {
 	int nCntUse = 0;
 
-
-		//if (g_nSetLaunchCount % 30 == 0)
-		//{ // 0キーを押した場合
-
-		//  // 発射物の設定処理
-		//	SetLaunch(3);
-		//}
-
 	for (int nCntLaunch = 0; nCntLaunch < MAX_LAUNCH; nCntLaunch++)
 	{
 		if (g_aLaunch[nCntLaunch].modelData.bUse == true)
@@ -141,7 +133,6 @@ void UpdateLaunch(void)
 				FlyLaunch(&g_aLaunch[nCntLaunch]);
 
 				if (g_aLaunch[nCntLaunch].modelData.pos.x <= LAUNCH_RETURN_POS_X && g_aLaunch[nCntLaunch].modelData.pos.y <= 250.0f)
-				if (g_aLaunch[nCntLaunch].modelData.pos.y <= LAUNCH_RETURN_POS_Y && g_aLaunch[nCntLaunch].modelData.pos.x <= LAUNCH_RETURN_POS_X)
 				{ // 位置が一定を過ぎた場合
 
 					// 跳ね返し可能状態にする
@@ -329,6 +320,7 @@ void SetLaunch(int nLevel)
 			g_aLaunch[nCntLaunch].modelData.move = D3DXVECTOR3(distance.x, 0.0f, 0.0f);	// 移動量
 			g_aLaunch[nCntLaunch].modelData.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 向き
 			g_aLaunch[nCntLaunch].modelData.bUse = true;								// 使用状況
+			PlaySound(SOUND_LABEL_SE_SHOT);
 
 			break;		// 抜け出す
 		}
@@ -386,6 +378,7 @@ void ReturnLaunch(Launch *pLaunch)
 		// 発射物の範囲測定処理
 		LaunchReturnRange(pLaunch);
 		PlaySound(SOUND_LABEL_SE_ARMMOVE);
+		PlaySound(SOUND_LABEL_SE_HIT);
 		SetMotion(&pPlayer->aMotion, PLAYERMOTION_UP);
 
 		if (LAUNCHTYPE_EVIL == pLaunch->modelData.nType)
@@ -408,6 +401,7 @@ void ReturnLaunch(Launch *pLaunch)
 		// 発射物の範囲測定処理
 		LaunchReturnRange(pLaunch);
 		PlaySound(SOUND_LABEL_SE_ARMMOVE);
+		PlaySound(SOUND_LABEL_SE_HIT);
 		SetMotion(&pPlayer->aMotion, PLAYERMOTION_DOWN);
 
 		if (LAUNCHTYPE_GOOD == pLaunch->modelData.nType)
