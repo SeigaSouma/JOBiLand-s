@@ -243,8 +243,8 @@ void InitGameCamera(void)
 		g_aCamera[nCntCamera].nMoveStep = 0;			//段階
 		g_aCamera[nCntCamera].nCntStep = 0;			//段階のカウント
 
-		g_aCamera[nCntCamera].fDistance = 800;	//距離
-		g_aCamera[nCntCamera].rot = D3DXVECTOR3(0.0f, 0.0f, -0.35f);	//向き
+		g_aCamera[nCntCamera].fDistance = 445.0f;	//距離
+		g_aCamera[nCntCamera].rot = D3DXVECTOR3(0.0f, -0.02f, -0.06f);	//向き
 
 		g_aCamera[nCntCamera].bBackFollow = false;		//背面追従
 		g_aCamera[nCntCamera].nCntBackFollow = 0;		//追従カウント
@@ -254,7 +254,7 @@ void InitGameCamera(void)
 
 		g_aCamera[nCntCamera].rotVDest = g_aCamera[nCntCamera].rot;	//目標の向き
 		g_aCamera[nCntCamera].rotVDiff = 0.0f;			//目標の視点の差分
-		g_aCamera[nCntCamera].bFollow = true;	//追従ON
+		g_aCamera[nCntCamera].bFollow = false;	//追従ON
 
 		//カメラごとの設定
 		switch (nCntCamera)
