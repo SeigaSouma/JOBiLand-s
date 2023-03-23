@@ -25,7 +25,6 @@
 #include "player.h"
 #include "sound.h"
 #include "titleselect.h"
-#include "titlelogo.h"
 
 //マクロ定義
 #define CHANGE_TIME	(60 * 25)	//切り替えタイマー
@@ -80,9 +79,6 @@ void InitTitle(void)
 
 	//タイトルの選択肢初期化処理
 	InitTitleSelect();
-
-	// タイトルのロゴの初期化処理
-	InitTitleLogo();
 
 	//プレイヤーの初期化処理
 	InitPlayer();
@@ -189,9 +185,6 @@ void UninitTitle(void)
 	//タイトルの選択肢終了処理
 	UninitTitleSelect();
 
-	// タイトルのロゴの終了処理
-	UninitTitleLogo();
-
 	//プレイヤーの終了処理
 	UninitPlayer();
 
@@ -293,7 +286,7 @@ void UpdateTitle(void)
 	g_pVtxBuffTitle->Unlock();
 
 	//決定キー(ENTERキー)が押された
-	if (GetKeyboardTrigger(DIK_RETURN) == true/* || GetPadTrigger(BUTTON_A, 0) == true*/ && g_TitleFade == false)
+	if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true && g_TitleFade == false)
 	{
 		//モード設定(チュートリアルに移行)
 		SetFade(MODE_TUTORIAL);
@@ -312,9 +305,6 @@ void UpdateTitle(void)
 
 	//タイトルの選択肢更新処理
 	UpdateTitleSelect();
-
-	// タイトルのロゴの更新処理
-	UpdateTitleLogo();
 
 	//影の更新処理
 	UpdateShadow();
@@ -360,9 +350,6 @@ void DrawTitle(int nType)
 
 		//エディットの描画処理
 		DrawEdit();
-
-		// タイトルのロゴの描画処理
-		DrawTitleLogo();
 
 		//プレイヤーの描画処理
 		DrawPlayer();

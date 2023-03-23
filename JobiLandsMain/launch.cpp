@@ -25,10 +25,10 @@
 #define LAUNCH_POS2				(D3DXVECTOR3(800.0f, 0.0f, 0.0f))		// 発射物の位置
 #define LAUNCH_POS3				(D3DXVECTOR3(1200.0f, 0.0f, 0.0f))		// 発射物の位置
 #define LAUNCH_RETURN_POS_X		(150.0f)								// 発射物の跳ね返し可能座標
-#define LAUNCH_RETURN_POS_Y		(100.0f)								// 発射物の跳ね返し可能座標
+#define LAUNCH_RETURN_POS_Y		(90.0f)								// 発射物の跳ね返し可能座標
 #define LAUNCH_LEVEL			(4)										// 発射物のレベル
 #define LAUNCH_NUM_RANGE		(3)										// 発射物の範囲の数
-#define LAUNCH_LEVEL_MAX		(14)									// レベルの最大数
+#define LAUNCH_LEVEL_MAX		(15)									// レベルの最大数
 
 // 評価関係のマクロ定義
 #define LAUNCH_GOOD_RANGE		(LAUNCH_RETURN_POS_X)					// 発射物の範囲(最低評価)
@@ -95,7 +95,7 @@ void InitLaunch(void)
 	g_nSetLaunchCount = 0;
 
 	// レベルを初期化する
-	g_nLevel = 0;
+	g_nLevel = 9;
 
 	// 遷移までのカウントを初期化
 	g_nSetLaunch = 0;
@@ -115,6 +115,7 @@ void UninitLaunch(void)
 void UpdateLaunch(void)
 {
 	int nCntUse = 0;
+	bool bHit = false;		// ヒットしたかどうか
 
 	for (int nCntLaunch = 0; nCntLaunch < MAX_LAUNCH; nCntLaunch++)
 	{
@@ -154,8 +155,12 @@ void UpdateLaunch(void)
 				// 発射物の飛ぶ処理
 				FlyLaunch(&g_aLaunch[nCntLaunch]);
 
-				// 発射物の跳ね返し処理
-				ReturnLaunch(&g_aLaunch[nCntLaunch]);
+				if (bHit == false)
+				{ // 当たっていなかった場合
+
+					// 発射物の跳ね返し処理
+					ReturnLaunch(&g_aLaunch[nCntLaunch]);
+				}
 
 				break;					// 抜け出す
 
@@ -206,7 +211,7 @@ void UpdateLaunch(void)
 			{ // レベルが一定以上になった場合
 
 				// ゲームの状態を変える
-				SetGameState(GAMESTATE_END, 60);
+				SetGameState(GAMESTATE_END, 30);
 			}
 			else
 			{ // ゲームが続く場合
@@ -368,7 +373,7 @@ void SetLaunch(int nLevel)
 			g_aLaunch[nCntLaunch].modelData.nState = LAUNCHSTATE_FLY;		// 状態
 
 			// 距離を測る
-			distance.x = (pPlayer->pos.x - g_aLaunch[nCntLaunch].modelData.pos.x);
+			distance.x = ((pPlayer->pos.x + 100.0f) - g_aLaunch[nCntLaunch].modelData.pos.x);
 			distance.y = (pPlayer->pos.y - g_aLaunch[nCntLaunch].modelData.pos.y);
 
 			// 移動量を決める
@@ -923,7 +928,7 @@ void ShotLaunchChunk(void)
 		{ // 0キーを押した場合
 
 		  // 発射物の設定処理
-			SetLaunch(3);
+			SetLaunch(2);
 		}
 
 		if (g_nSetLaunchCount == 35)
@@ -937,7 +942,7 @@ void ShotLaunchChunk(void)
 		{ // 0キーを押した場合
 
 		  // 発射物の設定処理
-			SetLaunch(3);
+			SetLaunch(2);
 		}
 
 		if (g_nSetLaunchCount == 85)
@@ -951,14 +956,14 @@ void ShotLaunchChunk(void)
 		{ // 0キーを押した場合
 
 		  // 発射物の設定処理
-			SetLaunch(3);
+			SetLaunch(2);
 		}
 
 		if (g_nSetLaunchCount == 125)
 		{ // 0キーを押した場合
 
 		  // 発射物の設定処理
-			SetLaunch(3);
+			SetLaunch(2);
 
 			// カウントを0にする
 			g_nSetLaunchCount = 0;
@@ -985,7 +990,7 @@ void ShotLaunchChunk(void)
 		{ // 0キーを押した場合
 
 			// 発射物の設定処理
-			SetLaunch(3);
+			SetLaunch(2);
 		}
 
 		if (g_nSetLaunchCount == 60)
@@ -1006,14 +1011,14 @@ void ShotLaunchChunk(void)
 		{ // 0キーを押した場合
 
 			// 発射物の設定処理
-			SetLaunch(3);
+			SetLaunch(2);
 		}
 
 		if (g_nSetLaunchCount == 160)
 		{ // 0キーを押した場合
 
 			// 発射物の設定処理
-			SetLaunch(3);
+			SetLaunch(2);
 
 			// カウントを0にする
 			g_nSetLaunchCount = 0;
@@ -1032,28 +1037,28 @@ void ShotLaunchChunk(void)
 		if (g_nSetLaunchCount == 20)
 		{ // 0キーを押した場合
 
-		  // 発射物の設定処理
+			// 発射物の設定処理
 			SetLaunch(3);
 		}
 
 		if (g_nSetLaunchCount == 35)
 		{ // 0キーを押した場合
 
-		  // 発射物の設定処理
-			SetLaunch(3);
+			// 発射物の設定処理
+			SetLaunch(2);
 		}
 
 		if (g_nSetLaunchCount == 50)
 		{ // 0キーを押した場合
 
-		  // 発射物の設定処理
-			SetLaunch(3);
+			// 発射物の設定処理
+			SetLaunch(2);
 		}
 
 		if (g_nSetLaunchCount == 60)
 		{ // 0キーを押した場合
 
-		  // 発射物の設定処理
+			// 発射物の設定処理
 			SetLaunch(3);
 
 			// カウントを0にする
@@ -1073,36 +1078,36 @@ void ShotLaunchChunk(void)
 		if (g_nSetLaunchCount == 20)
 		{ // 0キーを押した場合
 
-		  // 発射物の設定処理
+			// 発射物の設定処理
 			SetLaunch(3);
 		}
 
 		if (g_nSetLaunchCount == 40)
 		{ // 0キーを押した場合
 
-		  // 発射物の設定処理
+			// 発射物の設定処理
 			SetLaunch(3);
 		}
 
 		if (g_nSetLaunchCount == 55)
 		{ // 0キーを押した場合
 
-		  // 発射物の設定処理
-			SetLaunch(3);
+			// 発射物の設定処理
+			SetLaunch(2);
 		}
 
 		if (g_nSetLaunchCount == 70)
 		{ // 0キーを押した場合
 
-		  // 発射物の設定処理
+			// 発射物の設定処理
 			SetLaunch(3);
 		}
 
 		if (g_nSetLaunchCount == 100)
 		{ // 0キーを押した場合
 
-		  // 発射物の設定処理
-			SetLaunch(3);
+			// 発射物の設定処理
+			SetLaunch(2);
 
 			// カウントを0にする
 			g_nSetLaunchCount = 0;
@@ -1150,14 +1155,14 @@ void ShotLaunchChunk(void)
 		{ // 0キーを押した場合
 
 		  // 発射物の設定処理
-			SetLaunch(3);
+			SetLaunch(2);
 		}
 
 		if (g_nSetLaunchCount == 140)
 		{ // 0キーを押した場合
 
 			// 発射物の設定処理
-			SetLaunch(3);
+			SetLaunch(2);
 
 			// カウントを0にする
 			g_nSetLaunchCount = 0;
@@ -1177,14 +1182,14 @@ void ShotLaunchChunk(void)
 		{ // 0キーを押した場合
 
 			// 発射物の設定処理
-			SetLaunch(3);
+			SetLaunch(2);
 		}
 
 		if (g_nSetLaunchCount == 50)
 		{ // 0キーを押した場合
 
 		  // 発射物の設定処理
-			SetLaunch(3);
+			SetLaunch(2);
 		}
 
 		if (g_nSetLaunchCount == 65)
