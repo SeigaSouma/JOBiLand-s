@@ -23,7 +23,8 @@ typedef enum
 //プレイヤーの構造体
 typedef struct
 {
-	Model		modelData;	// モデル情報
+	Model modelData;	// モデル情報
+	float fGravity;		// 重力
 }Launch;
 
 //プロトタイプ宣言

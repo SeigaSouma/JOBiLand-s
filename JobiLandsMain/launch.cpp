@@ -17,9 +17,10 @@
 #include "sound.h"
 
 //マクロ定義
-#define MAX_LAUNCH		(128)			// 発射物の最大数
-#define LAUNCH_GRAVITY	(-1.0f)			// 発射物の重力
-#define LAUNCH_FLY		(-40.0f)		// 発射物の飛ぶ勢い
+#define MAX_LAUNCH		(128)										// 発射物の最大数
+#define LAUNCH_GRAVITY	(-0.3f)									// 発射物の重力
+#define LAUNCH_FLY		(-13.0f)										// 発射物の飛ぶ勢い
+#define LAUNCH_POS		(D3DXVECTOR3(230.0f, 200.0f, -100.0f))		// 発射物の位置
 
 //グローバル変数宣言
 Launch g_aLaunch[MAX_LAUNCH];		//発射物の情報
@@ -42,6 +43,9 @@ void InitLaunch(void)
 		g_aLaunch[nCntLaunch].modelData.vtxMax = D3DXVECTOR3(-10.0f, -10.0f, -10.0f);	// モデルの最大値
 		g_aLaunch[nCntLaunch].modelData.nParent = -1;									// 親の番号
 		g_aLaunch[nCntLaunch].modelData.bUse = false;									// 使用状況
+
+		// 情報の初期化
+		g_aLaunch[nCntLaunch].fGravity = 0.0f;			// 重力
 	}
 }
 
@@ -71,7 +75,10 @@ void UpdateLaunch(void)
 		{ // 使用している場合
 			
 			// 重力をかける
-			g_aLaunch[nCntLaunch].modelData.move.y += LAUNCH_GRAVITY;
+			g_aLaunch[nCntLaunch].fGravity += LAUNCH_GRAVITY;
+
+			// 重力を更新する
+			g_aLaunch[nCntLaunch].modelData.move.y = g_aLaunch[nCntLaunch].fGravity;
 
 			// 位置を更新する
 			g_aLaunch[nCntLaunch].modelData.pos += g_aLaunch[nCntLaunch].modelData.move;
@@ -82,8 +89,7 @@ void UpdateLaunch(void)
 				// 位置を補正する
 				g_aLaunch[nCntLaunch].modelData.pos.y = 0.0f;
 
-				// 使用しない
-				g_aLaunch[nCntLaunch].modelData.bUse = false;
+				g_aLaunch[nCntLaunch].modelData.move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			}
 		}
 	}
@@ -166,21 +172,24 @@ void SetLaunch(void)
 			case LAUNCHTYPE_GOOD:	// 良い奴
 
 				// モデル情報を取得する
-				g_aLaunch[nCntLaunch].modelData = pModel[52];
+				g_aLaunch[nCntLaunch].modelData = pModel[2];
 
 				break;				// 抜け出す
 
 			case LAUNCHTYPE_EVIL:	// 悪い奴
 
 				// モデル情報を取得する
-				g_aLaunch[nCntLaunch].modelData = pModel[33];
+				g_aLaunch[nCntLaunch].modelData = pModel[0];
 
 				break;				// 抜け出す
 			}
 
+			// 情報の初期化
+			g_aLaunch[nCntLaunch].fGravity = 0.0f;			// 重力
+
 			// 発射物の設定
-			g_aLaunch[nCntLaunch].modelData.pos = D3DXVECTOR3(0.0f, 500.0f, 1000.0f);	// 位置
-			g_aLaunch[nCntLaunch].modelData.move = D3DXVECTOR3(0.0f, 0.0f, LAUNCH_FLY);		// 移動量
+			g_aLaunch[nCntLaunch].modelData.pos = LAUNCH_POS;							// 位置
+			g_aLaunch[nCntLaunch].modelData.move = D3DXVECTOR3(LAUNCH_FLY, 0.0f, 0.0f);	// 移動量
 			g_aLaunch[nCntLaunch].modelData.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 向き
 			g_aLaunch[nCntLaunch].modelData.bUse = true;								// 使用状況
 
