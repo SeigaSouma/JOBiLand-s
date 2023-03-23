@@ -21,6 +21,7 @@ typedef enum
 //コントロールパネルの構造体
 typedef struct
 {
+	int nSelect;	//選択肢
 	UI_2D aUI[CONTROLLPANEL_VTX_MAX];	//UI情報
 }ControllPanel;
 
