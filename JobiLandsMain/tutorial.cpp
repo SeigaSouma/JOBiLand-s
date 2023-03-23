@@ -1,262 +1,344 @@
-//=============================================================================
-//
-// チュートリアル処理 [tutorial.cpp]
-// Author : 相馬靜雅
-//
-//=============================================================================
-#include "tutorial.h"
+#include "title.h"
+#include "main.h"
+#include "game.h"
 #include "sound.h"
-#include "input.h"
-#include "camera.h"
-#include "light.h"
-#include "meshcylinder.h"
-#include "impactwave.h"
-#include "meshfield.h"
-#include "meshwall.h"
-#include "meshdome.h"
-#include "model.h"
 #include "player.h"
+#include "input.h"
 #include "fade.h"
-#include "ranking.h"
-#include "score.h"
-#include "debugproc.h"
-#include "shadow.h"
-#include "particle.h"
-#include "2D_effect.h"
-#include "effect.h"
-#include "pause.h"
+#include "tutorial.h"
 
 //マクロ定義
-#define FEVERHYPNOSIS_NUM	(10)
+#define NUM_TUTORIAL  (4)  //キーの最大数
+#define MOVE_COL (0.01f) //色の移動量
+//#define MOVE_ENT (0.1f)  //エンター押した後の移動
 
-//グローバル変数
-Tutorial g_aTutorial;	//チュートリアルの情報
-bool g_bSkip;
+//チュートリアル構造体
+typedef struct
+{
+	bool bUse;
+	D3DXCOLOR col;
+}TUTORIAL;
 
-//==============================================================
-//チュートリアル画面の初期化処理
-//==============================================================
+//グローバル変数宣言
+LPDIRECT3DTEXTURE9 g_apTextureTutorial[NUM_TUTORIAL] = {};		//テクスチャへ(4枚分)のポインタ
+LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffTutorial = NULL;  //頂点バッファへのポインタ
+bool g_Kcheck = false; //キーが押されたか確認する
+int g_Tutorial;		   //チュートリアルの画像をチェック
+TUTORIAL g_aTutorial[NUM_TUTORIAL];
+float g_Movcol;		//色の移動量
+					//float g_Moventer;	//エンター押した後の移動量
+
+					//======================
+					//チュートリアル画面の初期化処理
+					//======================
 void InitTutorial(void)
 {
-	//各種変数初期化
-	g_aTutorial.nStep = 0;	//ステップの初期化
-	g_aTutorial.aControl.bUPMove = false;		//上移動
-	g_aTutorial.aControl.bLMove = false;		//左移動
-	g_aTutorial.aControl.bRMove = false;		//右移動
-	g_aTutorial.aControl.bDWMove = false;		//下移動
+	int nCnt;
 
-	g_aTutorial.aControl.bSetMob = false;		//モブ配置したか
-	g_aTutorial.aControl.bDispatchR = false;	//右派遣
-	g_aTutorial.aControl.bDispatchL = false;	//左派遣
-	g_aTutorial.aControl.bReturnL = false;		//左帰還
-	g_aTutorial.aControl.bReturnR = false;		//右帰還
-	
-	g_aTutorial.aControl.bHypnosis = false;		//催眠度MAX
-	g_aTutorial.aControl.bCutePillow = false;	//抱き枕カバー被せた
+	LPDIRECT3DDEVICE9 pDevice;
 
-	g_aTutorial.aControl.bFeverUse = false;		//フィーバー状態にしたか
-	g_aTutorial.aControl.bSetMobFever = false;	//フィーバー時にモブ配置したか
-	g_aTutorial.aControl.nCntHypnosisFever = 0;	//フィーバー時にモブ捕まえた数
+	//デバイスの取得
+	pDevice = GetDevice();
 
-	g_aTutorial.aControl.bSetEnemy = false;		//敵配置したか
-	g_aTutorial.aControl.bReleaseCrowd = false;	//洗脳解除
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data\\TEXTURE\\tutorial3d1.png",
+		&g_apTextureTutorial[0]);
 
-	g_bSkip = false;		//スキップ確認画面描画しない
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data\\TEXTURE\\tutorial3d2.png",
+		&g_apTextureTutorial[1]);
 
-	//影の初期化処理
-	InitShadow();
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data\\TEXTURE\\enter.png",
+		&g_apTextureTutorial[2]);
 
-	//エフェクトの初期化処理
-	InitEffect();
+	//テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		"data\\TEXTURE\\back1.png",
+		&g_apTextureTutorial[3]);
 
-	//2Dエフェクトの初期化処理
-	InitEffect_2D();
+	//キーチェックを初期化
+	g_Kcheck = false;
 
-	//パーティクルの初期化処理
-	InitParticle();
+	//チュートリアルを初期化
+	g_Tutorial = 0;
 
-	//メッシュシリンダーの初期化処理
-	InitMeshCylinder();
+	//初期化(色の移動量)
+	g_Movcol = MOVE_COL;
+	/*g_Moventer = MOVE_ENT;*/
 
-	//衝撃波の初期化処理
-	InitImpactWave();
+	for (nCnt = 0; nCnt < NUM_TUTORIAL; nCnt++)
+	{
+		//使用しているかどうか初期化
+		g_aTutorial[nCnt].bUse = false;
 
-	//メッシュの床の初期化処理
-	InitMeshField();
+		//色を初期化
+		g_aTutorial[nCnt].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	}
 
-	//メッシュドームの初期化処理
-	InitMeshDome();
+	//頂点バッファの生成
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4 * NUM_TUTORIAL,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_2D,
+		D3DPOOL_MANAGED,
+		&g_pVtxBuffTutorial,
+		NULL);
 
-	//モデルの初期化処理
-	InitModel();
+	VERTEX_2D *pVtx;    //頂点情報へのポインタ
 
-	//プレイヤーの初期化処理
-	InitPlayer();
+						//頂点バッファをロックし、頂点情報へのポインタを取得
+	g_pVtxBuffTutorial->Lock(0, 0, (void**)&pVtx, 0);
 
-	//ポーズメニューの初期化処理
-	InitPause();
+	for (nCnt = 0; nCnt < NUM_TUTORIAL; nCnt++)
+	{
+		pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(1280.0f, 0.0f, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(0.0f, 720.0f, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3(1280.0f, 720.0f, 0.0f);
 
-	//カメラ初期化処理
-	InitCamera();
+		if (nCnt == 2)
+		{
+			pVtx[0].pos = D3DXVECTOR3(1050.0f, 620.0f, 0.0f);
+			pVtx[1].pos = D3DXVECTOR3(1280.0f, 620.0f, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(1050.0f, 710.0f, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(1280.0f, 710.0f, 0.0f);
+		}
+
+		if (nCnt == 3)
+		{
+			pVtx[0].pos = D3DXVECTOR3(100.0f, 620.0f, 0.0f);
+			pVtx[1].pos = D3DXVECTOR3(300.0f, 620.0f, 0.0f);
+			pVtx[2].pos = D3DXVECTOR3(100.0f, 710.0f, 0.0f);
+			pVtx[3].pos = D3DXVECTOR3(300.0f, 710.0f, 0.0f);
+		}
+
+		//rhwの設定
+		pVtx[0].rhw = 1.0f;
+		pVtx[1].rhw = 1.0f;
+		pVtx[2].rhw = 1.0f;
+		pVtx[3].rhw = 1.0f;
+
+		//頂点カラーの設定
+		pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+		pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+		pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+		pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+
+		//テクスチャ座標の設定
+		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+		pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+		pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+		pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+		pVtx += 4;   //頂点データのポインタを4つ分進める
+	}
+
+	//頂点バッファをアンロックする
+	g_pVtxBuffTutorial->Unlock();
 
 	//サウンドの再生
 	PlaySound(SOUND_LABEL_BGM_TUTORIAL);
 }
 
-//==============================================================
-//チュートリアル画面の終了処理
-//==============================================================
+//============================
+//チュートリアルの終了処理
+//============================
 void UninitTutorial(void)
 {
+	int nCnt;
+
 	//サウンドの停止
 	StopSound();
 
-	//ポーズメニューの終了処理
-	UninitPause();
+	for (nCnt = 0; nCnt < NUM_TUTORIAL; nCnt++)
+	{
+		if (g_apTextureTutorial[nCnt] != NULL)
+		{
+			g_apTextureTutorial[nCnt]->Release();
+			g_apTextureTutorial[nCnt] = NULL;
+		}
 
-	//エフェクトの終了処理
-	UninitEffect();
+	}
 
-	//2Dエフェクトの終了処理
-	UninitEffect_2D();
-
-	//パーティクルの終了処理
-	UninitParticle();
-
-	//影の終了処理
-	UninitShadow();
-
-	//プレイヤーの終了処理
-	UninitPlayer();
-
-	//モデルの終了処理
-	UninitModel();
-
-	//メッシュシリンダーの終了処理
-	UninitMeshCylinder();
-
-	//メッシュドームの終了処理
-	UninitMeshDome();
-
-	//衝撃波の終了処理
-	UninitImpactWave();
-
-	//メッシュの床の終了処理
-	UninitMeshField();
+	//頂点バッファの破棄
+	if (g_pVtxBuffTutorial != NULL)
+	{
+		g_pVtxBuffTutorial->Release();
+		g_pVtxBuffTutorial = NULL;
+	}
 }
 
-//==============================================================
-//チュートリアル画面の更新処理
-//==============================================================
+//===============================
+//チュートリアルの更新処理
+//===============================
 void UpdateTutorial(void)
 {
+	FADE pFade;
+	pFade = GetFade();
+	int nCnt = 0;
 
-	//カメラの情報取得
-	Camera *pCamera = GetCamera();
+	if (g_Tutorial == 0)
+	{
+		g_aTutorial[0].bUse = true;
 
-	if (GetFade() == FADE_NONE)
-	{//何もしていないとき
-		if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true)
+		g_aTutorial[2].bUse = true;
+	}
+
+	else
+	{
+		g_aTutorial[1].bUse = true;
+
+		g_aTutorial[2].bUse = true;
+
+		g_aTutorial[3].bUse = true;
+	}
+
+	//次のページへ移動する処理
+	if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true)
+	{
+		if (g_Tutorial == 0)
 		{
-			SetFade(MODE_GAME);
+
+			g_Tutorial = 1;
+
+			g_aTutorial[1].bUse = true;
+
+			g_aTutorial[3].bUse = true;
+
+			//サウンドの再生
+			PlaySound(SOUND_LABEL_SE_ENTER);
+
+			/*g_Movcol = g_Moventer;*/
+		}
+
+		//ゲーム画面へ移行する処理
+		else if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true)
+		{//決定(ENTERキー)が押された
+		 //モード設定(ゲーム画面に移行)
+
+			if (g_Kcheck == false && g_Tutorial == 1)
+			{
+				g_Kcheck = true;
+
+				//サウンドの再生
+				PlaySound(SOUND_LABEL_SE_ENTER);
+
+				/*g_Movcol = g_Moventer;*/
+
+				SetFade(MODE_GAME);
+			}
 		}
 	}
 
-	if (g_bSkip == false)
+	//前のページへ戻る処理
+	if (GetKeyboardTrigger(DIK_BACK) == true || GetGamepadTrigger(BUTTON_B, 0) == true)
 	{
-		//モデルの更新処理
-		UpdateModel();
-
-		//2Dエフェクトの更新処理
-		UpdateEffect_2D();
-
-		//if (pEdit->bUse == false)
+		if (g_Tutorial == 1)
 		{
-			//エフェクトの更新処理
-			UpdateEffect();
+			g_Tutorial = 0;
 
-			//パーティクルの更新処理
-			UpdateParticle();
+			g_aTutorial[1].bUse = false;
 
-			//メッシュの床の更新処理
-			UpdateMeshField();
+			g_aTutorial[3].bUse = false;
 
-			//メッシュシリンダーの更新処理
-			UpdateMeshCylinder();
+			//サウンドの再生
+			PlaySound(SOUND_LABEL_SE_ENTER);
 
-			//メッシュドームの更新処理
-			UpdateMeshDome();
-
-			//影の更新処理
-			UpdateShadow();
-
-			//衝撃波の更新処理
-			UpdateImpactWave();
+			/*g_Movcol = g_Moventer;*/
 		}
 	}
-
-	PrintDebugProc("チュートリアルのステップ：%d", g_aTutorial.nStep);
-
 }
 
-//==============================================================
-//チュートリアル画面の描画処理
-//==============================================================
-void DrawTutorial(int nType)
+//=================================
+//チュートリアルの描画処理
+//=================================
+void DrawTutorial(void)
 {
-	if (nType == DRAWTYPE_MAIN)
+	int nCnt;
+
+	LPDIRECT3DDEVICE9 pDevice;
+
+	//デバイスの取得
+	pDevice = GetDevice();
+
+	//頂点バッファをデータストリームに設定
+	pDevice->SetStreamSource(0, g_pVtxBuffTutorial, 0, sizeof(VERTEX_2D));
+
+	//頂点フォーマットの設定
+	pDevice->SetFVF(FVF_VERTEX_2D);
+
+	for (nCnt = 0; nCnt < NUM_TUTORIAL; nCnt++)
 	{
+		if (g_aTutorial[nCnt].bUse == true)
+		{
+			//テクスチャの設定
+			pDevice->SetTexture(0, g_apTextureTutorial[nCnt]);
 
-		//モデルの描画処理
-		DrawModel(0);
-
-		//メッシュの床の描画処理
-		DrawMeshField(DRAWFIELD_TYPE_MAIN);
-
-		//メッシュシリンダーの描画処理
-		DrawMeshCylinder();
-
-		//メッシュドームの描画処理
-		DrawMeshDome();
-
-		//影の描画処理
-		DrawShadow();
-
-		//プレイヤーの描画処理
-		DrawPlayer();
-
-		//エフェクトの描画処理
-		DrawEffect();
-
-		//パーティクルの描画処理
-		DrawParticle();
-
-		//衝撃波の描画処理
-		DrawImpactWave();
-
-		//モデルの描画処理
-		DrawModel(1);
-	}
-
-	if (nType == DRAWTYPE_UI)
-	{
-		//2Dエフェクトの描画処理
-		DrawEffect_2D();
+			//ポリゴンの描画
+			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCnt * 4, 2); //プリミティブの種類
+		}
 	}
 }
 
-//==============================================================
-//チュートリアル画面の情報取得
-//==============================================================
-Tutorial *GetTutorial(void)
-{
-	return &g_aTutorial;
-}
-
-//==============================================================
-//スキップ確認の設定処理
-//==============================================================
-void SetEnableSkip(bool bSkip)
-{
-	g_bSkip = bSkip;
-}
+////==================
+////点滅処理(ENTER)
+////==================
+//void ColEntTutorial(int nCnt)
+//{
+//
+//	VERTEX_2D *pVtx;    //頂点情報へのポインタ
+//
+//						//頂点バッファをロックし、頂点情報へのポインタを取得
+//	g_pVtxBuffTutorial->Lock(0, 0, (void**)&pVtx, 0);
+//
+//	pVtx += 8;
+//
+//	if (g_aTutorial[nCnt].col.a < 0.0f || g_aTutorial[nCnt].col.a > 1.0f)
+//	{
+//		g_Movcol *= -1.0f;
+//	}
+//
+//	g_aTutorial[nCnt].col.a -= g_Movcol;
+//
+//	//頂点カラーの設定
+//	pVtx[0].col = g_aTutorial[nCnt].col;
+//	pVtx[1].col = g_aTutorial[nCnt].col;
+//	pVtx[2].col = g_aTutorial[nCnt].col;
+//	pVtx[3].col = g_aTutorial[nCnt].col;
+//
+//	//頂点バッファをアンロックする
+//	g_pVtxBuffTutorial->Unlock();
+//
+//}
+//
+////==================
+////点滅処理(BACK)
+////==================
+//void ColBackTutorial(int nCnt)
+//{
+//	VERTEX_2D *pVtx;    //頂点情報へのポインタ
+//
+//						//頂点バッファをロックし、頂点情報へのポインタを取得
+//	g_pVtxBuffTutorial->Lock(0, 0, (void**)&pVtx, 0);
+//
+//	pVtx += 12;
+//
+//	if (g_aTutorial[nCnt].col.a < 0.0f || g_aTutorial[nCnt].col.a > 1.0f)
+//	{
+//		g_Movcol *= -1.0f;
+//	}
+//
+//	g_aTutorial[nCnt].col.a -= g_Movcol;
+//
+//	//頂点カラーの設定
+//	pVtx[0].col = g_aTutorial[nCnt].col;
+//	pVtx[1].col = g_aTutorial[nCnt].col;
+//	pVtx[2].col = g_aTutorial[nCnt].col;
+//	pVtx[3].col = g_aTutorial[nCnt].col;
+//
+//	//頂点バッファをアンロックする
+//	g_pVtxBuffTutorial->Unlock();
+//}

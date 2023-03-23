@@ -370,6 +370,13 @@ void UpdateATKPlayer(void)
 		CollisionATKPlayer(PENLIGHT_RADIUS, PENLIGHT_ANGLE, 1);
 
 		break;
+
+	case PLAYERMOTION_UP:
+
+		//çUåÇÇÃìñÇΩÇËîªíË
+		CollisionATKPlayer(PENLIGHT_RADIUS, PENLIGHT_ANGLE, 1);
+
+		break;
 	}
 }
 
@@ -378,7 +385,7 @@ void UpdateATKPlayer(void)
 //==================================================================================
 void CollisionATKPlayer(float fDistance, float fAngle, int nValue)
 {
-	PlaySound(SOUND_LABEL_SE_HIT);
+	
 }
 
 //==================================================================================
