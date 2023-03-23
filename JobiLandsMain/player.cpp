@@ -56,7 +56,7 @@ void InitPlayer(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	//各要素初期化
-	g_aPlayer.pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	g_aPlayer.pos = D3DXVECTOR3(-200, 0.0f, 0.0f);
 	g_aPlayer.posOld = g_aPlayer.pos;
 	g_aPlayer.move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_aPlayer.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -265,7 +265,7 @@ void UpdateGamePlayer(void)
 			}
 
 			//モーションの設定
-			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_WALK);
+			//SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_WALK);
 		}
 		else
 		{//ニュートラルモーション
@@ -335,8 +335,14 @@ void ControllPlayer(void)
 	if (GetGameState() == GAMESTATE_NONE && pEdit->bUse == false)
 	{//ターゲット中以外
 
-		if (GetKeyboardRelease(DIK_RETURN) == true)
-		{//エンターが押された,跳ね返し
+		if (GetKeyboardRelease(DIK_W) == true)
+		{//Wが押された,嫌なもの
+
+			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_ACTION);
+		}
+
+		if (GetKeyboardRelease(DIK_S) == true)
+		{//Wが押された,嫌なもの
 
 			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_ACTION);
 		}
@@ -344,7 +350,7 @@ void ControllPlayer(void)
 
 	PrintDebugProc(
 		"\n------プレイヤーの操作------\n"
-		"<はじき返し(仮) [ENTER]>"
+		"<はじき返し(仮) [ENTER]>\n"
 		"<位置> [%f, %f, %f]\n",
 		g_aPlayer.pos.x, g_aPlayer.pos.y, g_aPlayer.pos.z);
 
@@ -512,27 +518,29 @@ void CollisionCharPlayer(void)
 
 	bool bHit = false;
 
-	for (int nCntLaunch = 0; nCntLaunch < MAX_LAUNCH; nCntLaunch++, pLaunch++)
+	if (g_aPlayer.nState == PLAYERSTATE_NONE)
 	{
-		if (pLaunch->modelData.bUse == true)
-		{//モデルが使用されていたら
+		for (int nCntLaunch = 0; nCntLaunch < MAX_LAUNCH; nCntLaunch++, pLaunch++)
+		{
+			if (pLaunch->modelData.bUse == true)
+			{//モデルが使用されていたら
 
-			//キャラクター同士の当たり判定
-			bHit = bHitCharacter(
-				&g_aPlayer.pos, &g_aPlayer.posOld, D3DXVECTOR3(g_aPlayer.fRadius, 0.0f, g_aPlayer.fRadius), D3DXVECTOR3(-g_aPlayer.fRadius, 0.0f, -g_aPlayer.fRadius),
-				&pModel->posOrigin, pModel->vtxMax, pModel->vtxMin);
+				//キャラクター同士の当たり判定
+				bHit = bHitCharacter(
+					&g_aPlayer.pos, &g_aPlayer.posOld, D3DXVECTOR3(g_aPlayer.fRadius, 0.0f, g_aPlayer.fRadius), D3DXVECTOR3(-g_aPlayer.fRadius, 0.0f, -g_aPlayer.fRadius),
+					&pLaunch->modelData.pos, pLaunch->modelData.vtxMax, pLaunch->modelData.vtxMin);
 
-			if (bHit == true)
-			{//当たったら
+				if (bHit == true)
+				{//当たったら
 
-				//プレイヤーのヒット処理
-				HitPlayer();
+					//プレイヤーのヒット処理
+					HitPlayer();
 
-				break;
+					break;
+				}
 			}
 		}
 	}
-
 }
 
 //==================================================================================
@@ -585,7 +593,7 @@ void DrawPlayer(void)
 	if (g_aPlayer.bDisp == true && g_aPlayer.bUse == true)
 	{//使用していたら
 
-	 //ワールドマトリックスの初期化
+		//ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&g_aPlayer.mtxWorld);
 
 		//向きを反映する
@@ -642,7 +650,7 @@ void DrawPlayer(void)
 			if (g_aPlayer.aModel[nCount].bUse == true)
 			{//パーツが使用されていたら
 
-			 //頂点数分繰り返し
+				//頂点数分繰り返し
 				for (int nCntMat = 0; nCntMat < (int)g_aPlayer.aModel[nCount].dwNumMat; nCntMat++)
 				{
 					//マテリアルの設定
@@ -686,7 +694,7 @@ void SetPlayer(void)
 
 		D3DXMATERIAL *pMat;		//マテリアルデータへのポインタ
 
-								//マテリアルデータへのポインタを取得
+		//マテリアルデータへのポインタを取得
 		pMat = (D3DXMATERIAL*)g_aPlayer.aModel[nCntParts].pBuffMat->GetBufferPointer();
 
 		//頂点数分繰り返し
@@ -698,7 +706,7 @@ void SetPlayer(void)
 			if (pMat[nCntMat].pTextureFilename != NULL)
 			{//ファイルが存在する
 
-			 //テクスチャの読み込み
+				//テクスチャの読み込み
 				D3DXCreateTextureFromFile(pDevice,
 					pMat[nCntMat].pTextureFilename,
 					&g_aPlayer.aModel[nCntParts].pTexture[nCntMat]);
