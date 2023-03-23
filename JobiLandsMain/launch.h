@@ -18,14 +18,24 @@ typedef enum
 {
 	LAUNCHTYPE_GOOD = 0,		// 良い奴
 	LAUNCHTYPE_EVIL,			// 悪い奴
-	LAUNCHTYPE_MAX
+	LAUNCHTYPE_MAX				// この列挙型の総数
 }LAUNCHTYPE;
+
+//モデルの種類
+typedef enum
+{
+	LAUNCHSTATE_FLY = 0,			// 飛ぶ状態
+	LAUNCHSTATE_RETURN_POSSIBLE,	// 跳ね返し可能状態
+	LAUNCHSTATE_RETURN,				// 跳ね返し状態
+	LAUNCHSTATE_MAX					// この列挙型の総数
+}LAUNCHSTATE;
 
 //プレイヤーの構造体
 typedef struct
 {
 	Model modelData;	// モデル情報
 	float fGravity;		// 重力
+	int nScore;			// スコアを
 }Launch;
 
 //プロトタイプ宣言

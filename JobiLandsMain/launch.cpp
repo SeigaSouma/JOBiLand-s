@@ -17,9 +17,13 @@
 #include "sound.h"
 
 //マクロ定義
-#define LAUNCH_GRAVITY	(-0.3f)									// 発射物の重力
-#define LAUNCH_FLY		(-13.0f)										// 発射物の飛ぶ勢い
-#define LAUNCH_POS		(D3DXVECTOR3(230.0f, 200.0f, -100.0f))		// 発射物の位置
+#define LAUNCH_GRAVITY			(-0.3f)									// 発射物の重力
+#define LAUNCH_FLY				(-13.0f)								// 発射物の飛ぶ勢い
+#define LAUNCH_POS				(D3DXVECTOR3(230.0f, 200.0f, -100.0f))	// 発射物の位置
+#define LAUNCH_RETURN_POS		(-100.0f)								// 発射物の位置
+
+// プロトタイプ宣言
+void FlyLaunch(Launch *pLaunch);	// 発射物の飛ぶ処理
 
 //グローバル変数宣言
 Launch g_aLaunch[MAX_LAUNCH];		//発射物の情報
@@ -41,6 +45,8 @@ void InitLaunch(void)
 		g_aLaunch[nCntLaunch].modelData.vtxMin = D3DXVECTOR3(10.0f, 10.0f, 10.0f);		// モデルの最小値
 		g_aLaunch[nCntLaunch].modelData.vtxMax = D3DXVECTOR3(-10.0f, -10.0f, -10.0f);	// モデルの最大値
 		g_aLaunch[nCntLaunch].modelData.nParent = -1;									// 親の番号
+		g_aLaunch[nCntLaunch].modelData.nType = LAUNCHTYPE_GOOD;						// 種類
+		g_aLaunch[nCntLaunch].modelData.nState = LAUNCHSTATE_FLY;						// 状態
 		g_aLaunch[nCntLaunch].modelData.bUse = false;									// 使用状況
 
 		// 情報の初期化
@@ -72,15 +78,42 @@ void UpdateLaunch(void)
 	{
 		if (g_aLaunch[nCntLaunch].modelData.bUse == true)
 		{ // 使用している場合
-			
-			// 重力をかける
-			g_aLaunch[nCntLaunch].fGravity += LAUNCH_GRAVITY;
 
-			// 重力を更新する
-			g_aLaunch[nCntLaunch].modelData.move.y = g_aLaunch[nCntLaunch].fGravity;
+			switch (g_aLaunch[nCntLaunch].modelData.nState)
+			{
+			case LAUNCHSTATE_FLY:		// 飛ぶ状態
 
-			// 位置を更新する
-			g_aLaunch[nCntLaunch].modelData.pos += g_aLaunch[nCntLaunch].modelData.move;
+				// 重力をかける
+				g_aLaunch[nCntLaunch].fGravity += LAUNCH_GRAVITY;
+
+				// 発射物の飛ぶ処理
+				FlyLaunch(&g_aLaunch[nCntLaunch]);
+
+				if (g_aLaunch[nCntLaunch].modelData.pos.x <= LAUNCH_RETURN_POS)
+				{ // 位置が一定を過ぎた場合
+
+					// 跳ね返し可能状態にする
+					g_aLaunch[nCntLaunch].modelData.nState = LAUNCHSTATE_RETURN_POSSIBLE;
+				}
+
+				break;					// 抜け出す
+
+			case LAUNCHSTATE_RETURN_POSSIBLE:		// 跳ね返し可能状態
+
+				// 重力をかける
+				g_aLaunch[nCntLaunch].fGravity += LAUNCH_GRAVITY;
+
+				// 発射物の飛ぶ処理
+				FlyLaunch(&g_aLaunch[nCntLaunch]);
+
+				break;					// 抜け出す
+
+			case LAUNCHSTATE_RETURN:	// 跳ね返し状態
+
+
+
+				break;					// 抜け出す
+			}
 
 			if (g_aLaunch[nCntLaunch].modelData.pos.y <= 0.0f)
 			{ // 位置が一定数以下になると
@@ -88,10 +121,16 @@ void UpdateLaunch(void)
 				// 位置を補正する
 				g_aLaunch[nCntLaunch].modelData.pos.y = 0.0f;
 
+				// 移動量を初期化する
 				g_aLaunch[nCntLaunch].modelData.move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+				// 使用しない
+				g_aLaunch[nCntLaunch].modelData.bUse = false;
 			}
 		}
 	}
+
+	PrintDebugProc("発射物の状態：[%d]\n", g_aLaunch[0].modelData.nState);
 }
 
 //==================================================================================
@@ -164,7 +203,9 @@ void SetLaunch(void)
 		if (g_aLaunch[nCntLaunch].modelData.bUse == false)
 		{ // 使用していない場合
 
+			// 情報の設定
 			g_aLaunch[nCntLaunch].modelData.nType = LAUNCHTYPE_GOOD;					// 良い物
+			g_aLaunch[nCntLaunch].modelData.nState = LAUNCHSTATE_FLY;						// 状態
 
 			switch (g_aLaunch[nCntLaunch].modelData.nType)
 			{
@@ -203,4 +244,16 @@ void SetLaunch(void)
 Launch *GetLaunch(void)
 {
 	return &g_aLaunch[0];
+}
+
+//==================================================================================
+// 発射物の飛ぶ処理
+//==================================================================================
+void FlyLaunch(Launch *pLaunch)
+{
+	// 重力を更新する
+	pLaunch->modelData.move.y = pLaunch->fGravity;
+
+	// 位置を更新する
+	pLaunch->modelData.pos += pLaunch->modelData.move;
 }
