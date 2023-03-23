@@ -35,7 +35,6 @@ void ControllPlayer(void);
 void ReadSetPlayer(void);
 void ReadSetMotionPlayer(void);
 void CollisionCharPlayer(void);
-void CollisionWallPlayer(void);
 void UpdateStatePlayer(void);
 void UpdateATKPlayer(void);
 void CollisionATKPlayer(float fDistance, float fAngle, int nValue);
@@ -493,7 +492,6 @@ void UpdateStatePlayer(void)
 //==================================================================================
 void CollisionCharPlayer(void)
 {
-
 	//モデルの情報取得
 	ModelModel *pModel = GetModel();
 
@@ -502,7 +500,7 @@ void CollisionCharPlayer(void)
 		if (pModel->bUse == true)
 		{//モデルが使用されていたら
 
-		 //キャラクター同士の当たり判定
+			//キャラクター同士の当たり判定
 			CollisionCharacter(
 				&g_aPlayer.pos, &g_aPlayer.posOld, D3DXVECTOR3(g_aPlayer.fRadius, 0.0f, g_aPlayer.fRadius), D3DXVECTOR3(-g_aPlayer.fRadius, 0.0f, -g_aPlayer.fRadius),
 				&pModel->posOrigin, pModel->vtxMax, pModel->vtxMin);
