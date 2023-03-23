@@ -46,6 +46,8 @@ void ReturnLaunch(Launch *pLaunch);						// 発射物の跳ね返し処理
 void DistanceReturnLaunch(Launch *pLaunch);				// 発射物の距離演算処理
 void LaunchReturnRange(Launch *pLaunch);				// 発射物の範囲測定処理
 
+void CollisionLaunchPlayer(Launch *pLaunch);
+
 //グローバル変数宣言
 Launch g_aLaunch[MAX_LAUNCH];		// 発射物の情報
 int g_nSetLaunchCount;				// 発射物の設定カウント
@@ -180,6 +182,8 @@ void UpdateLaunch(void)
 				// 使用しない
 				g_aLaunch[nCntLaunch].modelData.bUse = false;
 			}
+
+			CollisionLaunchPlayer(&g_aLaunch[nCntLaunch]);
 		}
 	}
 
@@ -216,6 +220,34 @@ void UpdateLaunch(void)
 	// 発射物の状態のデバッグ表示
 	PrintDebugProc("発射物の状態：[%d]\n", g_aLaunch[0].modelData.nState);
 	PrintDebugProc("発射物の範囲：[%d]\n", g_aLaunch[0].nScore);
+}
+
+//==================================================================================
+//発射物とプレイヤーの当たり判定
+//==================================================================================
+void CollisionLaunchPlayer(Launch *pLaunch)
+{
+	//プレイヤーの情報取得
+	Player *pPlayer = GetPlayer();
+
+	bool bHit = false;
+
+	if (pPlayer->nState == PLAYERSTATE_NONE/* && pLaunch->modelData.pos.y <= 50.0f*/ && pLaunch->modelData.nState == LAUNCHSTATE_RETURN_POSSIBLE)
+	{
+		
+
+			//キャラクター同士の当たり判定
+			bHit = bHitCharacter(
+				&pLaunch->modelData.pos, &pLaunch->modelData.posOld, pLaunch->modelData.vtxMax, pLaunch->modelData.vtxMin,
+				&pPlayer->pos, D3DXVECTOR3(pPlayer->fRadius, 0.0f, pPlayer->fRadius), D3DXVECTOR3(-pPlayer->fRadius, 0.0f, -pPlayer->fRadius));
+
+			if (bHit == true)
+			{//当たったら
+
+				 //プレイヤーのヒット処理
+				HitPlayer();
+			}
+	}
 }
 
 //==================================================================================
