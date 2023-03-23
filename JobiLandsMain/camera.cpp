@@ -316,7 +316,7 @@ void UpdateCamera(void)
 			switch (GetMode())
 			{
 			case MODE_GAME:
-				UpdateGameCamera(nCntCamera);
+				//UpdateGameCamera(nCntCamera);
 				break;
 
 			case MODE_TUTORIAL:
