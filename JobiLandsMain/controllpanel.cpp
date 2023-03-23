@@ -196,15 +196,17 @@ void UpdateGameControllPanel(void)
 		}
 	}
 
-	for (int nCntControllPanel = 0; nCntControllPanel < CONTROLLPANEL_VTX_MAX; nCntControllPanel++)
+	pVtx += 4;
+	for (int nCntControllPanel = 0; nCntControllPanel < 2; nCntControllPanel++)
 	{
-		if (g_aControllPanel.nSelect + 1 == nCntControllPanel)
-		{
+		if (g_aControllPanel.nSelect != nCntControllPanel)
+		{//選択肢とコントロールパネルが同じだったら
+
 			//頂点カラー
-			pVtx[0].col = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
-			pVtx[1].col = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
-			pVtx[2].col = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
-			pVtx[3].col = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
+			pVtx[0].col = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
+			pVtx[1].col = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
+			pVtx[2].col = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
+			pVtx[3].col = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
 		}
 		else
 		{

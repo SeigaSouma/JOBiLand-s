@@ -455,7 +455,7 @@ void UpdateTitleCamera(int nCntCamera)
 //==================================================================================
 void MoveCameraInput(int nCntCamera)
 {
-	if ((GetMode() == MODE_GAME && GetGameState() == GAMESTATE_NONE && g_aCamera[nCntCamera].nState == CAMERASTATE_NONE) ||
+	if ((GetMode() == MODE_GAME && *GetGameState() == GAMESTATE_NONE && g_aCamera[nCntCamera].nState == CAMERASTATE_NONE) ||
 		GetMode() == MODE_TUTORIAL)
 	{
 		//É}ÉEÉXÇ≈ÇÃà⁄ìÆèàóù
@@ -563,7 +563,7 @@ void MoveCameraMouse(int nCntCamera)
 void MoveCameraV(int nCntCamera)
 {
 
-	if ((GetMode() == MODE_GAME && GetGameState() == GAMESTATE_NONE && g_aCamera[nCntCamera].nState == CAMERASTATE_NONE) ||
+	if ((GetMode() == MODE_GAME && *GetGameState() == GAMESTATE_NONE && g_aCamera[nCntCamera].nState == CAMERASTATE_NONE) ||
 		GetMode() == MODE_TUTORIAL)
 	{
 
@@ -609,7 +609,7 @@ void MoveCameraV(int nCntCamera)
 //==================================================================================
 void MoveCameraR(int nCntCamera)
 {
-	if ((GetMode() == MODE_GAME && GetGameState() == GAMESTATE_NONE && g_aCamera[nCntCamera].nState == CAMERASTATE_NONE) ||
+	if ((GetMode() == MODE_GAME && *GetGameState() == GAMESTATE_NONE && g_aCamera[nCntCamera].nState == CAMERASTATE_NONE) ||
 		GetMode() == MODE_TUTORIAL)
 	{
 		//ê˘âÒ

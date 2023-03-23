@@ -548,7 +548,7 @@ void DrawObject(int nType)
 		break;
 
 	case MODE_TUTORIAL:		//チュートリアル画面
-		DrawTutorial(nType);
+		DrawTutorial();
 		break;
 
 	case MODE_GAME:			//ゲーム画面

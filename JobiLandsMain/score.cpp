@@ -80,11 +80,18 @@ void UninitScore(void)
 //==============================================================
 void UpdateScore(void)
 {
-	//現在のスコア
-	g_Score.nScore = 333;
 
 	//数字のテクスチャ設定
 	SetScore();
+}
+
+//==============================================================
+//スコアの加算処理
+//==============================================================
+void AddScore(int nValue)
+{
+	//現在のスコア
+	g_Score.nScore += nValue;
 }
 
 //==============================================================
@@ -194,7 +201,7 @@ void CreatScoreBuff(void)
 
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data\\TEXTURE\\number_04.png",
+		"data\\TEXTURE\\number_05.png",
 		&g_pTextureScore);
 
 	//頂点バッファの生成

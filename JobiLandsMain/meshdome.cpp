@@ -243,7 +243,7 @@ void UpdateMeshDome(void)
 {
 	//col.r += ((1.0f - ‰Šú’l) / GAME_TIME)
 
-	if (GetMode() == MODE_GAME && GetGameState() != GAMESTATE_START)
+	if (GetMode() == MODE_GAME && *GetGameState() != GAMESTATE_START)
 	{//ƒQ[ƒ€‚Ì
 
 		//F•Ï‚¦‚é

@@ -333,16 +333,16 @@ void ControllPlayer(void)
 	//エディットの情報取得
 	Edit  *pEdit = GetEdit();
 
-	if (GetGameState() == GAMESTATE_NONE && pEdit->bUse == false)
+	if (*GetGameState() == GAMESTATE_NONE && pEdit->bUse == false)
 	{//ターゲット中以外
 
-		if (GetKeyboardTrigger(DIK_W) == true)
+		if (GetKeyboardTrigger(DIK_W) == true || GetGamepadTrigger(BUTTON_A, 0))
 		{//Wが押された,嫌なもの
 			PlaySound(SOUND_LABEL_SE_ARMMOVE);
 			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
 		}
 
-		if (GetKeyboardTrigger(DIK_S) == true)
+		if (GetKeyboardTrigger(DIK_S) == true || GetGamepadTrigger(BUTTON_B, 0))
 		{//Wが押された,嫌なもの
 			PlaySound(SOUND_LABEL_SE_ARMMOVE);
 			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_DOWN);
@@ -370,6 +370,13 @@ void UpdateATKPlayer(void)
 		CollisionATKPlayer(PENLIGHT_RADIUS, PENLIGHT_ANGLE, 1);
 
 		break;
+
+	case PLAYERMOTION_UP:
+
+		//攻撃の当たり判定
+		CollisionATKPlayer(PENLIGHT_RADIUS, PENLIGHT_ANGLE, 1);
+
+		break;
 	}
 }
 
@@ -378,7 +385,7 @@ void UpdateATKPlayer(void)
 //==================================================================================
 void CollisionATKPlayer(float fDistance, float fAngle, int nValue)
 {
-	PlaySound(SOUND_LABEL_SE_HIT);
+	
 }
 
 //==================================================================================

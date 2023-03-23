@@ -22,6 +22,8 @@ typedef enum
 	SOUND_LABEL_SE_CURSOR,		// カーソル移動
 	SOUND_LABEL_SE_ARMMOVE,		//ロボットの腕が動く音
 	SOUND_LABEL_SE_HIT,			//ロボットの腕が当たる音
+	SOUND_LABEL_SE_SHOT,		//発射音
+	SOUND_LABEL_SE_ENTER,		//エンターキーが入力された処理
 	SOUND_LABEL_MAX,
 } SOUND_LABEL;
 

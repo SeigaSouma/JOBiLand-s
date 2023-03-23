@@ -66,8 +66,6 @@ typedef struct
 void InitTutorial(void);
 void UninitTutorial(void);
 void UpdateTutorial(void);
-void DrawTutorial(int nType);
-Tutorial *GetTutorial(void);
-void SetEnableSkip(bool bSkip);
+void DrawTutorial(void);
 
 #endif
