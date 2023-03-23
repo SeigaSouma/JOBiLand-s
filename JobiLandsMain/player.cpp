@@ -27,7 +27,7 @@
 #define ULT_WAIT	(100)	//待ち状態
 #define FLAG_POS	(150.0f)	//旗の位置
 #define FLEN		(800.0f)
-#define PLAYER_TXT	"data\\TEXT\\motion_set_player.txt"
+#define PLAYER_TXT	"data\\TEXT\\motion_RobotArm.txt"
 
 //プロトタイプ宣言
 void UpdateGamePlayer(void);
@@ -56,7 +56,7 @@ void InitPlayer(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	//各要素初期化
-	g_aPlayer.pos = D3DXVECTOR3(-200, 0.0f, 0.0f);
+	g_aPlayer.pos = D3DXVECTOR3(-300.0f, 0.0f, 0.0f);
 	g_aPlayer.posOld = g_aPlayer.pos;
 	g_aPlayer.move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_aPlayer.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -270,7 +270,8 @@ void UpdateGamePlayer(void)
 		else
 		{//ニュートラルモーション
 
-			if (g_aPlayer.aMotion.nNowMotionNum != PLAYERMOTION_ACTION)
+			if (g_aPlayer.aMotion.nNowMotionNum != PLAYERMOTION_DOWN &&
+				g_aPlayer.aMotion.nNowMotionNum != PLAYERMOTION_UP)
 			{
 				//攻撃状態解除
 				g_aPlayer.bATK = false;
@@ -335,16 +336,16 @@ void ControllPlayer(void)
 	if (GetGameState() == GAMESTATE_NONE && pEdit->bUse == false)
 	{//ターゲット中以外
 
-		if (GetKeyboardRelease(DIK_W) == true)
+		if (GetKeyboardTrigger(DIK_W) == true)
 		{//Wが押された,嫌なもの
 
-			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_ACTION);
+			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
 		}
 
-		if (GetKeyboardRelease(DIK_S) == true)
+		if (GetKeyboardTrigger(DIK_S) == true)
 		{//Wが押された,嫌なもの
 
-			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_ACTION);
+			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_DOWN);
 		}
 	}
 
@@ -363,7 +364,7 @@ void UpdateATKPlayer(void)
 {
 	switch (g_aPlayer.aMotion.nNowMotionNum)
 	{
-	case PLAYERMOTION_ACTION:
+	case PLAYERMOTION_DOWN:
 
 		//攻撃の当たり判定
 		CollisionATKPlayer(PENLIGHT_RADIUS, PENLIGHT_ANGLE, 1);

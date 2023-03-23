@@ -850,6 +850,11 @@ void XLoadMeshModel(void)
 					&g_aXLoadMeshModel[nCntFileNum].pTexture[nCntMat]);
 			}
 		}
+
+
+		//モデルの全頂点チェック
+		CheckVtx(g_aXLoadMeshModel[nCntFileNum].rot.y, &g_aXLoadMeshModel[nCntFileNum].vtxMax, &g_aXLoadMeshModel[nCntFileNum].vtxMin, g_aXLoadMeshModel[nCntFileNum].pMesh, g_aXLoadMeshModel[nCntFileNum].pVtxBuff);
+
 	}
 }
 
