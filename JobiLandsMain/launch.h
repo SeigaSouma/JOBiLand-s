@@ -8,6 +8,7 @@
 #define _LAUNCH_H_		//二重インクルード防止のマクロを定義する
 
 //マクロ定義
+#define MAX_LAUNCH		(128)			// 発射物の最大数
 
 #include "main.h"
 #include "model.h"
@@ -33,5 +34,6 @@ void UninitLaunch(void);
 void UpdateLaunch(void);
 void DrawLaunch(void);
 void SetLaunch(void);
+Launch *GetLaunch(void);
 
 #endif

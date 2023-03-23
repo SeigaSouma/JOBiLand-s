@@ -17,7 +17,6 @@
 #include "sound.h"
 
 //マクロ定義
-#define MAX_LAUNCH		(128)										// 発射物の最大数
 #define LAUNCH_GRAVITY	(-0.3f)									// 発射物の重力
 #define LAUNCH_FLY		(-13.0f)										// 発射物の飛ぶ勢い
 #define LAUNCH_POS		(D3DXVECTOR3(230.0f, 200.0f, -100.0f))		// 発射物の位置
@@ -196,4 +195,12 @@ void SetLaunch(void)
 			break;		// 抜け出す
 		}
 	}
+}
+
+//==================================================================================
+//発射物の情報取得
+//==================================================================================
+Launch *GetLaunch(void)
+{
+	return &g_aLaunch[0];
 }

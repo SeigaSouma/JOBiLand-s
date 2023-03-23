@@ -114,5 +114,6 @@ void DrawPlayer(void);
 Player *GetPlayer(void);
 void SetPlayer(void);
 D3DXMATRIX GetParentMatrix(int nIdxParts);
+void HitPlayer(void);
 
 #endif
