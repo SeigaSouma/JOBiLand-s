@@ -91,7 +91,7 @@ void InitLaunch(void)
 	g_nSetLaunchCount = 0;
 
 	// レベルを初期化する
-	g_nLevel = 12;
+	g_nLevel = 0;
 
 	// 遷移までのカウントを初期化
 	g_nSetLaunch = 0;
