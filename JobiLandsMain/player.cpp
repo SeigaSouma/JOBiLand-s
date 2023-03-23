@@ -333,7 +333,7 @@ void ControllPlayer(void)
 	//エディットの情報取得
 	Edit  *pEdit = GetEdit();
 
-	if (GetGameState() == GAMESTATE_NONE && pEdit->bUse == false)
+	if (*GetGameState() == GAMESTATE_NONE && pEdit->bUse == false)
 	{//ターゲット中以外
 
 		//if (GetKeyboardTrigger(DIK_W) == true)
@@ -341,6 +341,11 @@ void ControllPlayer(void)
 		//	PlaySound(SOUND_LABEL_SE_ARMMOVE);
 		//	SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
 		//}
+		if (GetKeyboardTrigger(DIK_W) == true)
+		{//Wが押された,嫌なもの4
+			PlaySound(SOUND_LABEL_SE_ARMMOVE);
+			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
+		}
 
 		//if (GetKeyboardTrigger(DIK_S) == true)
 		//{//Wが押された,嫌なもの

@@ -19,6 +19,7 @@ typedef enum
 	GAMESTATE_END,			//終了状態
 	GAMESTATE_EDIT,			//エディットモード
 	GAMESTATE_START,		//出現状態
+	GAMESTATE_SHOT,			//撃たれている状態
 	GAMESTATE_MAX
 } GAMESTATE;
 
@@ -28,7 +29,7 @@ void UninitGame(void);
 void UpdateGame(void);
 void DrawGame(int nType);
 void SetGameState(GAMESTATE state, int nCounter);
-GAMESTATE GetGameState(void);
+GAMESTATE *GetGameState(void);
 void SetEnablePause(bool bPouse);
 bool GetPause(void);
 
