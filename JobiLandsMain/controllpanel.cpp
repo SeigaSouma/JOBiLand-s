@@ -179,7 +179,7 @@ void UpdateGameControllPanel(void)
 
 	Launch_Info *pLaunchInfo = GetLaundhLevel();	// 発射物のレベルの取得処理
 
-	if (pLaunchInfo->nAngle == -1)
+	//if (pLaunchInfo->nAngle == -1)
 	{
 		if (GetKeyboardTrigger(DIK_S) == true)
 		{ // ENTERキーを押した場合
