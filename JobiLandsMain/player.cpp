@@ -338,13 +338,13 @@ void ControllPlayer(void)
 
 		if (GetKeyboardTrigger(DIK_W) == true)
 		{//WÇ™âüÇ≥ÇÍÇΩ,åôÇ»Ç‡ÇÃ
-
+			PlaySound(SOUND_LABEL_SE_ARMMOVE);
 			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
 		}
 
 		if (GetKeyboardTrigger(DIK_S) == true)
 		{//WÇ™âüÇ≥ÇÍÇΩ,åôÇ»Ç‡ÇÃ
-
+			PlaySound(SOUND_LABEL_SE_ARMMOVE);
 			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_DOWN);
 		}
 	}
@@ -368,6 +368,7 @@ void UpdateATKPlayer(void)
 
 		//çUåÇÇÃìñÇΩÇËîªíË
 		CollisionATKPlayer(PENLIGHT_RADIUS, PENLIGHT_ANGLE, 1);
+
 		break;
 	}
 }
@@ -377,7 +378,7 @@ void UpdateATKPlayer(void)
 //==================================================================================
 void CollisionATKPlayer(float fDistance, float fAngle, int nValue)
 {
-	
+	PlaySound(SOUND_LABEL_SE_HIT);
 }
 
 //==================================================================================
