@@ -202,9 +202,6 @@ void UpdateGame(void)
 		//2Dエフェクトの更新処理
 		UpdateEffect_2D();
 
-		// 発射物の更新
-		UpdateLaunch();
-
 		if (pEdit->bUse == false)
 		{
 			//if (pCamera->nState != CAMERASTATE_MANYSPAWN && pCutin->bUse == false)
@@ -227,6 +224,9 @@ void UpdateGame(void)
 
 				//メッシュドームの更新処理
 				UpdateMeshDome();
+
+				// 発射物の更新
+				UpdateLaunch();
 
 				//プレイヤーの更新処理
 				UpdatePlayer();
