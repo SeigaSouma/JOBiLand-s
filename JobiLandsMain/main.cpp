@@ -44,7 +44,7 @@ void DrawObject(int nType);
 LPDIRECT3D9 g_pD3D = NULL;						//Direct3Dオブジェクトへのポインタ
 LPDIRECT3DDEVICE9 g_pD3DDevice = NULL;			//Direct3Dデバイスへのポインタ
 int g_nCountFPS = 0;							//FPSカウンタ
-MODE g_mode = MODE_GAME;						//現在のモード
+MODE g_mode = MODE_TITLE;						//現在のモード
 
 //==============================================================
 //メイン関数
@@ -548,7 +548,7 @@ void DrawObject(int nType)
 		break;
 
 	case MODE_TUTORIAL:		//チュートリアル画面
-		DrawTutorial(nType);
+		DrawTutorial();
 		break;
 
 	case MODE_GAME:			//ゲーム画面
