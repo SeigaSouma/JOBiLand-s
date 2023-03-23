@@ -342,7 +342,7 @@ void ReturnLaunch(Launch *pLaunch)
 {
 	Player *pPlayer = GetPlayer();		// プレイヤーの情報を取得する
 
-	if (GetKeyboardTrigger(DIK_RETURN) == true)
+	if (GetKeyboardTrigger(DIK_W) == true)
 	{ // ENTERキーを押した場合
 
 		// 重力を初期化する

@@ -48,7 +48,8 @@ typedef enum
 typedef enum
 {
 	PLAYERMOTION_DEF = 0,	//ニュートラルモーション
-	PLAYERMOTION_ACTION,	//アクションモーション
+	PLAYERMOTION_UP,	//打ち上げモーション
+	PLAYERMOTION_DOWN,	//内下げモーション
 	PLAYERMOTION_MAX
 }PLAYERMOTION;
 

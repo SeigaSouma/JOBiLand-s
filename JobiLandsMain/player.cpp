@@ -270,7 +270,8 @@ void UpdateGamePlayer(void)
 		else
 		{//ニュートラルモーション
 
-			if (g_aPlayer.aMotion.nNowMotionNum != PLAYERMOTION_ACTION)
+			if (g_aPlayer.aMotion.nNowMotionNum != PLAYERMOTION_DOWN &&
+				g_aPlayer.aMotion.nNowMotionNum != PLAYERMOTION_UP)
 			{
 				//攻撃状態解除
 				g_aPlayer.bATK = false;
@@ -335,16 +336,16 @@ void ControllPlayer(void)
 	if (GetGameState() == GAMESTATE_NONE && pEdit->bUse == false)
 	{//ターゲット中以外
 
-		if (GetKeyboardRelease(DIK_W) == true)
+		if (GetKeyboardTrigger(DIK_W) == true)
 		{//Wが押された,嫌なもの
 
-			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_ACTION);
+			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
 		}
 
-		if (GetKeyboardRelease(DIK_S) == true)
+		if (GetKeyboardTrigger(DIK_S) == true)
 		{//Wが押された,嫌なもの
 
-			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_ACTION);
+			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_DOWN);
 		}
 	}
 
@@ -363,7 +364,7 @@ void UpdateATKPlayer(void)
 {
 	switch (g_aPlayer.aMotion.nNowMotionNum)
 	{
-	case PLAYERMOTION_ACTION:
+	case PLAYERMOTION_DOWN:
 
 		//攻撃の当たり判定
 		CollisionATKPlayer(PENLIGHT_RADIUS, PENLIGHT_ANGLE, 1);
