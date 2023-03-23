@@ -48,18 +48,7 @@ typedef enum
 typedef enum
 {
 	PLAYERMOTION_DEF = 0,	//ニュートラルモーション
-	PLAYERMOTION_WALK,		//移動モーション
 	PLAYERMOTION_ACTION,	//アクションモーション
-	PLAYERMOTION_DISPATCHL, //派遣モーション(チビデブ)
-	PLAYERMOTION_DISPATCHR, //派遣モーション(ひょろがり)
-	PLAYERMOTION_RETURNL,   //帰ってこいモーションパターン1
-	PLAYERMOTION_RETURNR,   //帰ってこいモーションパターン2
-	PLAYERMOTION_MOVEACTION,	//移動催眠モーション
-	PLAYERMOTION_MOVECURSOR,    //派遣カーソル移動中モーション
-	PLAYERMOTION_FEVERWALK,     //フィーバー中の移動モーション
-	PLAYERMOTION_FEVERACTION,   //フィーバー中のアクションモーション
-	PLAYERMOTION_FEVERMOVEACTION,   //フィーバー中の移動アクションモーション
-	PLAYERMOTION_RANKING,       //ランキングのモーション
 	PLAYERMOTION_MAX
 }PLAYERMOTION;
 
@@ -67,7 +56,8 @@ typedef enum
 typedef enum
 {
 	PLAYERSTATE_NONE = 0,	//何もしていない状態
-	PLAYERSTATE_FEAVER,		//フィーバー状態
+	PLAYERSTATE_DMG,		//ダメージ状態
+	PLAYERSTATE_INVINCIBLE,	//透明状態
 	PLAYERSTATE_MAX
 }PLAYERSTATE;
 
@@ -113,5 +103,6 @@ void DrawPlayer(void);
 Player *GetPlayer(void);
 void SetPlayer(void);
 D3DXMATRIX GetParentMatrix(int nIdxParts);
+void HitPlayer(void);
 
 #endif

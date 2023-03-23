@@ -27,6 +27,7 @@
 #include "pause.h"
 #include "sound.h"
 #include "nofade.h"
+#include "launch.h"
 
 //プロトタイプ宣言
 void DebugEdit(void);
@@ -80,11 +81,17 @@ void InitGame(void)
 	//ポーズメニューの初期化処理
 	InitPause();
 
+	//スコアの初期化処理
+	InitScore();
+
 	//ゲームのカメラ初期化処理
 	InitCamera();
 
-	//サウンドの再生
-	PlaySound(SOUND_LABEL_BGM_GAME);
+	// 発射物の初期化処理
+	InitLaunch();
+
+	////サウンドの再生
+	//PlaySound(SOUND_LABEL_BGM_GAME);
 
 	//各種変数初期化
 	g_gameState = GAMESTATE_NONE;
@@ -140,6 +147,11 @@ void UninitGame(void)
 	//メッシュの床の終了処理
 	UninitMeshField();
 
+	// 発射物の終了
+	UninitLaunch();
+
+	//スコアの終了処理
+	UninitScore();
 }
 
 //==============================================================
@@ -159,7 +171,7 @@ void UpdateGame(void)
 
 	if (GetFade() == FADE_NONE)
 	{//何もしていないとき
-		if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true)
+		if (GetKeyboardTrigger(DIK_F2) == true)
 		{
 			SetFade(MODE_RESULT);
 		}
@@ -175,6 +187,9 @@ void UpdateGame(void)
 
 		//2Dエフェクトの更新処理
 		UpdateEffect_2D();
+
+		// 発射物の更新
+		UpdateLaunch();
 
 		if (pEdit->bUse == false)
 		{
@@ -210,6 +225,10 @@ void UpdateGame(void)
 
 				////軌跡の更新処理
 				//UpdateMeshOrbit();
+
+				//スコアの更新処理
+				UpdateScore();
+
 			}
 		}
 	}
@@ -265,6 +284,9 @@ void DrawGame(int nType)
 		//モデルの描画処理
 		DrawModel(0);
 
+		// 発射物の描画処理
+		DrawLaunch();
+
 		//メッシュの床の描画処理
 		DrawMeshField(DRAWFIELD_TYPE_MAIN);
 
@@ -314,10 +336,12 @@ void DrawGame(int nType)
 
 		if (g_gameState != GAMESTATE_START)
 		{
-
 			//2Dエフェクトの描画処理
 			DrawEffect_2D();
 		}
+
+		//スコアの描画処理
+		DrawScore();
 
 		if (g_bPause == true)
 		{//ポーズメニューが使われているとき
@@ -411,5 +435,5 @@ void SetGameEnd(void)
 	//pPlayer->pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	////ニュートラルモーション設定
-	//SetMotisonPlayer(PLAYERMOTION_DEF);
+	//SetMotionPlayer(PLAYERMOTION_DEF);
 }

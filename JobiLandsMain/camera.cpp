@@ -235,7 +235,7 @@ void InitGameCamera(void)
 
 	for (int nCntCamera = 0; nCntCamera < CAMERATYPE_MAX; nCntCamera++)
 	{
-		g_aCamera[nCntCamera].posR = D3DXVECTOR3(0.0f, 50.0f, -500.0f);		//注視点
+		g_aCamera[nCntCamera].posR = D3DXVECTOR3(0.0f, 50.0f, 0.0f);		//注視点
 		g_aCamera[nCntCamera].posV = D3DXVECTOR3(0.0f, 200.0f, g_aCamera[nCntCamera].posR.z + -400.0f);	//視点
 		g_aCamera[nCntCamera].vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);		//上方向ベクトル
 		g_aCamera[nCntCamera].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//移動量
@@ -243,8 +243,8 @@ void InitGameCamera(void)
 		g_aCamera[nCntCamera].nMoveStep = 0;			//段階
 		g_aCamera[nCntCamera].nCntStep = 0;			//段階のカウント
 
-		g_aCamera[nCntCamera].fDistance = 800;	//距離
-		g_aCamera[nCntCamera].rot = D3DXVECTOR3(0.0f, 0.0f, -0.35f);	//向き
+		g_aCamera[nCntCamera].fDistance = 505.0f;	//距離
+		g_aCamera[nCntCamera].rot = D3DXVECTOR3(0.0f, 0.0f, -0.15f);	//向き
 
 		g_aCamera[nCntCamera].bBackFollow = false;		//背面追従
 		g_aCamera[nCntCamera].nCntBackFollow = 0;		//追従カウント
@@ -254,7 +254,7 @@ void InitGameCamera(void)
 
 		g_aCamera[nCntCamera].rotVDest = g_aCamera[nCntCamera].rot;	//目標の向き
 		g_aCamera[nCntCamera].rotVDiff = 0.0f;			//目標の視点の差分
-		g_aCamera[nCntCamera].bFollow = true;	//追従ON
+		g_aCamera[nCntCamera].bFollow = false;	//追従ON
 
 		//カメラごとの設定
 		switch (nCntCamera)
@@ -264,22 +264,9 @@ void InitGameCamera(void)
 			g_aCamera[nCntCamera].viewport.Y = 0;	//描画する画面の左上Y座標
 			g_aCamera[nCntCamera].viewport.Width = SCREEN_WIDTH;	//描画する画面の幅
 			g_aCamera[nCntCamera].viewport.Height = SCREEN_HEIGHT;	//描画する画面の高さ
-			
-			g_aCamera[nCntCamera].posV.x = (pPlayer->pos.x + sinf(D3DX_PI + pPlayer->rot.y) * 90.0f) + cosf(g_aCamera[nCntCamera].rot.z) * sinf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
-			g_aCamera[nCntCamera].posV.z = (pPlayer->pos.z + cosf(D3DX_PI + pPlayer->rot.y) * 90.0f) + cosf(g_aCamera[nCntCamera].rot.z) * cosf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
-			g_aCamera[nCntCamera].posV.y = DIS_Y + sinf(g_aCamera[nCntCamera].rot.z) * -g_aCamera[nCntCamera].fDistance;
-
-			g_aCamera[nCntCamera].posV.x = (pPlayer->pos.x + sinf(D3DX_PI + pPlayer->rot.y) * 90.0f) + cosf(g_aCamera[nCntCamera].rot.z) * sinf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
-			g_aCamera[nCntCamera].posV.z = (pPlayer->pos.z + cosf(D3DX_PI + pPlayer->rot.y) * 90.0f) + cosf(g_aCamera[nCntCamera].rot.z) * cosf(g_aCamera[nCntCamera].rot.y) * -g_aCamera[nCntCamera].fDistance;
-			g_aCamera[nCntCamera].posV.y = DIS_Y + sinf(g_aCamera[nCntCamera].rot.z) * -g_aCamera[nCntCamera].fDistance;
-
-			//注視点の代入処理
-			g_aCamera[nCntCamera].posR.x = g_aCamera[nCntCamera].posV.x + cosf(g_aCamera[nCntCamera].rot.z) * sinf(g_aCamera[nCntCamera].rot.y) * g_aCamera[nCntCamera].fDistance;
-			g_aCamera[nCntCamera].posR.z = g_aCamera[nCntCamera].posV.z + cosf(g_aCamera[nCntCamera].rot.z) * cosf(g_aCamera[nCntCamera].rot.y) * g_aCamera[nCntCamera].fDistance;
-			g_aCamera[nCntCamera].posR.y = g_aCamera[nCntCamera].posV.y + sinf(g_aCamera[nCntCamera].rot.z) * g_aCamera[nCntCamera].fDistance;
 
 			//注視点の位置更新
-			SetCameraR(nCntCamera);
+			//SetCameraR(nCntCamera);
 		break;
 
 		case CAMERATYPE_UI:

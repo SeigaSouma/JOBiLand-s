@@ -63,6 +63,6 @@ typedef struct
 
 //プロトタイプ宣言
 void UpdateMotion(MotionData *aMotionData, Motion *aMotion, Model *aParts, D3DXVECTOR3 *pPos);
-void SetMotison(Motion *aMotion, int nMotionType);
+void SetMotion(Motion *aMotion, int nMotionType);
 
 #endif
