@@ -20,9 +20,14 @@
 //マクロ定義
 #define LAUNCH_GRAVITY			(-0.3f)									// 発射物の重力
 #define LAUNCH_FLY				(-13.0f)								// 発射物の飛ぶ勢い
-#define LAUNCH_POS				(D3DXVECTOR3(230.0f, 150.0f, 0.0f))		// 発射物の位置
-#define LAUNCH_RETURN_POS		(110.0f)								// 発射物の跳ね返し可能座標
+#define LAUNCH_POS				(D3DXVECTOR3(600.0f, 150.0f, 0.0f))		// 発射物の位置
+#define LAUNCH_RETURN_POS		(130.0f)								// 発射物の跳ね返し可能座標
 #define LAUNCH_LEVEL			(4)										// 発射物のレベル
+#define LAUNCH_NUM_RANGE		(3)										// 発射物の範囲の数
+
+#define LAUNCH_GOOD_RANGE		(LAUNCH_RETURN_POS)						// 発射物の範囲(最低評価)
+#define LAUNCH_GREAT_RANGE		(8.0f)									// 発射物の範囲(中評価)
+#define LAUNCH_PERFECT_RANGE	(-100.0f)								// 発射物の範囲(最高評価)
 
 // 構造体定義
 typedef struct
@@ -36,6 +41,7 @@ typedef struct
 void FlyLaunch(Launch *pLaunch);				// 発射物の飛ぶ処理
 void ReturnLaunch(Launch *pLaunch);				// 発射物の跳ね返し処理
 void DistanceReturnLaunch(Launch *pLaunch);		// 発射物の距離演算処理
+void LaunchReturnRange(Launch *pLaunch);		// 発射物の範囲測定処理
 
 //グローバル変数宣言
 Launch g_aLaunch[MAX_LAUNCH];		//発射物の情報
@@ -100,21 +106,21 @@ void UpdateLaunch(void)
 	if (GetKeyboardTrigger(DIK_9) == true)
 	{ // 0キーを押した場合
 
-	  // 発射物の設定処理
+		// 発射物の設定処理
 		SetLaunch(1);
 	}
 
 	if (GetKeyboardTrigger(DIK_8) == true)
 	{ // 0キーを押した場合
 
-	  // 発射物の設定処理
+		// 発射物の設定処理
 		SetLaunch(2);
 	}
 
 	if (GetKeyboardTrigger(DIK_7) == true)
 	{ // 0キーを押した場合
 
-	  // 発射物の設定処理
+		// 発射物の設定処理
 		SetLaunch(3);
 	}
 
@@ -122,6 +128,9 @@ void UpdateLaunch(void)
 	{
 		if (g_aLaunch[nCntLaunch].modelData.bUse == true)
 		{ // 使用している場合
+
+			// 前回の位置を記録する
+			g_aLaunch[nCntLaunch].modelData.posOld = g_aLaunch[nCntLaunch].modelData.pos;
 
 			switch (g_aLaunch[nCntLaunch].modelData.nState)
 			{
@@ -183,6 +192,7 @@ void UpdateLaunch(void)
 
 	// 発射物の状態のデバッグ表示
 	PrintDebugProc("発射物の状態：[%d]\n", g_aLaunch[0].modelData.nState);
+	PrintDebugProc("発射物の範囲：[%d]\n", g_aLaunch[0].nScore);
 }
 
 //==================================================================================
@@ -281,6 +291,7 @@ void SetLaunch(int nLevel)
 
 			// 情報の初期化
 			g_aLaunch[nCntLaunch].modelData.pos = LAUNCH_POS;	// 位置
+			g_aLaunch[nCntLaunch].modelData.posOld = g_aLaunch[nCntLaunch].modelData.pos;		// 前回の位置
 
 			g_aLaunch[nCntLaunch].modelData.nType = rand() % 2;		// 良い物
 			g_aLaunch[nCntLaunch].modelData.nState = LAUNCHSTATE_FLY;		// 状態
@@ -342,6 +353,9 @@ void ReturnLaunch(Launch *pLaunch)
 
 		// 移動量を設定する
 		pLaunch->modelData.move = D3DXVECTOR3(-LAUNCH_FLY, 0.0f, 0.0f);
+
+		// 発射物の範囲測定処理
+		LaunchReturnRange(pLaunch);
 	}
 }
 
@@ -351,4 +365,25 @@ void ReturnLaunch(Launch *pLaunch)
 void DistanceReturnLaunch(Launch *pLaunch)
 {
 
+}
+
+//==================================================================================
+// 発射物の範囲測定処理
+//==================================================================================
+void LaunchReturnRange(Launch *pLaunch)
+{
+	if (pLaunch->modelData.pos.x <= LAUNCH_GOOD_RANGE)
+	{
+		pLaunch->nScore = 100;
+	}
+
+	if (pLaunch->modelData.pos.x <= LAUNCH_GREAT_RANGE)
+	{
+		pLaunch->nScore = 200;
+	}
+
+	if (pLaunch->modelData.pos.x <= LAUNCH_PERFECT_RANGE)
+	{
+		pLaunch->nScore = 300;
+	}
 }
