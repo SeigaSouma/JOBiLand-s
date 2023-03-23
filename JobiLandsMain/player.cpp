@@ -512,6 +512,12 @@ void CollisionCharPlayer(void)
 			if (pLaunch->modelData.bUse == true)
 			{//モデルが使用されていたら
 
+				if (pLaunch->modelData.pos.x <= -190.0f)
+				{
+
+
+				}
+
 				//キャラクター同士の当たり判定
 				bHit = bHitCharacter(
 					&g_aPlayer.pos, &g_aPlayer.posOld, D3DXVECTOR3(g_aPlayer.fRadius, 0.0f, g_aPlayer.fRadius), D3DXVECTOR3(-g_aPlayer.fRadius, 0.0f, -g_aPlayer.fRadius),
