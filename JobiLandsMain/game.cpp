@@ -29,6 +29,7 @@
 #include "nofade.h"
 #include "launch.h"
 #include "scorecircle.h"
+#include "controllpanel.h"
 
 //プロトタイプ宣言
 void DebugEdit(void);
@@ -94,6 +95,9 @@ void InitGame(void)
 	// スコアサークルの初期化処理
 	InitScoreCircle();
 
+	// 操作パネルの初期化処理
+	InitControllPanel();
+
 	//サウンドの再生
 	PlaySound(SOUND_LABEL_BGM_GAME);
 
@@ -156,6 +160,9 @@ void UninitGame(void)
 
 	// スコアサークルの終了処理
 	UninitScoreCircle();
+
+	// 操作パネルの終了処理
+	UninitControllPanel();
 
 	//スコアの終了処理
 	UninitScore();
@@ -238,6 +245,9 @@ void UpdateGame(void)
 
 				// スコアサークルの更新処理
 				UpdateScoreCircle();
+
+				// 操作パネルの更新処理
+				UpdateControllPanel();
 
 			}
 		}
@@ -355,6 +365,9 @@ void DrawGame(int nType)
 
 		//スコアの描画処理
 		DrawScore();
+
+		// 操作パネルの描画処理
+		DrawControllPanel();
 
 		if (g_bPause == true)
 		{//ポーズメニューが使われているとき

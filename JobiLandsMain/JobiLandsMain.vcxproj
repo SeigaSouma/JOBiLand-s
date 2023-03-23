@@ -154,6 +154,7 @@
     <ClCompile Include="2D_effect.cpp" />
     <ClCompile Include="calculation.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="controllpanel.cpp" />
     <ClCompile Include="debugproc.cpp" />
     <ClCompile Include="edit.cpp" />
     <ClCompile Include="effect.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="2D_effect.h" />
     <ClInclude Include="calculation.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="controllpanel.h" />
     <ClInclude Include="debugproc.h" />
     <ClInclude Include="edit.h" />
     <ClInclude Include="effect.h" />
