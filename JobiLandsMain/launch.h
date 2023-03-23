@@ -64,5 +64,6 @@ void DrawLaunch(void);				// ”­Ë•¨‚Ì•`‰æˆ—
 void SetLaunch(int nLevel);			// ”­Ë•¨‚Ìİ’èˆ—
 Launch *GetLaunch(void);			// ”­Ë•¨‚Ìæ“¾ˆ—
 Launch_Info *GetLaundhLevel(void);	// ”­Ë•¨‚ÌƒŒƒxƒ‹‚Ìæ“¾ˆ—
+void ReturnLaunch(Launch *pLaunch);				// ”­Ë•¨‚Ì’µ‚Ë•Ô‚µˆ—
 
 #endif
