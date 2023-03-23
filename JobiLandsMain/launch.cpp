@@ -258,8 +258,6 @@ void SetLaunch(int nLevel)
 		{ // 使用していない場合
 
 			// 情報の設定
-			g_aLaunch[nCntLaunch].modelData.nType = rand() % 2;		// 良い物
-			g_aLaunch[nCntLaunch].modelData.nState = LAUNCHSTATE_FLY;		// 状態
 			g_aLaunch[nCntLaunch].nScore = 0;								// スコア
 			g_aLaunch[nCntLaunch].nLevel = nLevel;							// レベル
 			g_aLaunch[nCntLaunch].fSpeed = g_aLaunchInfo[nLevel].fFrame;	// スピード
@@ -276,13 +274,16 @@ void SetLaunch(int nLevel)
 			case LAUNCHTYPE_EVIL:	// 悪い奴
 
 				// モデル情報を取得する
-				g_aLaunch[nCntLaunch].modelData = pModel[0];
+				g_aLaunch[nCntLaunch].modelData = pModel[2];
 
 				break;				// 抜け出す
 			}
 
 			// 情報の初期化
 			g_aLaunch[nCntLaunch].modelData.pos = LAUNCH_POS;	// 位置
+
+			g_aLaunch[nCntLaunch].modelData.nType = rand() % 2;		// 良い物
+			g_aLaunch[nCntLaunch].modelData.nState = LAUNCHSTATE_FLY;		// 状態
 
 			// 距離を測る
 			distance.x = (pPlayer->pos.x - g_aLaunch[nCntLaunch].modelData.pos.x);

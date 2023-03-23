@@ -27,7 +27,7 @@
 #define ULT_WAIT	(100)	//待ち状態
 #define FLAG_POS	(150.0f)	//旗の位置
 #define FLEN		(800.0f)
-#define PLAYER_TXT	"data\\TEXT\\motion_set_player.txt"
+#define PLAYER_TXT	"data\\TEXT\\motion_RobotArm.txt"
 
 //プロトタイプ宣言
 void UpdateGamePlayer(void);
@@ -56,7 +56,7 @@ void InitPlayer(void)
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	//各要素初期化
-	g_aPlayer.pos = D3DXVECTOR3(-200, 0.0f, 0.0f);
+	g_aPlayer.pos = D3DXVECTOR3(-300.0f, 0.0f, 0.0f);
 	g_aPlayer.posOld = g_aPlayer.pos;
 	g_aPlayer.move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	g_aPlayer.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
