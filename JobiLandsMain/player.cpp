@@ -513,11 +513,11 @@ void CollisionCharPlayer(void)
 			if (pLaunch->modelData.bUse == true)
 			{//モデルが使用されていたら
 
-				if (pLaunch->modelData.pos.x <= -190.0f)
+				if (pLaunch->modelData.pos.x <= -150.0f)
 				{
 
 					SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
-					//ReturnLaunch(pLaunch);
+					ReturnLaunch(pLaunch);
 				}
 
 				//キャラクター同士の当たり判定
