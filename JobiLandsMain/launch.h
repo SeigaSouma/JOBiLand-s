@@ -21,6 +21,13 @@ typedef enum
 	LAUNCHTYPE_MAX				// この列挙型の総数
 }LAUNCHTYPE;
 
+typedef enum
+{
+	LAUNCHANGLE_UP = 0,		// 上
+	LAUNCHANGLE_DOWN,		// 下
+	LAUNCHANGLE_MAX			// この列挙型の総数
+}LAUNCHANGLE;
+
 //モデルの種類
 typedef enum
 {
@@ -46,6 +53,7 @@ typedef struct
 	int nLevel;			// レベル
 	float fFrame;		// フレーム数
 	float fGravity;		// 重力
+	int nAngle;				// 方向
 }Launch_Info;
 
 //プロトタイプ宣言

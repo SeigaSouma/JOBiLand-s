@@ -11,6 +11,7 @@
 #include "player.h"
 #include "debugproc.h"
 #include "sound.h"
+#include "launch.h"
 
 //マクロ定義
 #define POS_X		(50.0f)	//ゲージの長さ
@@ -27,8 +28,8 @@ void UpdateGameControllPanel(void);
 const char *c_apFilenameControllPanel[] =		//ファイル読み込み
 {
 	NULL,
-	"data\\TEXTURE\\upbutton_01.png",
-	"data\\TEXTURE\\downbutton_01.png",
+	"data\\TEXTURE\\up.png",
+	"data\\TEXTURE\\down.png",
 };
 LPDIRECT3DTEXTURE9 g_apTextureControllPanel[(sizeof c_apFilenameControllPanel) / sizeof(*c_apFilenameControllPanel)] = {};			//テクスチャへのポインタ
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffControllPanel = NULL;
@@ -71,7 +72,7 @@ void InitControllPanel(void)
 	g_aControllPanel.aUI[CONTROLLPANEL_VTX_FRAM].pos = D3DXVECTOR3(1000.0f, 600.0f, 0.0f);	//頂点座標
 	g_aControllPanel.aUI[CONTROLLPANEL_VTX_UPBUTTON].pos = D3DXVECTOR3(700.0f, 600.0f, 0.0f);	//頂点座標
 	g_aControllPanel.aUI[CONTROLLPANEL_VTX_DWBUTTON].pos = D3DXVECTOR3(800.0f, 600.0f, 0.0f);	//頂点座標
-
+	g_aControllPanel.nSelect = -1;
 
 	//頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4 * CONTROLLPANEL_VTX_MAX,
@@ -176,9 +177,44 @@ void UpdateGameControllPanel(void)
 	//頂点バッファをロックし頂点情報へのポインタを取得
 	g_pVtxBuffControllPanel->Lock(0, 0, (void**)&pVtx, 0);
 
-	
+	Launch_Info *pLaunchInfo = GetLaundhLevel();	// 発射物のレベルの取得処理
 
+	if (pLaunchInfo->nAngle == -1)
+	{
+		if (GetKeyboardTrigger(DIK_S) == true)
+		{ // ENTERキーを押した場合
 
+			pLaunchInfo->nAngle = LAUNCHANGLE_DOWN;
+		}
+
+		if (GetKeyboardTrigger(DIK_W) == true)
+		{ // ENTERキーを押した場合
+
+			pLaunchInfo->nAngle = LAUNCHANGLE_UP;
+		}
+	}
+
+	for (int nCntControllPanel = 0; nCntControllPanel < CONTROLLPANEL_VTX_MAX; nCntControllPanel++)
+	{
+		if (g_aControllPanel.nSelect != -1 && g_aControllPanel.nSelect == nCntControllPanel)
+		{
+			//頂点カラー
+			pVtx[0].col = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
+			pVtx[1].col = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
+			pVtx[2].col = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
+			pVtx[3].col = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
+		}
+		else
+		{
+			//頂点カラー
+			pVtx[0].col = g_aControllPanel.aUI[nCntControllPanel].col;
+			pVtx[1].col = g_aControllPanel.aUI[nCntControllPanel].col;
+			pVtx[2].col = g_aControllPanel.aUI[nCntControllPanel].col;
+			pVtx[3].col = g_aControllPanel.aUI[nCntControllPanel].col;
+		}
+
+		pVtx += 4;
+	}
 	//頂点バッファをアンロックする
 	g_pVtxBuffControllPanel->Unlock();
 }
