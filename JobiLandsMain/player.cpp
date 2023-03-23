@@ -34,7 +34,6 @@ void UpdateGamePlayer(void);
 void ControllPlayer(void);
 void ReadSetPlayer(void);
 void ReadSetMotionPlayer(void);
-void LimitPosPlayer(void);
 void CollisionCharPlayer(void);
 void CollisionWallPlayer(void);
 void UpdateStatePlayer(void);
@@ -76,7 +75,6 @@ void InitPlayer(void)
 	g_aPlayer.nState = PLAYERSTATE_NONE;						//状態
 	g_aPlayer.nCntState = 0;									//状態カウント
 	g_aPlayer.bDisp = true;										//描画しているか
-
 
 	//モーション系初期化
 	g_aPlayer.aMotion.nNowMotionNum = -1;		//現在のモーション番号
@@ -173,7 +171,7 @@ void InitPlayer(void)
 	ReadSetMotionPlayer();
 
 	//モーションの設定
-	SetMotison(&g_aPlayer.aMotion, PLAYERMOTION_DEF);
+	SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_DEF);
 }
 
 //==================================================================================
@@ -234,18 +232,13 @@ void UpdateGamePlayer(void)
 	if (g_aPlayer.bUse == true)
 	{//使用していたら
 
-		if (GetKeyboardTrigger(DIK_V) == true)
-		{
-			SetParticle(g_aPlayer.pos, PARTICLE_TYPE_OFFSETTINGPARTICLE);
-		}
-
-	 //過去の位置保存
+		//過去の位置保存
 		g_aPlayer.posOld = g_aPlayer.pos;
 
 		for (int nCntParts = 0; nCntParts < g_aPlayer.aMotion.nPartsNum; nCntParts++)
 		{//パーツ分繰り返す
 
-		 //パーツごとのマトリックス取得
+			//パーツごとのマトリックス取得
 			D3DXMATRIX mtxParts = GetParentMatrix(nCntParts);
 
 			g_aPlayer.aModel[nCntParts].OldmtxWorld = mtxParts;
@@ -273,7 +266,7 @@ void UpdateGamePlayer(void)
 			}
 
 			//モーションの設定
-			SetMotison(&g_aPlayer.aMotion, PLAYERMOTION_WALK);
+			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_WALK);
 		}
 		else
 		{//ニュートラルモーション
@@ -284,7 +277,7 @@ void UpdateGamePlayer(void)
 				g_aPlayer.bATK = false;
 
 				//モーションの設定
-				SetMotison(&g_aPlayer.aMotion, PLAYERMOTION_DEF);
+				SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_DEF);
 			}
 		}
 
@@ -293,12 +286,6 @@ void UpdateGamePlayer(void)
 
 		//キャラクターとの当たり判定
 		CollisionCharPlayer();
-
-		//壁との当たり判定
-		//CollisionWall(&g_aPlayer.pos, g_aPlayer.posOld);
-
-		//座標制限
-		LimitPosPlayer();
 
 		//影の位置更新
 		SetPositionShadow(g_aPlayer.nIdxShadow, g_aPlayer.pos);
@@ -313,26 +300,26 @@ void UpdateGamePlayer(void)
 //==================================================================================
 void ControllEndPlayer(void)
 {
-	//カメラの情報取得
-	Camera *pCamera = GetCamera();
+	////カメラの情報取得
+	//Camera *pCamera = GetCamera();
 
-	g_aPlayer.bMove = true;
+	//g_aPlayer.bMove = true;
 
-	g_aPlayer.rot.y = 0.0f;
+	//g_aPlayer.rot.y = 0.0f;
 
-	g_aPlayer.move.x += sinf(D3DX_PI + pCamera->rot.y) * CHARA_MOVE;
-	g_aPlayer.move.z += cosf(D3DX_PI + pCamera->rot.y) * CHARA_MOVE;
-	g_aPlayer.fRotDest = pCamera->rot.y;
+	//g_aPlayer.move.x += sinf(D3DX_PI + pCamera->rot.y) * CHARA_MOVE;
+	//g_aPlayer.move.z += cosf(D3DX_PI + pCamera->rot.y) * CHARA_MOVE;
+	//g_aPlayer.fRotDest = pCamera->rot.y;
 
-	//重力処理
-	//g_aPlayer.move.y -= 1.0f;
+	////重力処理
+	////g_aPlayer.move.y -= 1.0f;
 
-	//位置更新
-	g_aPlayer.pos += g_aPlayer.move;
+	////位置更新
+	//g_aPlayer.pos += g_aPlayer.move;
 
-	//慣性
-	g_aPlayer.move.x += (0.0f - g_aPlayer.move.x) * MOVE_FACTOR;
-	g_aPlayer.move.z += (0.0f - g_aPlayer.move.z) * MOVE_FACTOR;
+	////慣性
+	//g_aPlayer.move.x += (0.0f - g_aPlayer.move.x) * MOVE_FACTOR;
+	//g_aPlayer.move.z += (0.0f - g_aPlayer.move.z) * MOVE_FACTOR;
 }
 
 //==================================================================================
@@ -349,163 +336,19 @@ void ControllPlayer(void)
 	if (GetGameState() == GAMESTATE_NONE && pEdit->bUse == false)
 	{//ターゲット中以外
 
-		if (g_aPlayer.aMotion.nNowMotionNum != PLAYERMOTION_DISPATCHL)
-		{//移動不可モーション中は強制キャンセル
+		if (GetKeyboardRelease(DIK_RETURN) == true)
+		{//エンターが押された,跳ね返し
 
-			if (GetKeyboardPress(DIK_A) == true || XGetStickPressL(BUTTON_LX, 0) < 0)
-			{//←キーが押された,左移動
-
-				if (GetKeyboardPress(DIK_W) == true || YGetStickPressL(BUTTON_LY, 0) > 0)
-				{//A+W,左上移動
-
-					g_aPlayer.move.x += sinf(-D3DX_PI * MOVE_LRDW + pCamera->rot.y) * CHARA_MOVE;
-					g_aPlayer.move.z += cosf(-D3DX_PI * MOVE_LRDW + pCamera->rot.y) * CHARA_MOVE;
-					g_aPlayer.fRotDest = D3DX_PI * MOVE_LRUP + pCamera->rot.y;
-				}
-				else if (GetKeyboardPress(DIK_S) == true || YGetStickPressL(BUTTON_LY, 0) < 0)
-				{//A+S,左下移動
-
-					g_aPlayer.move.x += sinf(-D3DX_PI * MOVE_LRUP + pCamera->rot.y) * CHARA_MOVE;
-					g_aPlayer.move.z += cosf(-D3DX_PI * MOVE_LRUP + pCamera->rot.y) * CHARA_MOVE;
-					g_aPlayer.fRotDest = D3DX_PI * MOVE_LRDW + pCamera->rot.y;
-				}
-				else
-				{//A,左移動
-
-					g_aPlayer.move.x += sinf(-D3DX_PI * MOVE_LR + pCamera->rot.y) * CHARA_MOVE;
-					g_aPlayer.move.z += cosf(-D3DX_PI * MOVE_LR + pCamera->rot.y) * CHARA_MOVE;
-					g_aPlayer.fRotDest = D3DX_PI * MOVE_LR + pCamera->rot.y;
-				}
-
-				g_aPlayer.bMove = true;
-			}
-			else if (GetKeyboardPress(DIK_D) == true || XGetStickPressL(BUTTON_LX, 0) > 0)
-			{//Dキーが押された,右移動
-
-				if (GetKeyboardPress(DIK_W) == true || YGetStickPressL(BUTTON_LY, 0) > 0)
-				{//D+W,右上移動
-
-					g_aPlayer.move.x += sinf(D3DX_PI * MOVE_LRDW + pCamera->rot.y) * CHARA_MOVE;
-					g_aPlayer.move.z += cosf(D3DX_PI * MOVE_LRDW + pCamera->rot.y) * CHARA_MOVE;
-					g_aPlayer.fRotDest = -D3DX_PI * MOVE_LRUP + pCamera->rot.y;
-				}
-				else if (GetKeyboardPress(DIK_S) == true || YGetStickPressL(BUTTON_LY, 0) < 0)
-				{//D+S,右下移動
-
-					g_aPlayer.move.x += sinf(D3DX_PI * MOVE_LRUP + pCamera->rot.y) * CHARA_MOVE;
-					g_aPlayer.move.z += cosf(D3DX_PI * MOVE_LRUP + pCamera->rot.y) * CHARA_MOVE;
-					g_aPlayer.fRotDest = -D3DX_PI * MOVE_LRDW + pCamera->rot.y;
-				}
-				else
-				{//D,右移動
-
-					g_aPlayer.move.x += sinf(D3DX_PI * MOVE_LR + pCamera->rot.y) * CHARA_MOVE;
-					g_aPlayer.move.z += cosf(D3DX_PI * MOVE_LR + pCamera->rot.y) * CHARA_MOVE;
-					g_aPlayer.fRotDest = -D3DX_PI * MOVE_LR + pCamera->rot.y;
-				}
-
-				g_aPlayer.bMove = true;
-			}
-			else if (GetKeyboardPress(DIK_W) == true || YGetStickPressL(BUTTON_LY, 0) > 0)
-			{//Wが押された、奥移動
-
-				g_aPlayer.move.x += sinf(pCamera->rot.y) * CHARA_MOVE;
-				g_aPlayer.move.z += cosf(pCamera->rot.y) * CHARA_MOVE;
-				g_aPlayer.fRotDest = D3DX_PI + pCamera->rot.y;
-
-				g_aPlayer.bMove = true;
-			}
-			else if (GetKeyboardPress(DIK_S) == true || YGetStickPressL(BUTTON_LY, 0) < 0)
-			{//Sが押された、手前移動
-
-				g_aPlayer.move.x += sinf(D3DX_PI + pCamera->rot.y) * CHARA_MOVE;
-				g_aPlayer.move.z += cosf(D3DX_PI + pCamera->rot.y) * CHARA_MOVE;
-				g_aPlayer.fRotDest = pCamera->rot.y;
-
-				g_aPlayer.bMove = true;
-			}
-			else
-			{//なんのキーも押されていない
-
-				if (g_aPlayer.move.x <= 1.0f && g_aPlayer.move.x >= -1.0f ||
-					g_aPlayer.move.z <= 1.0f && g_aPlayer.move.z >= -1.0f)
-				{
-					g_aPlayer.bMove = false;
-
-				}
-			}
+			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_ACTION);
 		}
 	}
 
-	//現在と目標の差分を求める
-	g_aPlayer.fRotDiff = g_aPlayer.fRotDest - g_aPlayer.rot.y;
-
-	//角度の正規化
-	RotNormalize(&g_aPlayer.fRotDiff);
-
-	//角度の補正をする
-	g_aPlayer.rot.y += g_aPlayer.fRotDiff * 0.1f;
-
-	//角度の正規化
-	RotNormalize(&g_aPlayer.rot.y);
-
-	//重力処理
-	//g_aPlayer.move.y -= 1.0f;
-
-	//位置更新
-	g_aPlayer.pos += g_aPlayer.move;
-
-	//慣性つける
-	g_aPlayer.move.x += (0.0f - g_aPlayer.move.x) * MOVE_FACTOR;
-	g_aPlayer.move.z += (0.0f - g_aPlayer.move.z) * MOVE_FACTOR;
-
 	PrintDebugProc(
 		"\n------プレイヤーの操作------\n"
-		"<移動> W/A/S/D\n"
-		"<位置> [%f, %f, %f]\n"
-		"<移動量> [%f, %f, %f]\n",
-		g_aPlayer.pos.x, g_aPlayer.pos.y, g_aPlayer.pos.z,
-		g_aPlayer.move.x, g_aPlayer.move.y, g_aPlayer.move.z);
+		"<はじき返し(仮) [ENTER]>"
+		"<位置> [%f, %f, %f]\n",
+		g_aPlayer.pos.x, g_aPlayer.pos.y, g_aPlayer.pos.z);
 
-}
-
-//==================================================================================
-//プレイヤーの座標制限
-//==================================================================================
-void LimitPosPlayer(void)
-{
-	if (g_aPlayer.pos.y < 0.0f)
-	{//地面より下に行ったら
-
-	 //g_aPlayer.pos.y = 0.0f;
-
-	 //重力処理
-		g_aPlayer.move.y = 0.0f;
-
-		g_aPlayer.bJump = false;
-	}
-
-	//移動制限
-	if (g_aPlayer.pos.x - g_aPlayer.fRadius <= -LIMIT_POS && g_aPlayer.posOld.x - g_aPlayer.fRadius >= -LIMIT_POS)
-	{//今回が-1000以下, 前回が-1000以上
-
-		g_aPlayer.pos.x = -LIMIT_POS + g_aPlayer.fRadius;
-	}
-	if (g_aPlayer.pos.x + g_aPlayer.fRadius >= LIMIT_POS && g_aPlayer.posOld.x + g_aPlayer.fRadius <= LIMIT_POS)
-	{//今回が1000以上, 前回が1000以下
-
-		g_aPlayer.pos.x = LIMIT_POS - g_aPlayer.fRadius;
-	}
-	if (g_aPlayer.pos.z + g_aPlayer.fRadius >= LIMIT_POS && g_aPlayer.posOld.z + g_aPlayer.fRadius <= LIMIT_POS)
-	{//今回が1000以上, 前回が1000以下
-
-		g_aPlayer.pos.z = LIMIT_POS - g_aPlayer.fRadius;
-	}
-	if (g_aPlayer.pos.z - g_aPlayer.fRadius <= -LIMIT_POS && g_aPlayer.posOld.z - g_aPlayer.fRadius >= -LIMIT_POS)
-	{//今回が-1000以下, 前回が-1000以上
-
-		g_aPlayer.pos.z = -LIMIT_POS + g_aPlayer.fRadius;
-	}
 }
 
 //==================================================================================
@@ -546,109 +389,10 @@ void CollisionATKPlayer(float fDistance, float fAngle, int nValue)
 }
 
 //==================================================================================
-//壁との当たり判定
-//==================================================================================
-void CollisionWallPlayer(void)
-{
-	//壁の情報取得
-	MESHWALL *pMeshWall = GetMeshWall();
-
-	for (int nCntWall = 0; nCntWall < MAX_WALL; nCntWall++, pMeshWall++)
-	{//壁の数分繰り返す
-
-		if (pMeshWall->bUse == true)
-		{//壁が使用されているとき
-
-		 //壁の幅
-			float fLen = (pMeshWall->nWidth * POS_MESHWALL) * 0.5f;
-
-			//左の頂点座標
-			D3DXVECTOR3 pos0 = D3DXVECTOR3(
-				pMeshWall->pos.x + sinf(pMeshWall->rot.y + D3DX_PI * MOVE_LR) * -fLen,
-				g_aPlayer.pos.y,
-				pMeshWall->pos.z + cosf(pMeshWall->rot.y + D3DX_PI * MOVE_LR) * -fLen);
-
-			//右の頂点座標
-			D3DXVECTOR3 pos1 = D3DXVECTOR3(
-				pMeshWall->pos.x + sinf(pMeshWall->rot.y + D3DX_PI * MOVE_LR) * fLen,
-				g_aPlayer.pos.y,
-				pMeshWall->pos.z + cosf(pMeshWall->rot.y + D3DX_PI * MOVE_LR) * fLen);
-
-			//境界線のベクトル
-			D3DXVECTOR3 vecLine;
-			vecLine.x = pos1.x - pos0.x;
-			vecLine.z = pos1.z - pos0.z;
-
-			//プレイヤーの境界線のベクトル
-			D3DXVECTOR3 vecLinePlayer;
-			vecLinePlayer.x = g_aPlayer.pos.x - g_aPlayer.posOld.x;
-			vecLinePlayer.z = g_aPlayer.pos.z - g_aPlayer.posOld.z;
-
-			//プレイヤーと壁のベクトル
-			D3DXVECTOR3 vecToPosPlayer;
-			vecToPosPlayer.x = pos1.x - g_aPlayer.posOld.x;
-			vecToPosPlayer.z = pos1.z - g_aPlayer.posOld.z;
-
-			//面積の最大値
-			float fMaxAreaPlayer = (vecLinePlayer.z * vecLine.x) - (vecLinePlayer.x * vecLine.z);
-
-			//今回の面積
-			float fNowAreaPlayer = (vecToPosPlayer.z * vecLine.x) - (vecToPosPlayer.x * vecLine.z);
-
-			//割合
-			float fRatePlayer = fNowAreaPlayer / fMaxAreaPlayer;
-
-			if (fRatePlayer >= 0.0f && fRatePlayer <= 1.0f)
-			{//面積の範囲内にいたら判定
-
-				if ((vecLinePlayer.z * vecToPosPlayer.x) - (vecLinePlayer.x * vecToPosPlayer.z) > 0)
-				{//壁に当たったら
-
-				 //交点からはみ出た分
-					D3DXVECTOR3 CollisionPointPlayer = D3DXVECTOR3(0.0f, g_aPlayer.pos.y, 0.0f);
-					CollisionPointPlayer.x = (g_aPlayer.pos.x + (vecLinePlayer.x * (fRatePlayer - 1.0f)));
-					CollisionPointPlayer.z = (g_aPlayer.pos.z + (vecLinePlayer.z * (fRatePlayer - 1.0f)));
-
-					//法線ベクトル(境界線ベクトルのXとZ反転)
-					D3DXVECTOR3 vecNor = D3DXVECTOR3(vecLine.z, 0.0f, -vecLine.x);
-
-					//ベクトルの正規化
-					D3DXVec3Normalize(&vecNor, &vecNor);
-
-					//プレイヤーの逆移動量
-					D3DXVECTOR3 PlayerInverceMove;
-					PlayerInverceMove.z = vecLinePlayer.z * (fRatePlayer - 1.0f);
-					PlayerInverceMove.x = vecLinePlayer.x * (fRatePlayer - 1.0f);
-
-					//内積(壁の法線とプレイヤーの逆移動量)
-					float fDot = (PlayerInverceMove.x * vecNor.x) + (PlayerInverceMove.z * vecNor.z);
-
-					//壁ずり移動量
-					D3DXVECTOR3 MoveWall = vecNor * fDot;
-
-					D3DXVECTOR3 ppp = (CollisionPointPlayer - g_aPlayer.pos);
-					D3DXVECTOR3 pppp = ppp + MoveWall;
-
-					//ぶつかった点に補正
-					g_aPlayer.pos += MoveWall + (vecNor * 0.1f);
-
-				}
-
-			}
-
-		}
-
-	}
-}
-
-//==================================================================================
 //プレイヤーの状態更新
 //==================================================================================
 void UpdateStatePlayer(void)
 {
-
-	//カメラの情報取得
-	Camera *pCamera = GetCamera();
 
 	D3DXMATERIAL *pMat;	//マテリアルデータへのポインタ
 
@@ -659,7 +403,7 @@ void UpdateStatePlayer(void)
 		for (int nCntParts = 0; nCntParts < g_aPlayer.aMotion.nPartsNum; nCntParts++)
 		{//パーツ分繰り返す
 
-		 //マテリアルデータへのポインタを取得
+			//マテリアルデータへのポインタを取得
 			pMat = (D3DXMATERIAL*)g_aPlayer.aModel[nCntParts].pBuffMat->GetBufferPointer();
 
 			//頂点数分繰り返し
@@ -669,6 +413,76 @@ void UpdateStatePlayer(void)
 				pMat[nCntMat].MatD3D.Diffuse = g_aPlayer.aModel[nCntParts].pMatData[nCntMat].MatD3D.Diffuse;
 				pMat[nCntMat].MatD3D.Ambient = g_aPlayer.aModel[nCntParts].pMatData[nCntMat].MatD3D.Ambient;
 			}
+		}
+		break;
+
+	case PLAYERSTATE_DMG:
+
+		//ダメージカウンター減算
+		g_aPlayer.nCntState--;
+
+		if (g_aPlayer.nCntState <= 0)
+		{//ダメージカウンターが0以下
+
+			//状態をもとに戻す
+			g_aPlayer.nState = PLAYERSTATE_INVINCIBLE;
+			g_aPlayer.nCntState = 30;
+
+			for (int nCntParts = 0; nCntParts < g_aPlayer.aMotion.nPartsNum; nCntParts++)
+			{//パーツ分繰り返す
+
+				//マテリアルデータへのポインタを取得
+				pMat = (D3DXMATERIAL*)g_aPlayer.aModel[nCntParts].pBuffMat->GetBufferPointer();
+
+				//頂点数分繰り返し
+				for (int nCntMat = 0; nCntMat < (int)g_aPlayer.aModel[nCntParts].dwNumMat; nCntMat++)
+				{
+					//元の色に戻す
+					pMat[nCntMat].MatD3D.Diffuse = g_aPlayer.aModel[nCntParts].pMatData[nCntMat].MatD3D.Diffuse;
+					pMat[nCntMat].MatD3D.Ambient = g_aPlayer.aModel[nCntParts].pMatData[nCntMat].MatD3D.Ambient;
+				}
+			}
+		}
+
+		break;
+
+	case PLAYERSTATE_INVINCIBLE:
+
+		//ダメージカウンター減算
+		g_aPlayer.nCntState--;
+
+		for (int nCntParts = 0; nCntParts < g_aPlayer.aMotion.nPartsNum; nCntParts++)
+		{//パーツ分繰り返す
+
+			D3DXMATERIAL *pMat;	//マテリアルデータへのポインタ
+
+			//マテリアルデータへのポインタを取得
+			pMat = (D3DXMATERIAL*)g_aPlayer.aModel[nCntParts].pBuffMat->GetBufferPointer();
+
+			//頂点数分繰り返し
+			for (int nCntMat = 0; nCntMat < (int)g_aPlayer.aModel[nCntParts].dwNumMat; nCntMat++)
+			{
+
+				if (g_aPlayer.nCntState % 2 == 0)
+				{//元の色に戻す
+
+					pMat[nCntMat].MatD3D.Diffuse = g_aPlayer.aModel[nCntParts].pMatData[nCntMat].MatD3D.Diffuse;
+					pMat[nCntMat].MatD3D.Ambient = g_aPlayer.aModel[nCntParts].pMatData[nCntMat].MatD3D.Ambient;
+				}
+				else
+				{//透明
+
+					pMat[nCntMat].MatD3D.Diffuse.a = 0.5f;
+					pMat[nCntMat].MatD3D.Ambient.a = 0.5f;
+				}
+			}
+		}
+
+		if (g_aPlayer.nCntState <= 0)
+		{//カウンターが0以下
+
+			//状態をもとに戻す
+			g_aPlayer.nState = PLAYERSTATE_NONE;
 		}
 		break;
 	}

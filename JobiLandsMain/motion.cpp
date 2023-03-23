@@ -11,7 +11,7 @@
 //==================================================================================
 //モーションの設定処理
 //==================================================================================
-void SetMotison(Motion *aMotion, int nMotionType)
+void SetMotion(Motion *aMotion, int nMotionType)
 {
 
 	if (aMotion->nNowMotionNum != nMotionType)
@@ -144,13 +144,13 @@ void UpdateMotion(MotionData *aMotionData, Motion *aMotion, Model *aParts, D3DXV
 			{//ループモーションじゃない時
 				
 				//ニュートラルモーションを設定
-				SetMotison(aMotion, 0);
+				SetMotion(aMotion, 0);
 			}
 			else
 			{//ループモーションの時
 
 				//現在と同じモーションを設定
-				SetMotison(aMotion, aMotion->nNowMotionNum);
+				SetMotion(aMotion, aMotion->nNowMotionNum);
 			}
 		}
 	}
