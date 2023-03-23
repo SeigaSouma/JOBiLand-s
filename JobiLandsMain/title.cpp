@@ -293,7 +293,7 @@ void UpdateTitle(void)
 	g_pVtxBuffTitle->Unlock();
 
 	//決定キー(ENTERキー)が押された
-	if (GetKeyboardTrigger(DIK_RETURN) == true/* || GetPadTrigger(BUTTON_A, 0) == true*/ && g_TitleFade == false)
+	if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true && g_TitleFade == false)
 	{
 		//モード設定(チュートリアルに移行)
 		SetFade(MODE_TUTORIAL);
