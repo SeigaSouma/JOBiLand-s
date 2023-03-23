@@ -16,6 +16,7 @@
 #include "debugproc.h"
 #include "sound.h"
 #include "player.h"
+#include"score.h"
 
 //マクロ定義
 #define LAUNCH_GRAVITY			(-1.0f)									// 発射物の重力
@@ -104,7 +105,7 @@ void UpdateLaunch(void)
 		// 設定カウントを加算する
 		nSetLaunchCount++;
 
-		if (nSetLaunchCount % 20 == 0)
+		if (nSetLaunchCount % 30 == 0)
 		{ // 0キーを押した場合
 
 		  // 発射物の設定処理
@@ -130,7 +131,7 @@ void UpdateLaunch(void)
 				// 発射物の飛ぶ処理
 				FlyLaunch(&g_aLaunch[nCntLaunch]);
 
-				if (g_aLaunch[nCntLaunch].modelData.pos.x <= LAUNCH_RETURN_POS)
+				if (g_aLaunch[nCntLaunch].modelData.pos.x <= LAUNCH_RETURN_POS && g_aLaunch[nCntLaunch].modelData.pos.y <= 250.0f)
 				{ // 位置が一定を過ぎた場合
 
 					// 跳ね返し可能状態にする
@@ -148,7 +149,7 @@ void UpdateLaunch(void)
 				FlyLaunch(&g_aLaunch[nCntLaunch]);
 
 				// 発射物の跳ね返し処理
-				//ReturnLaunch(&g_aLaunch[nCntLaunch]);
+				ReturnLaunch(&g_aLaunch[nCntLaunch]);
 
 				break;					// 抜け出す
 
@@ -163,11 +164,11 @@ void UpdateLaunch(void)
 				break;					// 抜け出す
 			}
 
-			if (g_aLaunch[nCntLaunch].modelData.pos.y <= 0.0f)
+			if (g_aLaunch[nCntLaunch].modelData.pos.y <= -50.0f)
 			{ // 位置が一定数以下になると
 
 				// 位置を補正する
-				g_aLaunch[nCntLaunch].modelData.pos.y = 0.0f;
+				g_aLaunch[nCntLaunch].modelData.pos.y = -50.0f;
 
 				// 移動量を初期化する
 				g_aLaunch[nCntLaunch].modelData.move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -340,7 +341,7 @@ void ReturnLaunch(Launch *pLaunch)
 {
 	Player *pPlayer = GetPlayer();		// プレイヤーの情報を取得する
 
-	if (g_aLaunchInfo[0].nAngle == LAUNCHANGLE_UP)
+	if (GetKeyboardTrigger(DIK_W) == true)
 	{ // ENTERキーを押した場合
 
 		// 重力を初期化する
@@ -354,23 +355,14 @@ void ReturnLaunch(Launch *pLaunch)
 
 		// 発射物の範囲測定処理
 		LaunchReturnRange(pLaunch);
+		PlaySound(SOUND_LABEL_SE_ARMMOVE);
+		SetMotion(&pPlayer->aMotion, PLAYERMOTION_UP);
+
+		if (LAUNCHTYPE_EVIL == pLaunch->modelData.nType)
+		{
+			AddScore(1);
+		}
 	}
-	else
-	{
-		// 重力を初期化する
-		pLaunch->fGravity = 4.0f;
-
-		// 跳ね返り状態にする
-		pLaunch->modelData.nState = LAUNCHSTATE_RETURN;
-
-		// 発射物の距離演算処理
-		DistanceReturnLaunch(pLaunch);
-
-		// 発射物の範囲測定処理
-		LaunchReturnRange(pLaunch);
-	}
-
-
 	if (GetKeyboardTrigger(DIK_S) == true)
 	{ // ENTERキーを押した場合
 
@@ -385,23 +377,16 @@ void ReturnLaunch(Launch *pLaunch)
 
 		// 発射物の範囲測定処理
 		LaunchReturnRange(pLaunch);
+		PlaySound(SOUND_LABEL_SE_ARMMOVE);
+		SetMotion(&pPlayer->aMotion, PLAYERMOTION_DOWN);
+
+		if (LAUNCHTYPE_GOOD == pLaunch->modelData.nType)
+		{
+			AddScore(1);
+		}
 	}
 
-	if (GetKeyboardTrigger(DIK_W) == true)
-	{ // ENTERキーを押した場合
 
-	  // 重力を初期化する
-		pLaunch->fGravity = 40.0f;
-
-		// 跳ね返り状態にする
-		pLaunch->modelData.nState = LAUNCHSTATE_RETURN;
-
-		// 移動量を設定する
-		pLaunch->modelData.move = D3DXVECTOR3(-LAUNCH_FLY, 0.0f, 0.0f);
-
-		// 発射物の範囲測定処理
-		LaunchReturnRange(pLaunch);
-	}
 }
 
 //==================================================================================

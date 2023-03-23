@@ -347,7 +347,7 @@ void DrawGame(int nType)
 		DrawImpactWave();
 
 		// スコアサークルの描画処理
-		DrawScoreCircle();
+		//DrawScoreCircle();
 
 		//モデルの描画処理
 		DrawModel(1);
