@@ -19,7 +19,7 @@
 //マクロ定義
 #define LAUNCH_GRAVITY			(-0.3f)									// 発射物の重力
 #define LAUNCH_FLY				(-13.0f)								// 発射物の飛ぶ勢い
-#define LAUNCH_POS				(D3DXVECTOR3(230.0f, 200.0f, -100.0f))	// 発射物の位置
+#define LAUNCH_POS				(D3DXVECTOR3(230.0f, 150.0f, 0.0f))	// 発射物の位置
 #define LAUNCH_RETURN_POS		(-100.0f)								// 発射物の位置
 
 // プロトタイプ宣言
