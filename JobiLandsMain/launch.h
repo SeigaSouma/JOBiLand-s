@@ -37,14 +37,15 @@ typedef struct
 	float fGravity;		// 重力
 	int nScore;			// スコア
 	float fSpeed;		// 速度
+	int nLevel;			// レベル
 }Launch;
 
 //プロトタイプ宣言
-void InitLaunch(void);
-void UninitLaunch(void);
-void UpdateLaunch(void);
-void DrawLaunch(void);
-void SetLaunch(void);
-Launch *GetLaunch(void);
+void InitLaunch(void);				// 発射物の初期化処理
+void UninitLaunch(void);			// 発射物の終了処理
+void UpdateLaunch(void);			// 発射物の更新処理
+void DrawLaunch(void);				// 発射物の描画処理
+void SetLaunch(int nLevel);			// 発射物の設定処理
+Launch *GetLaunch(void);			// 発射物の取得処理
 
 #endif

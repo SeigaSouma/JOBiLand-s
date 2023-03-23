@@ -20,15 +20,34 @@
 //マクロ定義
 #define LAUNCH_GRAVITY			(-0.3f)									// 発射物の重力
 #define LAUNCH_FLY				(-13.0f)								// 発射物の飛ぶ勢い
-#define LAUNCH_POS				(D3DXVECTOR3(230.0f, 150.0f, 0.0f))	// 発射物の位置
-#define LAUNCH_RETURN_POS		(-100.0f)								// 発射物の跳ね返し可能座標
+#define LAUNCH_POS				(D3DXVECTOR3(230.0f, 150.0f, 0.0f))		// 発射物の位置
+#define LAUNCH_RETURN_POS		(110.0f)								// 発射物の跳ね返し可能座標
+#define LAUNCH_LEVEL			(4)										// 発射物のレベル
+
+// 構造体定義
+typedef struct
+{
+	int nLevel;			// レベル
+	float fFrame;		// フレーム数
+	float fGravity;		// 重力
+}Launch_Info;
 
 // プロトタイプ宣言
-void FlyLaunch(Launch *pLaunch);	// 発射物の飛ぶ処理
-void ReturnLaunch(Launch *pLaunch);	// 発射物の跳ね返し処理
+void FlyLaunch(Launch *pLaunch);				// 発射物の飛ぶ処理
+void ReturnLaunch(Launch *pLaunch);				// 発射物の跳ね返し処理
+void DistanceReturnLaunch(Launch *pLaunch);		// 発射物の距離演算処理
 
 //グローバル変数宣言
 Launch g_aLaunch[MAX_LAUNCH];		//発射物の情報
+
+// 発射物のレベル設定
+Launch_Info g_aLaunchInfo[LAUNCH_LEVEL] =
+{
+	{ 0, 0.02f, -0.1f},
+	{ 1, 0.025f,-0.15f},
+	{ 2, 0.04f,-0.4f},
+	{ 3, 0.05f,-0.6f},
+};
 
 //==================================================================================
 //発射物の初期化処理
@@ -75,7 +94,28 @@ void UpdateLaunch(void)
 	{ // 0キーを押した場合
 
 		// 発射物の設定処理
-		SetLaunch();
+		SetLaunch(0);
+	}
+
+	if (GetKeyboardTrigger(DIK_9) == true)
+	{ // 0キーを押した場合
+
+	  // 発射物の設定処理
+		SetLaunch(1);
+	}
+
+	if (GetKeyboardTrigger(DIK_8) == true)
+	{ // 0キーを押した場合
+
+	  // 発射物の設定処理
+		SetLaunch(2);
+	}
+
+	if (GetKeyboardTrigger(DIK_7) == true)
+	{ // 0キーを押した場合
+
+	  // 発射物の設定処理
+		SetLaunch(3);
 	}
 
 	for (int nCntLaunch = 0; nCntLaunch < MAX_LAUNCH; nCntLaunch++)
@@ -88,7 +128,7 @@ void UpdateLaunch(void)
 			case LAUNCHSTATE_FLY:		// 飛ぶ状態
 
 				// 重力をかける
-				g_aLaunch[nCntLaunch].fGravity += LAUNCH_GRAVITY;
+				g_aLaunch[nCntLaunch].fGravity += g_aLaunchInfo[g_aLaunch[nCntLaunch].nLevel].fGravity;
 
 				// 発射物の飛ぶ処理
 				FlyLaunch(&g_aLaunch[nCntLaunch]);
@@ -105,7 +145,7 @@ void UpdateLaunch(void)
 			case LAUNCHSTATE_RETURN_POSSIBLE:		// 跳ね返し可能状態
 
 				// 重力をかける
-				g_aLaunch[nCntLaunch].fGravity += LAUNCH_GRAVITY;
+				g_aLaunch[nCntLaunch].fGravity += g_aLaunchInfo[g_aLaunch[nCntLaunch].nLevel].fGravity;
 
 				// 発射物の飛ぶ処理
 				FlyLaunch(&g_aLaunch[nCntLaunch]);
@@ -205,7 +245,7 @@ void DrawLaunch(void)
 //==================================================================================
 //発射物の設定処理
 //==================================================================================
-void SetLaunch(void)
+void SetLaunch(int nLevel)
 {
 	Model *pModel = GetXLoadData();		// モデルの情報
 	Player *pPlayer = GetPlayer();		// プレイヤーの情報を取得する
@@ -221,7 +261,8 @@ void SetLaunch(void)
 			g_aLaunch[nCntLaunch].modelData.nType = LAUNCHTYPE_GOOD;		// 良い物
 			g_aLaunch[nCntLaunch].modelData.nState = LAUNCHSTATE_FLY;		// 状態
 			g_aLaunch[nCntLaunch].nScore = 0;								// スコア
-			g_aLaunch[nCntLaunch].fSpeed = 0.04f;							// スピード
+			g_aLaunch[nCntLaunch].nLevel = nLevel;							// レベル
+			g_aLaunch[nCntLaunch].fSpeed = g_aLaunchInfo[nLevel].fFrame;	// スピード
 
 			switch (g_aLaunch[nCntLaunch].modelData.nType)
 			{
@@ -301,4 +342,12 @@ void ReturnLaunch(Launch *pLaunch)
 		// 移動量を設定する
 		pLaunch->modelData.move = D3DXVECTOR3(-LAUNCH_FLY, 0.0f, 0.0f);
 	}
+}
+
+//==================================================================================
+// 発射物の距離演算処理
+//==================================================================================
+void DistanceReturnLaunch(Launch *pLaunch)
+{
+
 }
