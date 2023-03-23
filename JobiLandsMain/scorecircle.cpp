@@ -1,20 +1,22 @@
 //=============================================================================
 //
-// 衝撃波処理 [impactwave.cpp]
+// 衝撃波処理 [scorecircle.cpp]
 // Author : 相馬靜雅
 //
 //=============================================================================
 #include "main.h"
+#include "scorecircle.h"
 #include "impactwave.h"
+#include "player.h"
 #include "input.h"
 
 //マクロ定義
-#define POS_IMPACTWAVE_Y	(0.0f)
+#define POS_SCORECIRCLE_Y	(0.0f)
 #define WIDTH				(32)	//分割数
 #define HEIGHT				(1)		//高さ分割
 
 //グローバル変数宣言
-const char *c_apFilenameImpactWave[] =	//ファイル読み込み
+const char *c_apFilenameScoreCircle[] =	//ファイル読み込み
 {
 	"data\\TEXTURE\\gradation001.jpg",
 	"data\\TEXTURE\\gradation000.jpg",
@@ -27,77 +29,77 @@ const char *c_apFilenameImpactWave[] =	//ファイル読み込み
 	"data\\TEXTURE\\gradation009.jpg",
 	"data\\TEXTURE\\gradation011.jpg",
 };
-LPDIRECT3DTEXTURE9 g_apTextureImpactWave[(sizeof c_apFilenameImpactWave) / sizeof(*c_apFilenameImpactWave)] = {};	//テクスチャのポインタ
-LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffImpactWave = NULL;	//頂点バッファへのポインタ
-LPDIRECT3DINDEXBUFFER9 g_pIdxBuffImpactWave = NULL;	//インデックスバッファへのポインタ
-IMPACTWAVE g_aImpactWave[MAX_IMPACTWAVE];		//衝撃波の情報
-int g_nNumVertx;
-int g_nNumIndex;
+LPDIRECT3DTEXTURE9 g_apTextureScoreCircle[(sizeof c_apFilenameScoreCircle) / sizeof(*c_apFilenameScoreCircle)] = {};	//テクスチャのポインタ
+LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffScoreCircle = NULL;	//頂点バッファへのポインタ
+LPDIRECT3DINDEXBUFFER9 g_pIdxBuffScoreCircle = NULL;	//インデックスバッファへのポインタ
+SCORECIRCLE g_aScoreCircle[MAX_SCORECIRCLE];		//衝撃波の情報
+int g_nNumVertxScoreCircle;
+int g_nNumIndexScoreCircle;
 
 //==================================================================================
 //衝撃波の初期化処理
 //==================================================================================
-void InitImpactWave(void)
+void InitScoreCircle(void)
 {
 
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
 	//テクスチャデータの配列分繰り返す
-	for (int nCntTex = 0; nCntTex < (sizeof c_apFilenameImpactWave) / sizeof(*c_apFilenameImpactWave); nCntTex++)
+	for (int nCntTex = 0; nCntTex < (sizeof c_apFilenameScoreCircle) / sizeof(*c_apFilenameScoreCircle); nCntTex++)
 	{
 		//テクスチャの読み込み
 		D3DXCreateTextureFromFile(pDevice,
-			c_apFilenameImpactWave[nCntTex],
-			&g_apTextureImpactWave[nCntTex]);
+			c_apFilenameScoreCircle[nCntTex],
+			&g_apTextureScoreCircle[nCntTex]);
 	}
 
 	//各要素初期化
-	for (int nCntWave = 0; nCntWave < MAX_IMPACTWAVE; nCntWave++)
+	for (int nCntWave = 0; nCntWave < MAX_SCORECIRCLE; nCntWave++)
 	{
-		g_aImpactWave[nCntWave].posOrigin = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//起点の位置
-		g_aImpactWave[nCntWave].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//位置
-		g_aImpactWave[nCntWave].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//移動
-		g_aImpactWave[nCntWave].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//向き
+		g_aScoreCircle[nCntWave].posOrigin = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//起点の位置
+		g_aScoreCircle[nCntWave].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//位置
+		g_aScoreCircle[nCntWave].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//移動
+		g_aScoreCircle[nCntWave].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//向き
 
-		for (int nCntNor = 0; nCntNor < MAX_IMPACTWAVE; nCntNor++)
+		for (int nCntNor = 0; nCntNor < 256; nCntNor++)
 		{
-			g_aImpactWave[nCntWave].nor[nCntNor] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//法線の向き
+			g_aScoreCircle[nCntWave].nor[nCntNor] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//法線の向き
 		}
-		g_aImpactWave[nCntWave].col = D3DXCOLOR(0.6f, 0.6f, 0.8f, 1.0f);			//色
-		g_aImpactWave[nCntWave].colOrigin = D3DXCOLOR(0.6f, 0.6f, 0.8f, 1.0f);	//元の色
+		g_aScoreCircle[nCntWave].col = D3DXCOLOR(0.6f, 0.6f, 0.8f, 1.0f);			//色
+		g_aScoreCircle[nCntWave].colOrigin = D3DXCOLOR(0.6f, 0.6f, 0.8f, 1.0f);	//元の色
 
 		//ワールドマトリックスの初期化
-		D3DXMatrixIdentity(&g_aImpactWave[nCntWave].mtxWorld);
-		g_aImpactWave[nCntWave].fOutWidth = 100.0f;		//横幅(外)
-		g_aImpactWave[nCntWave].fInWidth = 0.0f;			//幅(内)
-		g_aImpactWave[nCntWave].fRotWidth = (D3DX_PI * 2) / (float)(WIDTH);		//1分割数あたりの角度割合
-		g_aImpactWave[nCntWave].fHeight = 0.0f;
-		g_aImpactWave[nCntWave].fMove = 0.0f;			//広がる速度
-		g_aImpactWave[nCntWave].nLife = 0;				//寿命
-		g_aImpactWave[nCntWave].nMaxLife = 0;			//最大寿命
-		g_aImpactWave[nCntWave].nTexType = 0;			//テクスチャ種類
-		g_aImpactWave[nCntWave].bUse = false;				//使用しているか
+		D3DXMatrixIdentity(&g_aScoreCircle[nCntWave].mtxWorld);
+		g_aScoreCircle[nCntWave].fOutWidth = 100.0f;		//横幅(外)
+		g_aScoreCircle[nCntWave].fInWidth = 0.0f;			//幅(内)
+		g_aScoreCircle[nCntWave].fRotWidth = (D3DX_PI * 2) / (float)(WIDTH);		//1分割数あたりの角度割合
+		g_aScoreCircle[nCntWave].fHeight = 0.0f;
+		g_aScoreCircle[nCntWave].fMove = 0.0f;			//広がる速度
+		g_aScoreCircle[nCntWave].nLife = 0;				//寿命
+		g_aScoreCircle[nCntWave].nMaxLife = 0;			//最大寿命
+		g_aScoreCircle[nCntWave].nTexType = 0;			//テクスチャ種類
+		g_aScoreCircle[nCntWave].bUse = false;				//使用しているか
 	}
-	g_nNumIndex = (HEIGHT * ((WIDTH + 1) * 2)) + (2 * (HEIGHT - 1));	//インデックス数
-	g_nNumVertx = (HEIGHT + 1) * (WIDTH + 1);	//頂点数
+	g_nNumIndexScoreCircle = (HEIGHT * ((WIDTH + 1) * 2)) + (2 * (HEIGHT - 1));	//インデックス数
+	g_nNumVertxScoreCircle = (HEIGHT + 1) * (WIDTH + 1);	//頂点数
 
 	//頂点バッファの生成
-	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * (g_nNumVertx * MAX_IMPACTWAVE),
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * (g_nNumVertxScoreCircle * MAX_SCORECIRCLE),
 		D3DUSAGE_WRITEONLY,
 		FVF_VERTEX_3D,
 		D3DPOOL_MANAGED,
-		&g_pVtxBuffImpactWave,
+		&g_pVtxBuffScoreCircle,
 		NULL);
 
 	VERTEX_3D *pVtx;		//頂点情報へのポインタ
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
-	g_pVtxBuffImpactWave->Lock(0, 0, (void**)&pVtx, 0);
+	g_pVtxBuffScoreCircle->Lock(0, 0, (void**)&pVtx, 0);
 
-	D3DXVECTOR3 pos[MAX_IMPACTWAVE];		//計算用の座標
+	D3DXVECTOR3 pos[512];		//計算用の座標
 
-	for (int nCntWave = 0; nCntWave < MAX_IMPACTWAVE; nCntWave++)
+	for (int nCntWave = 0; nCntWave < MAX_SCORECIRCLE; nCntWave++)
 	{
 		for (int nCntHeight = 0; nCntHeight < HEIGHT; nCntHeight++)
 		{//縦の頂点数分繰り返す
@@ -108,32 +110,32 @@ void InitImpactWave(void)
 				//上
 				pos[nCntWidth + (nCntHeight * (WIDTH + 1))] = D3DXVECTOR3
 				(
-					sinf(nCntWidth % WIDTH * g_aImpactWave[nCntWave].fRotWidth) * g_aImpactWave[nCntWave].fOutWidth,
-					POS_IMPACTWAVE_Y,
-					cosf(nCntWidth % WIDTH * g_aImpactWave[nCntWave].fRotWidth) * g_aImpactWave[nCntWave].fOutWidth
+					sinf(nCntWidth % WIDTH * g_aScoreCircle[nCntWave].fRotWidth) * g_aScoreCircle[nCntWave].fOutWidth,
+					POS_SCORECIRCLE_Y,
+					cosf(nCntWidth % WIDTH * g_aScoreCircle[nCntWave].fRotWidth) * g_aScoreCircle[nCntWave].fOutWidth
 				);
 
 				//下
 				pos[nCntWidth + (WIDTH + 1) + (nCntHeight * (WIDTH + 1))] = D3DXVECTOR3
 				(
-					sinf(nCntWidth % WIDTH * g_aImpactWave[nCntWave].fRotWidth) * g_aImpactWave[nCntWave].fInWidth,
-					POS_IMPACTWAVE_Y,
-					cosf(nCntWidth % WIDTH * g_aImpactWave[nCntWave].fRotWidth) * g_aImpactWave[nCntWave].fInWidth
+					sinf(nCntWidth % WIDTH * g_aScoreCircle[nCntWave].fRotWidth) * g_aScoreCircle[nCntWave].fInWidth,
+					POS_SCORECIRCLE_Y,
+					cosf(nCntWidth % WIDTH * g_aScoreCircle[nCntWave].fRotWidth) * g_aScoreCircle[nCntWave].fInWidth
 				);
 
 				//各頂点から原点を引く
-				g_aImpactWave[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))] = pos[nCntWidth + (nCntHeight * (WIDTH + 1))] - g_aImpactWave[nCntWave].pos;
-				g_aImpactWave[nCntWave].nor[nCntWidth + (WIDTH + 1) + (nCntHeight * (WIDTH + 1))] = pos[nCntWidth + (WIDTH + 1) + (nCntHeight * (WIDTH + 1))] - g_aImpactWave[nCntWave].pos;
+				g_aScoreCircle[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))] = pos[nCntWidth + (nCntHeight * (WIDTH + 1))] - g_aScoreCircle[nCntWave].pos;
+				g_aScoreCircle[nCntWave].nor[nCntWidth + (WIDTH + 1) + (nCntHeight * (WIDTH + 1))] = pos[nCntWidth + (WIDTH + 1) + (nCntHeight * (WIDTH + 1))] - g_aScoreCircle[nCntWave].pos;
 
 				//出た向きの値を正規化する
-				D3DXVec3Normalize(&g_aImpactWave[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))], &g_aImpactWave[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))]);
-				D3DXVec3Normalize(&g_aImpactWave[nCntWave].nor[nCntWidth + (WIDTH + 1) + (nCntHeight * (WIDTH + 1))], &g_aImpactWave[nCntWave].nor[nCntWidth + (WIDTH + 1) + (nCntHeight * (WIDTH + 1))]);
+				D3DXVec3Normalize(&g_aScoreCircle[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))], &g_aScoreCircle[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))]);
+				D3DXVec3Normalize(&g_aScoreCircle[nCntWave].nor[nCntWidth + (WIDTH + 1) + (nCntHeight * (WIDTH + 1))], &g_aScoreCircle[nCntWave].nor[nCntWidth + (WIDTH + 1) + (nCntHeight * (WIDTH + 1))]);
 
 			}
 		}
 	}
 
-	for (int nCntWave = 0; nCntWave < MAX_IMPACTWAVE; nCntWave++)
+	for (int nCntWave = 0; nCntWave < MAX_SCORECIRCLE; nCntWave++)
 	{
 		//頂点情報の設定
 		for (int nCntHeight = 0; nCntHeight < HEIGHT + 1; nCntHeight++)
@@ -146,10 +148,10 @@ void InitImpactWave(void)
 				pVtx[0].pos = pos[nCntWidth + (nCntHeight * (WIDTH + 1))];
 
 				//法線ベクトルの設定
-				pVtx[0].nor = g_aImpactWave[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))];
+				pVtx[0].nor = g_aScoreCircle[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))];
 
 				//頂点カラーの設定
-				pVtx[0].col = g_aImpactWave[nCntWave].col;
+				pVtx[0].col = g_aScoreCircle[nCntWave].col;
 
 				//テクスチャ座標の設定
 				pVtx[0].tex = D3DXVECTOR2
@@ -164,22 +166,22 @@ void InitImpactWave(void)
 	}
 
 	//頂点バッファをアンロックする
-	g_pVtxBuffImpactWave->Unlock();
+	g_pVtxBuffScoreCircle->Unlock();
 
 	//インデックスバッファの生成
-	pDevice->CreateIndexBuffer(sizeof(WORD) * (g_nNumIndex * MAX_IMPACTWAVE),
+	pDevice->CreateIndexBuffer(sizeof(WORD) * (g_nNumIndexScoreCircle * MAX_SCORECIRCLE),
 		D3DUSAGE_WRITEONLY,
 		D3DFMT_INDEX16,
 		D3DPOOL_MANAGED,
-		&g_pIdxBuffImpactWave,
+		&g_pIdxBuffScoreCircle,
 		NULL);
 
 	WORD *pIdx;	//インデックス情報へのポインタ
 
 	//インデックスバッファをロックし、頂点番号データへのポインタを取得
-	g_pIdxBuffImpactWave->Lock(0, 0, (void**)&pIdx, 0);
+	g_pIdxBuffScoreCircle->Lock(0, 0, (void**)&pIdx, 0);
 
-	for (int nCntIdx = 0, nVtxPoint = 0, nCntWave = 0; nCntWave < MAX_IMPACTWAVE; nCntWave++)
+	for (int nCntIdx = 0, nVtxPoint = 0, nCntWave = 0; nCntWave < MAX_SCORECIRCLE; nCntWave++)
 	{
 		//頂点番号データの設定
 		for (int nCntHeight = 0; nCntHeight < HEIGHT; nCntHeight++)
@@ -204,41 +206,48 @@ void InitImpactWave(void)
 			}
 		}
 
-		nVtxPoint += g_nNumVertx;	//頂点数分足す
+		nVtxPoint += g_nNumVertxScoreCircle;	//頂点数分足す
 	}
 
 	//インデックスバッファをアンロックする
-	g_pIdxBuffImpactWave->Unlock();
+	g_pIdxBuffScoreCircle->Unlock();
 
+	//プレイヤーの情報取得
+	Player *pPlayer = GetPlayer();
+
+	//スコアの円設定
+	SetScoreCircle(D3DXVECTOR3(pPlayer->pos.x, pPlayer->pos.y + 70.0f, pPlayer->pos.z - 2.02f), D3DXVECTOR3(0.0f, D3DX_PI * 0.5f, D3DX_PI * 0.5f), D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f), 100.0f, 0.0f, 0);
+	SetScoreCircle(D3DXVECTOR3(pPlayer->pos.x, pPlayer->pos.y + 70.0f, pPlayer->pos.z - 1.01f), D3DXVECTOR3(0.0f, D3DX_PI * 0.5f, D3DX_PI * 0.5f), D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f), 200.0f, 0.0f, 0);
+	SetScoreCircle(D3DXVECTOR3(pPlayer->pos.x, pPlayer->pos.y + 70.0f, pPlayer->pos.z), D3DXVECTOR3(0.0f, D3DX_PI * 0.5f, D3DX_PI * 0.5f), D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f), 300.0f, 0.0f, 0);
 }
 
 //==================================================================================
 //衝撃波の終了処理
 //==================================================================================
-void UninitImpactWave(void)
+void UninitScoreCircle(void)
 {
 	//テクスチャの破棄
-	for (int nCntTex = 0; nCntTex < (sizeof c_apFilenameImpactWave) / sizeof(*c_apFilenameImpactWave); nCntTex++)
+	for (int nCntTex = 0; nCntTex < (sizeof c_apFilenameScoreCircle) / sizeof(*c_apFilenameScoreCircle); nCntTex++)
 	{
-		if (g_apTextureImpactWave[nCntTex] != NULL)
+		if (g_apTextureScoreCircle[nCntTex] != NULL)
 		{
-			g_apTextureImpactWave[nCntTex]->Release();
-			g_apTextureImpactWave[nCntTex] = NULL;
+			g_apTextureScoreCircle[nCntTex]->Release();
+			g_apTextureScoreCircle[nCntTex] = NULL;
 		}
 	}
 
 	//頂点バッファの破棄
-	if (g_pVtxBuffImpactWave != NULL)
+	if (g_pVtxBuffScoreCircle != NULL)
 	{
-		g_pVtxBuffImpactWave->Release();
-		g_pVtxBuffImpactWave = NULL;
+		g_pVtxBuffScoreCircle->Release();
+		g_pVtxBuffScoreCircle = NULL;
 	}
 
 	//頂点インデックスの破棄
-	if (g_pIdxBuffImpactWave != NULL)
+	if (g_pIdxBuffScoreCircle != NULL)
 	{
-		g_pIdxBuffImpactWave->Release();
-		g_pIdxBuffImpactWave = NULL;
+		g_pIdxBuffScoreCircle->Release();
+		g_pIdxBuffScoreCircle = NULL;
 	}
 
 }
@@ -246,28 +255,28 @@ void UninitImpactWave(void)
 //==================================================================================
 //衝撃波の更新処理
 //==================================================================================
-void UpdateImpactWave(void)
+void UpdateScoreCircle(void)
 {
 	VERTEX_3D *pVtx;	//頂点情報へのポインタ
 
 	int nCheck = 0;
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
-	g_pVtxBuffImpactWave->Lock(0, 0, (void**)&pVtx, 0);
+	g_pVtxBuffScoreCircle->Lock(0, 0, (void**)&pVtx, 0);
 
-	for (int nCntWave = 0; nCntWave < MAX_IMPACTWAVE; nCntWave++)
+	for (int nCntWave = 0; nCntWave < MAX_SCORECIRCLE; nCntWave++)
 	{
-		if (g_aImpactWave[nCntWave].bUse == true)
+		if (g_aScoreCircle[nCntWave].bUse == true)
 		{//使用されていたら
 
 			//今回の位置まで進める
-			pVtx += g_nNumVertx * nCntWave;
-			nCheck += g_nNumVertx * nCntWave;
+			pVtx += g_nNumVertxScoreCircle * nCntWave;
+			nCheck += g_nNumVertxScoreCircle * nCntWave;
 
-			g_aImpactWave[nCntWave].pos += g_aImpactWave[nCntWave].move;
+			g_aScoreCircle[nCntWave].pos += g_aScoreCircle[nCntWave].move;
 
 			//広げていく
-			g_aImpactWave[nCntWave].fOutWidth += g_aImpactWave[nCntWave].fMove;
+			g_aScoreCircle[nCntWave].fOutWidth += g_aScoreCircle[nCntWave].fMove;
 
 			//頂点情報の更新
 			for (int nCntHeight = 0; nCntHeight < HEIGHT + 1; nCntHeight++)
@@ -279,13 +288,13 @@ void UpdateImpactWave(void)
 					//頂点座標の設定
 					pVtx[0].pos = D3DXVECTOR3
 					(
-						sinf(nCntWidth % WIDTH * g_aImpactWave[nCntWave].fRotWidth) * (g_aImpactWave[nCntWave].fOutWidth - nCntHeight * g_aImpactWave[nCntWave].fInWidth),
-						POS_IMPACTWAVE_Y + nCntHeight * g_aImpactWave[nCntWave].fHeight,
-						cosf(nCntWidth % WIDTH * g_aImpactWave[nCntWave].fRotWidth) * (g_aImpactWave[nCntWave].fOutWidth - nCntHeight * g_aImpactWave[nCntWave].fInWidth)
+						sinf(nCntWidth % WIDTH * g_aScoreCircle[nCntWave].fRotWidth) * (g_aScoreCircle[nCntWave].fOutWidth - nCntHeight * g_aScoreCircle[nCntWave].fInWidth),
+						POS_SCORECIRCLE_Y + nCntHeight * g_aScoreCircle[nCntWave].fHeight,
+						cosf(nCntWidth % WIDTH * g_aScoreCircle[nCntWave].fRotWidth) * (g_aScoreCircle[nCntWave].fOutWidth - nCntHeight * g_aScoreCircle[nCntWave].fInWidth)
 					);
 
 					//頂点カラーの設定
-					pVtx[0].col = g_aImpactWave[nCntWave].col;
+					pVtx[0].col = g_aScoreCircle[nCntWave].col;
 
 					pVtx += 1;
 					nCheck += 1;
@@ -293,43 +302,43 @@ void UpdateImpactWave(void)
 			}
 
 			//進めた分戻す
-			pVtx -= (g_nNumVertx * nCntWave + g_nNumVertx);
-			nCheck -= (g_nNumVertx * nCntWave + g_nNumVertx);
+			pVtx -= (g_nNumVertxScoreCircle * nCntWave + g_nNumVertxScoreCircle);
+			nCheck -= (g_nNumVertxScoreCircle * nCntWave + g_nNumVertxScoreCircle);
 
 			//寿命更新
-			g_aImpactWave[nCntWave].nLife--;
+			//g_aScoreCircle[nCntWave].nLife--;
 
 			//不透明度更新
-			g_aImpactWave[nCntWave].col.a = g_aImpactWave[nCntWave].colOrigin.a * (float)g_aImpactWave[nCntWave].nLife / (float)g_aImpactWave[nCntWave].nMaxLife;
+			//g_aScoreCircle[nCntWave].col.a = g_aScoreCircle[nCntWave].colOrigin.a * (float)g_aScoreCircle[nCntWave].nLife / (float)g_aScoreCircle[nCntWave].nMaxLife;
 
-			if (g_aImpactWave[nCntWave].nLife <= 0)
-			{//寿命が尽きた
+			//if (g_aScoreCircle[nCntWave].nLife <= 0)
+			//{//寿命が尽きた
 
-				g_aImpactWave[nCntWave].bUse = false;
-			}
+			//	g_aScoreCircle[nCntWave].bUse = false;
+			//}
 		}
 	}
 
 	//頂点バッファをアンロックする
-	g_pVtxBuffImpactWave->Unlock();
+	g_pVtxBuffScoreCircle->Unlock();
 }
 
 //==================================================================================
 //衝撃波の位置設定処理
 //==================================================================================
-void SetPositionImpactWave(int nIdxWave, D3DXVECTOR3 move)
+void SetPositionScoreCircle(int nIdxWave, D3DXVECTOR3 move)
 {
-	if (g_aImpactWave[nIdxWave].bUse == true)
+	/*if (g_aScoreCircle[nIdxWave].bUse == true)
 	{
-		g_aImpactWave[nIdxWave].pos.x += move.x;
-		g_aImpactWave[nIdxWave].pos.z += move.z;
-	}
+		g_aScoreCircle[nIdxWave].pos.x += move.x;
+		g_aScoreCircle[nIdxWave].pos.z += move.z;
+	}*/
 }
 
 //==================================================================================
 //衝撃波の描画処理
 //==================================================================================
-void DrawImpactWave(void)
+void DrawScoreCircle(void)
 {
 
 	//デバイスの取得
@@ -348,50 +357,50 @@ void DrawImpactWave(void)
 	// 背面のカリングはしません。
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	for (int nCntWave = 0, nIdxPoint = 0; nCntWave < MAX_IMPACTWAVE; nCntWave++)
+	for (int nCntWave = 0, nIdxPoint = 0; nCntWave < MAX_SCORECIRCLE; nCntWave++)
 	{
-		if (g_aImpactWave[nCntWave].bUse == true)
+		if (g_aScoreCircle[nCntWave].bUse == true)
 		{//使用されていたら
 
 			//ワールドマトリックスの初期化
-			D3DXMatrixIdentity(&g_aImpactWave[nCntWave].mtxWorld);
+			D3DXMatrixIdentity(&g_aScoreCircle[nCntWave].mtxWorld);
 
 			//向きを反映する
-			D3DXMatrixRotationYawPitchRoll(&mtxRot, g_aImpactWave[nCntWave].rot.y, g_aImpactWave[nCntWave].rot.x, g_aImpactWave[nCntWave].rot.z);
-			D3DXMatrixMultiply(&g_aImpactWave[nCntWave].mtxWorld, &g_aImpactWave[nCntWave].mtxWorld, &mtxRot);
+			D3DXMatrixRotationYawPitchRoll(&mtxRot, g_aScoreCircle[nCntWave].rot.y, g_aScoreCircle[nCntWave].rot.x, g_aScoreCircle[nCntWave].rot.z);
+			D3DXMatrixMultiply(&g_aScoreCircle[nCntWave].mtxWorld, &g_aScoreCircle[nCntWave].mtxWorld, &mtxRot);
 
 			//位置を反映する
-			D3DXMatrixTranslation(&mtxTrans, g_aImpactWave[nCntWave].pos.x, g_aImpactWave[nCntWave].pos.y, g_aImpactWave[nCntWave].pos.z);
-			D3DXMatrixMultiply(&g_aImpactWave[nCntWave].mtxWorld, &g_aImpactWave[nCntWave].mtxWorld, &mtxTrans);
+			D3DXMatrixTranslation(&mtxTrans, g_aScoreCircle[nCntWave].pos.x, g_aScoreCircle[nCntWave].pos.y, g_aScoreCircle[nCntWave].pos.z);
+			D3DXMatrixMultiply(&g_aScoreCircle[nCntWave].mtxWorld, &g_aScoreCircle[nCntWave].mtxWorld, &mtxTrans);
 
 			//ワールドマトリックスの設定
-			pDevice->SetTransform(D3DTS_WORLD, &g_aImpactWave[nCntWave].mtxWorld);
+			pDevice->SetTransform(D3DTS_WORLD, &g_aScoreCircle[nCntWave].mtxWorld);
 
 			//頂点バッファをデータストリームに設定
-			pDevice->SetStreamSource(0, g_pVtxBuffImpactWave, 0, sizeof(VERTEX_3D));
+			pDevice->SetStreamSource(0, g_pVtxBuffScoreCircle, 0, sizeof(VERTEX_3D));
 
 			//インデックスバッファをデータストリームに設定
-			pDevice->SetIndices(g_pIdxBuffImpactWave);
+			pDevice->SetIndices(g_pIdxBuffScoreCircle);
 
 			//頂点フォーマットの設定
 			pDevice->SetFVF(FVF_VERTEX_3D);
 
 			//テクスチャの設定
-			pDevice->SetTexture(0, g_apTextureImpactWave[g_aImpactWave[nCntWave].nTexType]);
+			pDevice->SetTexture(0, g_apTextureScoreCircle[g_aScoreCircle[nCntWave].nTexType]);
 
 			//ポリゴンの描画
 			pDevice->DrawIndexedPrimitive(
 				D3DPT_TRIANGLESTRIP,
 				0,
 				0,
-				g_nNumVertx/* * nCntWave*/,
+				g_nNumVertxScoreCircle/* * nCntWave*/,
 				nIdxPoint,
-				(g_nNumIndex - 2));
+				(g_nNumIndexScoreCircle - 2));
 
 		}
 
 		//今回のインデックス数を加算
-		nIdxPoint += g_nNumIndex;
+		nIdxPoint += g_nNumIndexScoreCircle;
 	}
 
 	//アルファテストを無効にする
@@ -410,40 +419,34 @@ void DrawImpactWave(void)
 //==================================================================================
 //衝撃波の設定処理
 //==================================================================================
-int SetImpactWave(D3DXVECTOR3 pos, D3DXVECTOR3 move, D3DXVECTOR3 rot, D3DXCOLOR col, float fWidth, float fHeight, int nLife, float fMove, int nTexType)
+void SetScoreCircle(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXCOLOR col, float fWidth, float fHeight, int nTexType)
 {
 
 	VERTEX_3D *pVtx;	//頂点情報へのポインタ
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
-	g_pVtxBuffImpactWave->Lock(0, 0, (void**)&pVtx, 0);
+	g_pVtxBuffScoreCircle->Lock(0, 0, (void**)&pVtx, 0);
 
-	D3DXVECTOR3 posMath[MAX_IMPACTWAVE];		//計算用の座標
+	D3DXVECTOR3 posMath[512];		//計算用の座標
 
-	int nCnt = -1;
-	for (int nCntWave = 0; nCntWave < MAX_IMPACTWAVE; nCntWave++)
+	for (int nCntWave = 0; nCntWave < MAX_SCORECIRCLE; nCntWave++)
 	{
-		if (g_aImpactWave[nCntWave].bUse == false)
+		if (g_aScoreCircle[nCntWave].bUse == false)
 		{//使用していなかったら
 
 			//今回の位置まで進める
-			pVtx += g_nNumVertx * nCntWave;
+			pVtx += g_nNumVertxScoreCircle * nCntWave;
 
 			//各要素設定
-			g_aImpactWave[nCntWave].pos = pos;
-			g_aImpactWave[nCntWave].move.x = sinf(D3DX_PI + rot.y) * move.x;
-			g_aImpactWave[nCntWave].move.z = cosf(D3DX_PI + rot.y) * move.z;
-			g_aImpactWave[nCntWave].rot = rot;
-			g_aImpactWave[nCntWave].col = col;
-			g_aImpactWave[nCntWave].colOrigin = col;
-			g_aImpactWave[nCntWave].nLife = nLife;
-			g_aImpactWave[nCntWave].nMaxLife = nLife;
-			g_aImpactWave[nCntWave].fOutWidth = fWidth;
-			g_aImpactWave[nCntWave].fInWidth = g_aImpactWave[nCntWave].fOutWidth;
-			g_aImpactWave[nCntWave].fHeight = fHeight;
-			g_aImpactWave[nCntWave].fMove = fMove;
-			g_aImpactWave[nCntWave].nTexType = nTexType;
-			g_aImpactWave[nCntWave].bUse = true;
+			g_aScoreCircle[nCntWave].pos = pos;
+			g_aScoreCircle[nCntWave].rot = rot;
+			g_aScoreCircle[nCntWave].col = col;
+			g_aScoreCircle[nCntWave].colOrigin = col;
+			g_aScoreCircle[nCntWave].fOutWidth = fWidth;
+			g_aScoreCircle[nCntWave].fInWidth = g_aScoreCircle[nCntWave].fOutWidth;
+			g_aScoreCircle[nCntWave].fHeight = fHeight;
+			g_aScoreCircle[nCntWave].nTexType = nTexType;
+			g_aScoreCircle[nCntWave].bUse = true;
 
 			//頂点情報の設定
 			for (int nCntHeight = 0; nCntHeight < HEIGHT + 1; nCntHeight++)
@@ -454,37 +457,34 @@ int SetImpactWave(D3DXVECTOR3 pos, D3DXVECTOR3 move, D3DXVECTOR3 rot, D3DXCOLOR 
 
 					posMath[nCntWidth + (nCntHeight * (WIDTH + 1))] = D3DXVECTOR3
 					(
-						sinf(nCntWidth % WIDTH * g_aImpactWave[nCntWave].fRotWidth) * (g_aImpactWave[nCntWave].fOutWidth - nCntHeight * g_aImpactWave[nCntWave].fInWidth),
-						POS_IMPACTWAVE_Y + nCntHeight * g_aImpactWave[nCntWave].fHeight,
-						cosf(nCntWidth % WIDTH * g_aImpactWave[nCntWave].fRotWidth) * (g_aImpactWave[nCntWave].fOutWidth - nCntHeight * g_aImpactWave[nCntWave].fInWidth)
+						sinf(nCntWidth % WIDTH * g_aScoreCircle[nCntWave].fRotWidth) * (g_aScoreCircle[nCntWave].fOutWidth - nCntHeight * g_aScoreCircle[nCntWave].fInWidth),
+						POS_SCORECIRCLE_Y + nCntHeight * g_aScoreCircle[nCntWave].fHeight,
+						cosf(nCntWidth % WIDTH * g_aScoreCircle[nCntWave].fRotWidth) * (g_aScoreCircle[nCntWave].fOutWidth - nCntHeight * g_aScoreCircle[nCntWave].fInWidth)
 					);
 
 					//頂点座標の設定
 					pVtx[0].pos = posMath[nCntWidth + (nCntHeight * (WIDTH + 1))];
 
 					//各頂点から原点を引く
-					g_aImpactWave[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))] = posMath[nCntWidth + (nCntHeight * (WIDTH + 1))] - g_aImpactWave[nCntWave].pos;
+					g_aScoreCircle[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))] = posMath[nCntWidth + (nCntHeight * (WIDTH + 1))] - g_aScoreCircle[nCntWave].pos;
 
 					//出た向きの値を正規化する
-					D3DXVec3Normalize(&g_aImpactWave[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))], &g_aImpactWave[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))]);
+					D3DXVec3Normalize(&g_aScoreCircle[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))], &g_aScoreCircle[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))]);
 
 					//法線ベクトルの設定
-					pVtx[0].nor = g_aImpactWave[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))];
+					pVtx[0].nor = g_aScoreCircle[nCntWave].nor[nCntWidth + (nCntHeight * (WIDTH + 1))];
 
 					pVtx += 1;
 				}
 			}
 
-			int nCntIdx = g_nNumIndex * nCntWave;
-			int nVtxPoint = g_nNumVertx * nCntWave;	//頂点数分足す
-			nCnt = nCntWave;
+			int nCntIdx = g_nNumIndexScoreCircle * nCntWave;
+			int nVtxPoint = g_nNumVertxScoreCircle * nCntWave;	//頂点数分足す
 
 			break;
 		}
 	}
 
 	//頂点バッファをアンロックする
-	g_pVtxBuffImpactWave->Unlock();
-
-	return nCnt;
+	g_pVtxBuffScoreCircle->Unlock();
 }

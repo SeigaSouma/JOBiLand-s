@@ -28,6 +28,7 @@
 #include "sound.h"
 #include "nofade.h"
 #include "launch.h"
+#include "scorecircle.h"
 
 //プロトタイプ宣言
 void DebugEdit(void);
@@ -90,6 +91,9 @@ void InitGame(void)
 	// 発射物の初期化処理
 	InitLaunch();
 
+	// スコアサークルの初期化処理
+	InitScoreCircle();
+
 	//サウンドの再生
 	PlaySound(SOUND_LABEL_BGM_GAME);
 
@@ -149,6 +153,9 @@ void UninitGame(void)
 
 	// 発射物の終了
 	UninitLaunch();
+
+	// スコアサークルの終了処理
+	UninitScoreCircle();
 
 	//スコアの終了処理
 	UninitScore();
@@ -228,6 +235,9 @@ void UpdateGame(void)
 
 				//スコアの更新処理
 				UpdateScore();
+
+				// スコアサークルの更新処理
+				UpdateScoreCircle();
 
 			}
 		}
@@ -325,6 +335,9 @@ void DrawGame(int nType)
 
 		//衝撃波の描画処理
 		DrawImpactWave();
+
+		// スコアサークルの描画処理
+		DrawScoreCircle();
 
 		//モデルの描画処理
 		DrawModel(1);
