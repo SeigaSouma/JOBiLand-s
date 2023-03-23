@@ -281,7 +281,7 @@ void SetLaunch(int nLevel)
 			case LAUNCHTYPE_GOOD:	// —Ç‚¢“z
 
 				// ƒ‚ƒfƒ‹î•ñ‚ğæ“¾‚·‚é
-				g_aLaunch[nCntLaunch].modelData = pModel[7];
+				g_aLaunch[nCntLaunch].modelData = pModel[5];
 
 				break;				// ”²‚¯o‚·
 
