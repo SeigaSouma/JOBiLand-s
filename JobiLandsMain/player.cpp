@@ -516,7 +516,7 @@ void CollisionCharPlayer(void)
 				{
 
 					SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
-					ReturnLaunch(pLaunch);
+					//ReturnLaunch(pLaunch);
 				}
 
 				//キャラクター同士の当たり判定
