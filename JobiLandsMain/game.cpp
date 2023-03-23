@@ -27,6 +27,7 @@
 #include "pause.h"
 #include "sound.h"
 #include "nofade.h"
+#include "launch.h"
 
 //プロトタイプ宣言
 void DebugEdit(void);
@@ -86,6 +87,9 @@ void InitGame(void)
 	//ゲームのカメラ初期化処理
 	InitCamera();
 
+	// 発射物の初期化処理
+	InitLaunch();
+
 	//サウンドの再生
 	PlaySound(SOUND_LABEL_BGM_GAME);
 
@@ -143,9 +147,11 @@ void UninitGame(void)
 	//メッシュの床の終了処理
 	UninitMeshField();
 
+	// 発射物の終了
+	UninitLaunch();
+
 	//スコアの終了処理
 	UninitScore();
-
 }
 
 //==============================================================
@@ -181,6 +187,9 @@ void UpdateGame(void)
 
 		//2Dエフェクトの更新処理
 		UpdateEffect_2D();
+
+		// 発射物の更新
+		UpdateLaunch();
 
 		if (pEdit->bUse == false)
 		{
@@ -274,6 +283,9 @@ void DrawGame(int nType)
 
 		//モデルの描画処理
 		DrawModel(0);
+
+		// 発射物の描画処理
+		DrawLaunch();
 
 		//メッシュの床の描画処理
 		DrawMeshField(DRAWFIELD_TYPE_MAIN);
