@@ -15,12 +15,13 @@
 #include "particle.h"
 #include "debugproc.h"
 #include "sound.h"
+#include "player.h"
 
 //マクロ定義
 #define LAUNCH_GRAVITY			(-0.3f)									// 発射物の重力
 #define LAUNCH_FLY				(-13.0f)								// 発射物の飛ぶ勢い
 #define LAUNCH_POS				(D3DXVECTOR3(230.0f, 150.0f, 0.0f))	// 発射物の位置
-#define LAUNCH_RETURN_POS		(-100.0f)								// 発射物の位置
+#define LAUNCH_RETURN_POS		(-100.0f)								// 発射物の跳ね返し可能座標
 
 // プロトタイプ宣言
 void FlyLaunch(Launch *pLaunch);	// 発射物の飛ぶ処理
@@ -51,6 +52,8 @@ void InitLaunch(void)
 
 		// 情報の初期化
 		g_aLaunch[nCntLaunch].fGravity = 0.0f;			// 重力
+		g_aLaunch[nCntLaunch].nScore = 0;				// スコア
+		g_aLaunch[nCntLaunch].fSpeed = 0.0f;			// スピード
 	}
 }
 
@@ -106,11 +109,28 @@ void UpdateLaunch(void)
 				// 発射物の飛ぶ処理
 				FlyLaunch(&g_aLaunch[nCntLaunch]);
 
+				if (GetKeyboardTrigger(DIK_RETURN) == true)
+				{ // ENTERキーを押した場合
+
+					// 重力を初期化する
+					g_aLaunch[nCntLaunch].fGravity = 4.0f;
+
+					// 跳ね返り状態にする
+					g_aLaunch[nCntLaunch].modelData.nState = LAUNCHSTATE_RETURN;
+
+					// 移動量を設定する
+					g_aLaunch[nCntLaunch].modelData.move = D3DXVECTOR3(-LAUNCH_FLY, 0.0f, 0.0f);
+				}
+
 				break;					// 抜け出す
 
 			case LAUNCHSTATE_RETURN:	// 跳ね返し状態
 
+				// 重力をかける
+				g_aLaunch[nCntLaunch].fGravity += LAUNCH_GRAVITY;
 
+				// 発射物の飛ぶ処理
+				FlyLaunch(&g_aLaunch[nCntLaunch]);
 
 				break;					// 抜け出す
 			}
@@ -130,6 +150,7 @@ void UpdateLaunch(void)
 		}
 	}
 
+	// 発射物の状態のデバッグ表示
 	PrintDebugProc("発射物の状態：[%d]\n", g_aLaunch[0].modelData.nState);
 }
 
@@ -196,6 +217,8 @@ void DrawLaunch(void)
 void SetLaunch(void)
 {
 	Model *pModel = GetXLoadData();		// モデルの情報
+	Player *pPlayer = GetPlayer();		// プレイヤーの情報を取得する
+	D3DXVECTOR3 distance;				// 距離
 
 	for (int nCntLaunch = 0; nCntLaunch < MAX_LAUNCH; nCntLaunch++)
 	{//パーツ分繰り返す
@@ -204,8 +227,10 @@ void SetLaunch(void)
 		{ // 使用していない場合
 
 			// 情報の設定
-			g_aLaunch[nCntLaunch].modelData.nType = LAUNCHTYPE_GOOD;					// 良い物
-			g_aLaunch[nCntLaunch].modelData.nState = LAUNCHSTATE_FLY;						// 状態
+			g_aLaunch[nCntLaunch].modelData.nType = LAUNCHTYPE_GOOD;		// 良い物
+			g_aLaunch[nCntLaunch].modelData.nState = LAUNCHSTATE_FLY;		// 状態
+			g_aLaunch[nCntLaunch].nScore = 0;								// スコア
+			g_aLaunch[nCntLaunch].fSpeed = 0.04f;							// スピード
 
 			switch (g_aLaunch[nCntLaunch].modelData.nType)
 			{
@@ -225,11 +250,19 @@ void SetLaunch(void)
 			}
 
 			// 情報の初期化
-			g_aLaunch[nCntLaunch].fGravity = 0.0f;			// 重力
+			g_aLaunch[nCntLaunch].modelData.pos = LAUNCH_POS;	// 位置
+
+			// 距離を測る
+			distance.x = (pPlayer->pos.x - g_aLaunch[nCntLaunch].modelData.pos.x);
+			distance.y = (pPlayer->pos.y - g_aLaunch[nCntLaunch].modelData.pos.y);
+
+			// 移動量を決める
+			distance.x *= g_aLaunch[nCntLaunch].fSpeed;
+
+			g_aLaunch[nCntLaunch].fGravity = 0.0f;				// 重力
 
 			// 発射物の設定
-			g_aLaunch[nCntLaunch].modelData.pos = LAUNCH_POS;							// 位置
-			g_aLaunch[nCntLaunch].modelData.move = D3DXVECTOR3(LAUNCH_FLY, 0.0f, 0.0f);	// 移動量
+			g_aLaunch[nCntLaunch].modelData.move = D3DXVECTOR3(distance.x, 0.0f, 0.0f);	// 移動量
 			g_aLaunch[nCntLaunch].modelData.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 向き
 			g_aLaunch[nCntLaunch].modelData.bUse = true;								// 使用状況
 

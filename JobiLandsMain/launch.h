@@ -35,7 +35,8 @@ typedef struct
 {
 	Model modelData;	// モデル情報
 	float fGravity;		// 重力
-	int nScore;			// スコアを
+	int nScore;			// スコア
+	float fSpeed;		// 速度
 }Launch;
 
 //プロトタイプ宣言
