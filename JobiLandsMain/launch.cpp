@@ -25,17 +25,14 @@
 #define LAUNCH_LEVEL			(4)										// 発射物のレベル
 #define LAUNCH_NUM_RANGE		(3)										// 発射物の範囲の数
 
+// 評価関係のマクロ定義
 #define LAUNCH_GOOD_RANGE		(LAUNCH_RETURN_POS)						// 発射物の範囲(最低評価)
 #define LAUNCH_GREAT_RANGE		(8.0f)									// 発射物の範囲(中評価)
 #define LAUNCH_PERFECT_RANGE	(-100.0f)								// 発射物の範囲(最高評価)
+#define LAUNCH_GOOD_SCORE		(100)									// 発射物の範囲(最低評価)
 
-// 構造体定義
-typedef struct
-{
-	int nLevel;			// レベル
-	float fFrame;		// フレーム数
-	float fGravity;		// 重力
-}Launch_Info;
+// 跳ね返し関係のマクロ定義
+#define LAUNCH_RETURN_GOOD		(D3DXVECTOR3(400.0f,0.0f,0.0f))			// 良い物の行く先
 
 // プロトタイプ宣言
 void FlyLaunch(Launch *pLaunch);				// 発射物の飛ぶ処理
@@ -324,6 +321,15 @@ Launch *GetLaunch(void)
 }
 
 //==================================================================================
+// 発射物のレベルの取得処理
+//==================================================================================
+Launch_Info *GetLaundhLevel(void)
+{
+	// 発射物のレベルを返す
+	return &g_aLaunchInfo[0];
+}
+
+//==================================================================================
 // 発射物の飛ぶ処理
 //==================================================================================
 void FlyLaunch(Launch *pLaunch)
@@ -364,7 +370,23 @@ void ReturnLaunch(Launch *pLaunch)
 //==================================================================================
 void DistanceReturnLaunch(Launch *pLaunch)
 {
+	//D3DXVECTOR3 distance;
 
+	//if (pLaunch->modelData.nType == LAUNCHTYPE_GOOD)
+	//{ // 良い物だった場合
+
+	//	// 距離を測る
+	//	distance.x = (pPlayer->pos.x - g_aLaunch[nCntLaunch].modelData.pos.x);
+	//	distance.y = (pPlayer->pos.y - g_aLaunch[nCntLaunch].modelData.pos.y);
+
+	//	// 移動量を決める
+	//	distance.x *= g_aLaunch[nCntLaunch].fSpeed;
+
+	//	g_aLaunch[nCntLaunch].fGravity = 0.0f;				// 重力
+
+	//														// 発射物の設定
+	//	g_aLaunch[nCntLaunch].modelData.move = D3DXVECTOR3(distance.x, 0.0f, 0.0f);	// 移動量
+	//}
 }
 
 //==================================================================================
@@ -372,18 +394,23 @@ void DistanceReturnLaunch(Launch *pLaunch)
 //==================================================================================
 void LaunchReturnRange(Launch *pLaunch)
 {
-	if (pLaunch->modelData.pos.x <= LAUNCH_GOOD_RANGE)
-	{
-		pLaunch->nScore = 100;
-	}
+	// 得点を算出する
+	if (pLaunch->modelData.pos.x <= LAUNCH_PERFECT_RANGE)
+	{ // 範囲が PERFECT 判定内だった場合
 
+		// スコアを設定する
+		pLaunch->nScore = 300;
+	}
 	if (pLaunch->modelData.pos.x <= LAUNCH_GREAT_RANGE)
-	{
+	{ // 範囲が GREAT 判定内だった場合
+
+		// スコアを設定する
 		pLaunch->nScore = 200;
 	}
+	if (pLaunch->modelData.pos.x <= LAUNCH_GOOD_RANGE)
+	{ // 範囲が GOOD 判定内だった場合
 
-	if (pLaunch->modelData.pos.x <= LAUNCH_PERFECT_RANGE)
-	{
-		pLaunch->nScore = 300;
+		// スコアを設定する
+		pLaunch->nScore = LAUNCH_GOOD_SCORE;
 	}
 }

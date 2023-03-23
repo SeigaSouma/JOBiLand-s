@@ -40,6 +40,14 @@ typedef struct
 	int nLevel;			// レベル
 }Launch;
 
+// 構造体定義
+typedef struct
+{
+	int nLevel;			// レベル
+	float fFrame;		// フレーム数
+	float fGravity;		// 重力
+}Launch_Info;
+
 //プロトタイプ宣言
 void InitLaunch(void);				// 発射物の初期化処理
 void UninitLaunch(void);			// 発射物の終了処理
@@ -47,5 +55,6 @@ void UpdateLaunch(void);			// 発射物の更新処理
 void DrawLaunch(void);				// 発射物の描画処理
 void SetLaunch(int nLevel);			// 発射物の設定処理
 Launch *GetLaunch(void);			// 発射物の取得処理
+Launch_Info *GetLaundhLevel(void);	// 発射物のレベルの取得処理
 
 #endif
