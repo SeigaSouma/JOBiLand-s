@@ -515,7 +515,8 @@ void CollisionCharPlayer(void)
 				if (pLaunch->modelData.pos.x <= -190.0f)
 				{
 
-
+					SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
+					ReturnLaunch(pLaunch);
 				}
 
 				//キャラクター同士の当たり判定
