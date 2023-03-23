@@ -42,12 +42,12 @@ void InitTutorial(void)
 
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data\\TEXTURE\\tutorial3d1.png",
+		"data\\TEXTURE\\tutoriaru1.png",
 		&g_apTextureTutorial[0]);
 
 	//テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"data\\TEXTURE\\tutorial3d2.png",
+		"data\\TEXTURE\\tutorial2.png",
 		&g_apTextureTutorial[1]);
 
 	//テクスチャの読み込み
