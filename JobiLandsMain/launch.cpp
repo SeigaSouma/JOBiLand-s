@@ -111,13 +111,13 @@ void UpdateLaunch(void)
 {
 	int nCntUse = 0;
 
-		if (nSetLaunchCount % 30 == 0)
-		{ // 0キーを押した場合
 
-		  // 発射物の設定処理
-			SetLaunch(3);
-		}
-	}
+		//if (g_nSetLaunchCount % 30 == 0)
+		//{ // 0キーを押した場合
+
+		//  // 発射物の設定処理
+		//	SetLaunch(3);
+		//}
 
 	for (int nCntLaunch = 0; nCntLaunch < MAX_LAUNCH; nCntLaunch++)
 	{
@@ -140,7 +140,7 @@ void UpdateLaunch(void)
 				// 発射物の飛ぶ処理
 				FlyLaunch(&g_aLaunch[nCntLaunch]);
 
-				if (g_aLaunch[nCntLaunch].modelData.pos.x <= LAUNCH_RETURN_POS && g_aLaunch[nCntLaunch].modelData.pos.y <= 250.0f)
+				if (g_aLaunch[nCntLaunch].modelData.pos.x <= LAUNCH_RETURN_POS_X && g_aLaunch[nCntLaunch].modelData.pos.y <= 250.0f)
 				if (g_aLaunch[nCntLaunch].modelData.pos.y <= LAUNCH_RETURN_POS_Y && g_aLaunch[nCntLaunch].modelData.pos.x <= LAUNCH_RETURN_POS_X)
 				{ // 位置が一定を過ぎた場合
 
@@ -372,7 +372,6 @@ void ReturnLaunch(Launch *pLaunch)
 	Player *pPlayer = GetPlayer();		// プレイヤーの情報を取得する
 
 	if (GetKeyboardTrigger(DIK_W) == true)
-	if (GetKeyboardTrigger(DIK_S) == true)
 	{ // ENTERキーを押した場合
 
 		// 重力を初期化する
@@ -388,7 +387,6 @@ void ReturnLaunch(Launch *pLaunch)
 		LaunchReturnRange(pLaunch);
 		PlaySound(SOUND_LABEL_SE_ARMMOVE);
 		SetMotion(&pPlayer->aMotion, PLAYERMOTION_UP);
-	}
 
 		if (LAUNCHTYPE_EVIL == pLaunch->modelData.nType)
 		{
