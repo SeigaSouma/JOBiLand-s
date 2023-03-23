@@ -96,8 +96,6 @@ void InitGame(void)
 
 	//サウンドの再生
 	PlaySound(SOUND_LABEL_BGM_GAME);
-	////サウンドの再生
-	//PlaySound(SOUND_LABEL_BGM_GAME);
 
 	//各種変数初期化
 	g_gameState = GAMESTATE_NONE;
