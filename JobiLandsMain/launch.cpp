@@ -218,7 +218,7 @@ void SetLaunch(void)
 		{ // 使用していない場合
 
 			// 情報の設定
-			g_aLaunch[nCntLaunch].modelData.nType = LAUNCHTYPE_GOOD;		// 良い物
+			g_aLaunch[nCntLaunch].modelData.nType = rand() % 2;		// 良い物
 			g_aLaunch[nCntLaunch].modelData.nState = LAUNCHSTATE_FLY;		// 状態
 			g_aLaunch[nCntLaunch].nScore = 0;								// スコア
 			g_aLaunch[nCntLaunch].fSpeed = 0.04f;							// スピード

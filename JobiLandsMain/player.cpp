@@ -376,21 +376,7 @@ void UpdateATKPlayer(void)
 //==================================================================================
 void CollisionATKPlayer(float fDistance, float fAngle, int nValue)
 {
-	//ペンライトの攻撃
-	bool bAtk = false;
-
-	//ペンライトの当たり判定
-	/*bAtk = CollisionFan(g_aPlayer.pos,
-	D3DXVECTOR3(g_aPlayer.pos.x + sinf(fAngle + g_aPlayer.rot.y) * -fDistance, g_aPlayer.pos.y, g_aPlayer.pos.z + cosf(fAngle + g_aPlayer.rot.y) * -fDistance),
-	D3DXVECTOR3(g_aPlayer.pos.x + sinf(-fAngle + g_aPlayer.rot.y) * -fDistance, g_aPlayer.pos.y, g_aPlayer.pos.z + cosf(-fAngle + g_aPlayer.rot.y) * -fDistance),
-	pMob->aModel.pos, pMob->aModel.posOld);*/
-
-	if (bAtk == true)
-	{//扇の範囲に入ったら
-
-	 //モブのヒット処理
-	 //HitMob(nCntMob, nValue);
-	}
+	
 }
 
 //==================================================================================
