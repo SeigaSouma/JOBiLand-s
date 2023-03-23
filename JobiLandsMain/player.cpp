@@ -341,11 +341,11 @@ void ControllPlayer(void)
 		//	PlaySound(SOUND_LABEL_SE_ARMMOVE);
 		//	SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
 		//}
-		if (GetKeyboardTrigger(DIK_W) == true)
-		{//W‚ª‰Ÿ‚³‚ê‚½,Œ™‚È‚à‚Ì4
-			PlaySound(SOUND_LABEL_SE_ARMMOVE);
-			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
-		}
+		//if (GetKeyboardTrigger(DIK_W) == true)
+		//{//W‚ª‰Ÿ‚³‚ê‚½,Œ™‚È‚à‚Ì4
+		//	PlaySound(SOUND_LABEL_SE_ARMMOVE);
+		//	SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
+		//}
 
 		//if (GetKeyboardTrigger(DIK_S) == true)
 		//{//W‚ª‰Ÿ‚³‚ê‚½,Œ™‚È‚à‚Ì
@@ -383,7 +383,6 @@ void UpdateATKPlayer(void)
 //==================================================================================
 void CollisionATKPlayer(float fDistance, float fAngle, int nValue)
 {
-	PlaySound(SOUND_LABEL_SE_HIT);
 }
 
 //==================================================================================
