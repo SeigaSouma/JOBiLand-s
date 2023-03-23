@@ -67,7 +67,8 @@ typedef enum
 typedef enum
 {
 	PLAYERSTATE_NONE = 0,	//何もしていない状態
-	PLAYERSTATE_FEAVER,		//フィーバー状態
+	PLAYERSTATE_DMG,		//ダメージ状態
+	PLAYERSTATE_INVINCIBLE,	//透明状態
 	PLAYERSTATE_MAX
 }PLAYERSTATE;
 

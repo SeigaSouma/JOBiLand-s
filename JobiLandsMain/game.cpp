@@ -80,6 +80,9 @@ void InitGame(void)
 	//ポーズメニューの初期化処理
 	InitPause();
 
+	//スコアの初期化処理
+	InitScore();
+
 	//ゲームのカメラ初期化処理
 	InitCamera();
 
@@ -140,6 +143,9 @@ void UninitGame(void)
 	//メッシュの床の終了処理
 	UninitMeshField();
 
+	//スコアの終了処理
+	UninitScore();
+
 }
 
 //==============================================================
@@ -159,7 +165,7 @@ void UpdateGame(void)
 
 	if (GetFade() == FADE_NONE)
 	{//何もしていないとき
-		if (GetKeyboardTrigger(DIK_RETURN) == true || GetGamepadTrigger(BUTTON_A, 0) == true)
+		if (GetKeyboardTrigger(DIK_F2) == true)
 		{
 			SetFade(MODE_RESULT);
 		}
@@ -210,6 +216,10 @@ void UpdateGame(void)
 
 				////軌跡の更新処理
 				//UpdateMeshOrbit();
+
+				//スコアの更新処理
+				UpdateScore();
+
 			}
 		}
 	}
@@ -314,10 +324,12 @@ void DrawGame(int nType)
 
 		if (g_gameState != GAMESTATE_START)
 		{
-
 			//2Dエフェクトの描画処理
 			DrawEffect_2D();
 		}
+
+		//スコアの描画処理
+		DrawScore();
 
 		if (g_bPause == true)
 		{//ポーズメニューが使われているとき
@@ -411,5 +423,5 @@ void SetGameEnd(void)
 	//pPlayer->pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	////ニュートラルモーション設定
-	//SetMotisonPlayer(PLAYERMOTION_DEF);
+	//SetMotionPlayer(PLAYERMOTION_DEF);
 }
