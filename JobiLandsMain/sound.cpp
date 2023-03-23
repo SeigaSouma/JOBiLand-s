@@ -46,6 +46,8 @@ SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] =
 	{ "data/BGM/takumi.wav", -1 },	// ランキング
 	{ "data/BGM/takumi.wav", -1 },	// チュートリアル
 	{ "data/SE/dhuhuhu.wav", 0 },	// カーソル移動
+	{ "data/SE/arm_move.wav",0},	//腕の動く音
+	{ "data/SE/arm_push.wav",0 },	//腕がものに当たる音音
 };
 
 //=============================================================================

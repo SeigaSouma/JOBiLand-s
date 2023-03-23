@@ -18,7 +18,7 @@
 #include "player.h"
 
 //マクロ定義
-#define LAUNCH_GRAVITY			(-0.3f)									// 発射物の重力
+#define LAUNCH_GRAVITY			(-1.0f)									// 発射物の重力
 #define LAUNCH_FLY				(-13.0f)								// 発射物の飛ぶ勢い
 #define LAUNCH_POS				(D3DXVECTOR3(600.0f, 0.0f, 0.0f))		// 発射物の位置
 #define LAUNCH_RETURN_POS		(130.0f)								// 発射物の跳ね返し可能座標
@@ -36,9 +36,10 @@
 #define LAUNCH_RETURN_EVIL		(D3DXVECTOR3(700.0f,0.0f,0.0f))			// 悪い物の行く先
 
 // プロトタイプ宣言
-void FlyLaunch(Launch *pLaunch);				// 発射物の飛ぶ処理
-void DistanceReturnLaunch(Launch *pLaunch);		// 発射物の距離演算処理
-void LaunchReturnRange(Launch *pLaunch);		// 発射物の範囲測定処理
+void FlyLaunch(Launch *pLaunch);						// 発射物の飛ぶ処理
+void ReturnLaunch(Launch *pLaunch);						// 発射物の跳ね返し処理
+void DistanceReturnLaunch(Launch *pLaunch);				// 発射物の距離演算処理
+void LaunchReturnRange(Launch *pLaunch);				// 発射物の範囲測定処理
 
 //グローバル変数宣言
 Launch g_aLaunch[MAX_LAUNCH];		// 発射物の情報
@@ -98,14 +99,17 @@ void UninitLaunch(void)
 //==================================================================================
 void UpdateLaunch(void)
 {
-	// 設定カウントを加算する
-	nSetLaunchCount++;
+	if (GetKeyboardPress(DIK_0) == true)
+	{ // 0キーを押している場合
+		// 設定カウントを加算する
+		nSetLaunchCount++;
 
-	if (nSetLaunchCount % 20 == 0)
-	{ // 0キーを押した場合
+		if (nSetLaunchCount % 20 == 0)
+		{ // 0キーを押した場合
 
-		// 発射物の設定処理
-		SetLaunch(0);
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
 	}
 
 	for (int nCntLaunch = 0; nCntLaunch < MAX_LAUNCH; nCntLaunch++)
@@ -144,7 +148,7 @@ void UpdateLaunch(void)
 				FlyLaunch(&g_aLaunch[nCntLaunch]);
 
 				// 発射物の跳ね返し処理
-				//ReturnLaunch(&g_aLaunch[nCntLaunch]);
+				ReturnLaunch(&g_aLaunch[nCntLaunch]);
 
 				break;					// 抜け出す
 
@@ -263,7 +267,7 @@ void SetLaunch(int nLevel)
 			case LAUNCHTYPE_GOOD:	// 良い奴
 
 				// モデル情報を取得する
-				g_aLaunch[nCntLaunch].modelData = pModel[5];
+				g_aLaunch[nCntLaunch].modelData = pModel[7];
 
 				break;				// 抜け出す
 
@@ -336,8 +340,9 @@ void ReturnLaunch(Launch *pLaunch)
 {
 	Player *pPlayer = GetPlayer();		// プレイヤーの情報を取得する
 
-	if (g_aLaunchInfo[0].nAngle == LAUNCHANGLE_UP)
-	{
+	if (GetKeyboardTrigger(DIK_S) == true)
+	{ // ENTERキーを押した場合
+
 		// 重力を初期化する
 		pLaunch->fGravity = 40.0f;
 
@@ -346,20 +351,6 @@ void ReturnLaunch(Launch *pLaunch)
 
 		// 発射物の距離演算処理
 		DistanceReturnLaunch(pLaunch);
-
-		// 発射物の範囲測定処理
-		LaunchReturnRange(pLaunch);
-	}
-	else
-	{
-		// 重力を初期化する
-		pLaunch->fGravity = 4.0f;
-
-		// 跳ね返り状態にする
-		pLaunch->modelData.nState = LAUNCHSTATE_RETURN;
-
-		// 移動量を設定する
-		pLaunch->modelData.move = D3DXVECTOR3(-LAUNCH_FLY, 0.0f, 0.0f);
 
 		// 発射物の範囲測定処理
 		LaunchReturnRange(pLaunch);
@@ -380,39 +371,22 @@ void ReturnLaunch(Launch *pLaunch)
 		// 発射物の範囲測定処理
 		LaunchReturnRange(pLaunch);
 	}
-	
 
-	//if (GetKeyboardTrigger(DIK_S) == true)
-	//{ // ENTERキーを押した場合
+	if (GetKeyboardTrigger(DIK_W) == true)
+	{ // ENTERキーを押した場合
 
-	//	// 重力を初期化する
-	//	pLaunch->fGravity = 4.0f;
+	  // 重力を初期化する
+		pLaunch->fGravity = 40.0f;
 
-	//	// 跳ね返り状態にする
-	//	pLaunch->modelData.nState = LAUNCHSTATE_RETURN;
+		// 跳ね返り状態にする
+		pLaunch->modelData.nState = LAUNCHSTATE_RETURN;
 
-	//	// 発射物の距離演算処理
-	//	DistanceReturnLaunch(pLaunch);
+		// 移動量を設定する
+		pLaunch->modelData.move = D3DXVECTOR3(-LAUNCH_FLY, 0.0f, 0.0f);
 
-	//	// 発射物の範囲測定処理
-	//	LaunchReturnRange(pLaunch);
-	//}
-
-	//if (GetKeyboardTrigger(DIK_W) == true)
-	//{ // ENTERキーを押した場合
-
-	//  // 重力を初期化する
-	//	pLaunch->fGravity = 40.0f;
-
-	//	// 跳ね返り状態にする
-	//	pLaunch->modelData.nState = LAUNCHSTATE_RETURN;
-
-	//	// 移動量を設定する
-	//	pLaunch->modelData.move = D3DXVECTOR3(-LAUNCH_FLY, 0.0f, 0.0f);
-
-	//	// 発射物の範囲測定処理
-	//	LaunchReturnRange(pLaunch);
-	//}
+		// 発射物の範囲測定処理
+		LaunchReturnRange(pLaunch);
+	}
 }
 
 //==================================================================================
