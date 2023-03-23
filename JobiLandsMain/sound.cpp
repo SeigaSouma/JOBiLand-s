@@ -49,6 +49,7 @@ SOUNDINFO g_aSoundInfo[SOUND_LABEL_MAX] =
 	{ "data/SE/arm_move.wav",0},	//˜r‚Ì“®‚­‰¹
 	{ "data/SE/arm_push.wav",0 },	//˜r‚ª‚à‚Ì‚É“–‚½‚é‰¹
 	{ "data/SE/enter.wav",0},		//ƒGƒ“ƒ^[Œˆ’è‰¹
+	{ "data/SE/wind.wav",0 },	//˜r‚ª‚à‚Ì‚É“–‚½‚é‰¹‰¹
 };
 
 //=============================================================================
