@@ -11,6 +11,7 @@
 #include "player.h"
 #include "debugproc.h"
 #include "sound.h"
+#include "launch.h"
 
 //マクロ定義
 #define POS_X		(50.0f)	//ゲージの長さ
@@ -175,6 +176,23 @@ void UpdateGameControllPanel(void)
 
 	//頂点バッファをロックし頂点情報へのポインタを取得
 	g_pVtxBuffControllPanel->Lock(0, 0, (void**)&pVtx, 0);
+
+	Launch_Info *pLaunchInfo = GetLaundhLevel();	// 発射物のレベルの取得処理
+
+	if (pLaunchInfo->nAngle == -1)
+	{
+		if (GetKeyboardTrigger(DIK_S) == true)
+		{ // ENTERキーを押した場合
+
+			pLaunchInfo->nAngle = LAUNCHANGLE_DOWN;
+		}
+
+		if (GetKeyboardTrigger(DIK_W) == true)
+		{ // ENTERキーを押した場合
+
+			pLaunchInfo->nAngle = LAUNCHANGLE_UP;
+		}
+	}
 
 	for (int nCntControllPanel = 0; nCntControllPanel < CONTROLLPANEL_VTX_MAX; nCntControllPanel++)
 	{
