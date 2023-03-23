@@ -341,18 +341,8 @@ void ControllPlayer(void)
 			PlaySound(SOUND_LABEL_SE_ARMMOVE);
 			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
 		}
-		if (GetKeyboardTrigger(DIK_W) == true)
-		{//W‚ª‰Ÿ‚³‚ê‚½,Œ™‚È‚à‚Ì
-			PlaySound(SOUND_LABEL_SE_ARMMOVE);
-			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
-		}
 
 		if (GetKeyboardTrigger(DIK_S) == true || GetGamepadTrigger(BUTTON_B, 0))
-		{//W‚ª‰Ÿ‚³‚ê‚½,Œ™‚È‚à‚Ì
-			PlaySound(SOUND_LABEL_SE_ARMMOVE);
-			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_DOWN);
-		}
-		if (GetKeyboardTrigger(DIK_S) == true)
 		{//W‚ª‰Ÿ‚³‚ê‚½,Œ™‚È‚à‚Ì
 			PlaySound(SOUND_LABEL_SE_ARMMOVE);
 			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_DOWN);
