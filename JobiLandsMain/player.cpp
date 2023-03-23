@@ -20,7 +20,7 @@
 #include "debugproc.h"
 #include "sound.h"
 #include "motion.h"
-
+#include "launch.h"
 
 //マクロ定義
 #define DMG_TIME	(10)	//ダメージ状態の時間
@@ -504,6 +504,67 @@ void CollisionCharPlayer(void)
 			CollisionCharacter(
 				&g_aPlayer.pos, &g_aPlayer.posOld, D3DXVECTOR3(g_aPlayer.fRadius, 0.0f, g_aPlayer.fRadius), D3DXVECTOR3(-g_aPlayer.fRadius, 0.0f, -g_aPlayer.fRadius),
 				&pModel->posOrigin, pModel->vtxMax, pModel->vtxMin);
+		}
+	}
+
+	//発射物の情報取得
+	Launch *pLaunch = GetLaunch();
+
+	bool bHit = false;
+
+	for (int nCntLaunch = 0; nCntLaunch < MAX_LAUNCH; nCntLaunch++, pLaunch++)
+	{
+		if (pLaunch->modelData.bUse == true)
+		{//モデルが使用されていたら
+
+			//キャラクター同士の当たり判定
+			bHit = bHitCharacter(
+				&g_aPlayer.pos, &g_aPlayer.posOld, D3DXVECTOR3(g_aPlayer.fRadius, 0.0f, g_aPlayer.fRadius), D3DXVECTOR3(-g_aPlayer.fRadius, 0.0f, -g_aPlayer.fRadius),
+				&pModel->posOrigin, pModel->vtxMax, pModel->vtxMin);
+
+			if (bHit == true)
+			{//当たったら
+
+				//プレイヤーのヒット処理
+				HitPlayer();
+
+				break;
+			}
+		}
+	}
+
+}
+
+//==================================================================================
+//弾のヒット処理
+//==================================================================================
+void HitPlayer(void)
+{
+
+	if (g_aPlayer.nState == PLAYERSTATE_NONE)
+	{//ウルト状態じゃないとき
+
+		g_aPlayer.nState = PLAYERSTATE_DMG;	//ダメージ状態へ
+		g_aPlayer.nCntState = DMG_TIME;		//ダメージ状態を保つ時間を与える
+
+		//サウンド再生
+		//PlaySound(SOUND_LABEL_SE_DMG);
+
+		for (int nCntParts = 0; nCntParts < g_aPlayer.aMotion.nPartsNum; nCntParts++)
+		{//パーツ分繰り返す
+
+			D3DXMATERIAL *pMat;	//マテリアルデータへのポインタ
+
+			//マテリアルデータへのポインタを取得
+			pMat = (D3DXMATERIAL*)g_aPlayer.aModel[nCntParts].pBuffMat->GetBufferPointer();
+
+			//頂点数分繰り返し
+			for (int nCntMat = 0; nCntMat < (int)g_aPlayer.aModel[nCntParts].dwNumMat; nCntMat++)
+			{//マテリアルを赤くする
+
+				pMat[nCntMat].MatD3D.Diffuse = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+				pMat[nCntMat].MatD3D.Ambient = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+			}
 		}
 	}
 }
