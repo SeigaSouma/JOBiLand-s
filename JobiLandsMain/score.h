@@ -33,5 +33,5 @@ void UninitScore(void);
 void UpdateScore(void);
 void DrawScore(void);
 void AddScore(int nValue);
-
+Score *GetScore(void);
 #endif

@@ -8,6 +8,7 @@
 #include"sound.h"
 #include"input.h"
 #include"resultscore.h"
+#include"score.h"
 #include"light.h"
 #include"camera.h"
 #include"shadow.h"
@@ -127,6 +128,10 @@ void InitResult(void)
 	//スコアの初期化処理
 	InitResultScore();
 
+	Score *pSc = GetScore();
+
+	SetResultScore(pSc->nScore);
+
 	//サウンドの再生
 	PlaySound(SOUND_LABEL_BGM_RESULT);
 
@@ -197,7 +202,14 @@ void UpdateResult(void)
 	{//Enterが押された
 
 		//モード設定(ゲーム画面に移行)
-		SetFade(MODE_RANKING);				//フェードアウト
+		SetFade(MODE_TITLE);				//フェードアウト
+	}
+
+	if (g_nCounterRS >= 60)
+	{
+
+		//スコアリザルトの更新処理
+		UpdateResultScore();
 	}
 }
 
