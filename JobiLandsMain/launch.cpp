@@ -237,21 +237,11 @@ void CollisionLaunchPlayer(Launch *pLaunch)
 
 	bool bHit = false;
 
-	if (pPlayer->nState == PLAYERSTATE_NONE/* && pLaunch->modelData.pos.y <= 50.0f*/ && pLaunch->modelData.nState == LAUNCHSTATE_RETURN_POSSIBLE)
+	if (pPlayer->nState == PLAYERSTATE_NONE && pLaunch->modelData.pos.y <= 25.0f && pLaunch->modelData.nState == LAUNCHSTATE_RETURN_POSSIBLE)
 	{
 		
-
-			//キャラクター同士の当たり判定
-			bHit = bHitCharacter(
-				&pLaunch->modelData.pos, &pLaunch->modelData.posOld, pLaunch->modelData.vtxMax, pLaunch->modelData.vtxMin,
-				&pPlayer->pos, D3DXVECTOR3(pPlayer->fRadius, 0.0f, pPlayer->fRadius), D3DXVECTOR3(-pPlayer->fRadius, 0.0f, -pPlayer->fRadius));
-
-			if (bHit == true)
-			{//当たったら
-
-				 //プレイヤーのヒット処理
-				HitPlayer();
-			}
+		 //プレイヤーのヒット処理
+		HitPlayer();
 	}
 }
 

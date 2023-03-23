@@ -9,6 +9,7 @@
 #include "input.h"
 #include "camera.h"
 #include "model.h"
+#include "fade.h"
 #include "meshwall.h"
 #include "game.h"
 #include "edit.h"
@@ -74,6 +75,7 @@ void InitPlayer(void)
 	g_aPlayer.nState = PLAYERSTATE_NONE;						//状態
 	g_aPlayer.nCntState = 0;									//状態カウント
 	g_aPlayer.bDisp = true;										//描画しているか
+	g_aPlayer.nLife = 3;				//体力
 
 	//モーション系初期化
 	g_aPlayer.aMotion.nNowMotionNum = -1;		//現在のモーション番号
@@ -89,7 +91,7 @@ void InitPlayer(void)
 	g_aPlayer.nCntPenlight = 0;			//催眠のカウント
 	g_aPlayer.nCntDis = 0;				//派遣のカウント
 	g_aPlayer.nCntReturn = 0;			//帰還のカウント
-	g_aPlayer.fRadius = 50.0f;			//半径
+	g_aPlayer.fRadius = 150.0f;			//半径
 
 	for (int nCount = 0; nCount < MAX_MODEL; nCount++)
 	{
@@ -544,10 +546,16 @@ void HitPlayer(void)
 {
 
 	if (g_aPlayer.nState == PLAYERSTATE_NONE)
-	{//ウルト状態じゃないとき
+	{//通常乗つぃのとき
 
 		g_aPlayer.nState = PLAYERSTATE_DMG;	//ダメージ状態へ
 		g_aPlayer.nCntState = DMG_TIME;		//ダメージ状態を保つ時間を与える
+		g_aPlayer.nLife--;
+
+		if (g_aPlayer.nLife <= 0)
+		{
+			SetFade(MODE_RESULT);
+		}
 
 		//サウンド再生
 		//PlaySound(SOUND_LABEL_SE_DMG);
