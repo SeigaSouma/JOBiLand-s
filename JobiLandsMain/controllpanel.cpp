@@ -72,7 +72,7 @@ void InitControllPanel(void)
 	g_aControllPanel.aUI[CONTROLLPANEL_VTX_FRAM].pos = D3DXVECTOR3(1000.0f, 600.0f, 0.0f);	//頂点座標
 	g_aControllPanel.aUI[CONTROLLPANEL_VTX_UPBUTTON].pos = D3DXVECTOR3(700.0f, 600.0f, 0.0f);	//頂点座標
 	g_aControllPanel.aUI[CONTROLLPANEL_VTX_DWBUTTON].pos = D3DXVECTOR3(800.0f, 600.0f, 0.0f);	//頂点座標
-	g_aControllPanel.nSelect = -1;
+	g_aControllPanel.nSelect = 0;
 
 	//頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4 * CONTROLLPANEL_VTX_MAX,
@@ -185,18 +185,20 @@ void UpdateGameControllPanel(void)
 		{ // ENTERキーを押した場合
 
 			pLaunchInfo->nAngle = LAUNCHANGLE_DOWN;
+			g_aControllPanel.nSelect = LAUNCHANGLE_DOWN;
 		}
 
 		if (GetKeyboardTrigger(DIK_W) == true)
 		{ // ENTERキーを押した場合
 
 			pLaunchInfo->nAngle = LAUNCHANGLE_UP;
+			g_aControllPanel.nSelect = LAUNCHANGLE_UP;
 		}
 	}
 
 	for (int nCntControllPanel = 0; nCntControllPanel < CONTROLLPANEL_VTX_MAX; nCntControllPanel++)
 	{
-		if (g_aControllPanel.nSelect != -1 && g_aControllPanel.nSelect == nCntControllPanel)
+		if (g_aControllPanel.nSelect + 1 == nCntControllPanel)
 		{
 			//頂点カラー
 			pVtx[0].col = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
@@ -242,6 +244,7 @@ void DrawControllPanel(void)
 		//ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntControllPanel * 4, 2);	//プリミティブの種類
 	}
+
 }
 
 //==============================================================

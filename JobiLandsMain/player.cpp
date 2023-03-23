@@ -513,7 +513,7 @@ void CollisionCharPlayer(void)
 			if (pLaunch->modelData.bUse == true)
 			{//ƒ‚ƒfƒ‹‚ªŽg—p‚³‚ê‚Ä‚¢‚½‚ç
 
-				if (pLaunch->modelData.pos.x <= -190.0f)
+				if (pLaunch->modelData.pos.x <= -150.0f)
 				{
 
 					SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
