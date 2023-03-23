@@ -232,8 +232,8 @@ void InitGameCamera(void)
 {
 	for (int nCntCamera = 0; nCntCamera < CAMERATYPE_MAX; nCntCamera++)
 	{
-		g_aCamera[nCntCamera].posR = D3DXVECTOR3(-37.0f, 185.0f, -103.0f);		//注視点
-		g_aCamera[nCntCamera].posV = D3DXVECTOR3(-363.0f, 167.0f, -490.0f);	//視点
+		g_aCamera[nCntCamera].posR = D3DXVECTOR3(-80.0f, 115.0f, -146.0f);		//注視点
+		g_aCamera[nCntCamera].posV = D3DXVECTOR3(-490.0f, 125.0f, -440.0f);	//視点
 		g_aCamera[nCntCamera].vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);		//上方向ベクトル
 		g_aCamera[nCntCamera].move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//移動量
 		g_aCamera[nCntCamera].nState = CAMERASTATE_NONE;				//状態
@@ -241,7 +241,7 @@ void InitGameCamera(void)
 		g_aCamera[nCntCamera].nCntStep = 0;			//段階のカウント
 
 		g_aCamera[nCntCamera].fDistance = 505.0f;	//距離
-		g_aCamera[nCntCamera].rot = D3DXVECTOR3(0.0f, 0.7f, -0.03f);	//向き
+		g_aCamera[nCntCamera].rot = D3DXVECTOR3(0.0f, 0.94f, -0.03f);	//向き
 
 		g_aCamera[nCntCamera].bBackFollow = false;		//背面追従
 		g_aCamera[nCntCamera].nCntBackFollow = 0;		//追従カウント

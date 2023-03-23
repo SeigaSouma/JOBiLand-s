@@ -70,173 +70,204 @@ MOTIONSET
 
 	KEYSET			# --- << KEY : 0 / 2 >> ---
 		FRAME = 40
-		KEY	# ----- [ 0 ] -----
+		PARTS	# ----- [ 0 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
 
-		KEY	# ----- [ 1 ] -----
+		PARTS	# ----- [ 1 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
 
-		KEY	# ----- [ 2 ] -----
+		PARTS	# ----- [ 2 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
 
-		KEY	# ----- [ 3 ] -----
+		PARTS	# ----- [ 3 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
 	END_KEYSET
 
 	KEYSET			# --- << KEY : 1 / 2 >> ---
 		FRAME = 40
-		KEY	# ----- [ 0 ] -----
+		PARTS	# ----- [ 0 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
 
-		KEY	# ----- [ 1 ] -----
+		PARTS	# ----- [ 1 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
 
-		KEY	# ----- [ 2 ] -----
+		PARTS	# ----- [ 2 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
 
-		KEY	# ----- [ 3 ] -----
+		PARTS	# ----- [ 3 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
 	END_KEYSET
 END_MOTIONSET
 
 
 #---------------------------------------
-# 移動モーション
+# 打ち上げ
 #---------------------------------------
 MOTIONSET
-	LOOP = 1		# ループするかどうか[0:ループしない / 1:ループする]
-	NUM_KEY = 2		# キー数
+	LOOP = 0		# ループするかどうか[0:ループしない / 1:ループする]
+	NUM_KEY = 3		# キー数
 
-	KEYSET			# --- << KEY : 0 / 2 >> ---
-		FRAME = 40
-		KEY	# ----- [ 0 ] -----
+	
+	KEYSET			# --- << KEY : 1 / 4 >> ---
+		FRAME = 3
+		PARTS	# ----- [ 0 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
 
-		KEY	# ----- [ 1 ] -----
+		PARTS	# ----- [ 1 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 0.13
+		END_PARTS
+
+		PARTS	# ----- [ 2 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 0.69
+		END_PARTS
+
+		PARTS	# ----- [ 3 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
-
-		KEY	# ----- [ 2 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
-		END_KEY
-
-		KEY	# ----- [ 3 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 1.63 0.31 -0.97
-		END_KEY
-
-		KEY	# ----- [ 4 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 0.00 1.26 0.00
-		END_KEY
-
-		KEY	# ----- [ 5 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = -1.32 0.00 1.01
-		END_KEY
-
-		KEY	# ----- [ 6 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 0.00 -1.29 0.00
-		END_KEY
-
-		KEY	# ----- [ 7 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = -0.41 0.00 0.00
-		END_KEY
-
-		KEY	# ----- [ 8 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = -0.00 0.00 0.00
-		END_KEY
-
-		KEY	# ----- [ 9 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 0.31 0.00 0.00
-		END_KEY
-
-		KEY	# ----- [ 10 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = -0.35 0.00 0.00
-		END_KEY
+		END_PARTS
 	END_KEYSET
 
-	KEYSET			# --- << KEY : 1 / 2 >> ---
-		FRAME = 40
-		KEY	# ----- [ 0 ] -----
+	KEYSET			# --- << KEY : 2 / 4 >> ---
+		FRAME = 3
+		PARTS	# ----- [ 0 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
 
-		KEY	# ----- [ 1 ] -----
+		PARTS	# ----- [ 1 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 0.57
+		END_PARTS
+
+		PARTS	# ----- [ 2 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 -0.38
+		END_PARTS
+
+		PARTS	# ----- [ 3 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
+	END_KEYSET
 
-		KEY	# ----- [ 2 ] -----
+	KEYSET			# --- << KEY : 3 / 4 >> ---
+		FRAME = 3
+		PARTS	# ----- [ 0 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
 
-		KEY	# ----- [ 3 ] -----
+		PARTS	# ----- [ 1 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = -1.32 0.00 -1.01
-		END_KEY
+			ROT = 0.00 0.00 0.91
+		END_PARTS
 
-		KEY	# ----- [ 4 ] -----
+		PARTS	# ----- [ 2 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 1.29 0.00
-		END_KEY
+			ROT = 0.00 0.00 -1.13
+		END_PARTS
 
-		KEY	# ----- [ 5 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 1.63 0.00 0.97
-		END_KEY
-
-		KEY	# ----- [ 6 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 0.00 -1.26 0.00
-		END_KEY
-
-		KEY	# ----- [ 7 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 0.47 0.00 0.00
-		END_KEY
-
-		KEY	# ----- [ 8 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = -0.50 0.00 0.00
-		END_KEY
-
-		KEY	# ----- [ 9 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = -0.41 0.00 0.00
-		END_KEY
-
-		KEY	# ----- [ 10 ] -----
+		PARTS	# ----- [ 3 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 0.00 0.00
-		END_KEY
+		END_PARTS
+	END_KEYSET
+END_MOTIONSET
+
+#---------------------------------------
+# 打ち下げ
+#---------------------------------------
+MOTIONSET
+	LOOP = 0		# ループするかどうか[0:ループしない / 1:ループする]
+	NUM_KEY = 3		# キー数
+
+	KEYSET			# --- << KEY : 1 / 4 >> ---
+		FRAME = 3
+		PARTS	# ----- [ 0 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 0.00
+		END_PARTS
+
+		PARTS	# ----- [ 1 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 0.13
+		END_PARTS
+
+		PARTS	# ----- [ 2 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 0.69
+		END_PARTS
+
+		PARTS	# ----- [ 3 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 -0.44
+		END_PARTS
+	END_KEYSET
+
+	KEYSET			# --- << KEY : 2 / 4 >> ---
+		FRAME = 3
+		PARTS	# ----- [ 0 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 0.00
+		END_PARTS
+
+		PARTS	# ----- [ 1 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 0.32
+		END_PARTS
+
+		PARTS	# ----- [ 2 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 -0.03
+		END_PARTS
+
+		PARTS	# ----- [ 3 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 -0.50
+		END_PARTS
+	END_KEYSET
+
+	KEYSET			# --- << KEY : 3 / 4 >> ---
+		FRAME = 3
+		PARTS	# ----- [ 0 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 0.00
+		END_PARTS
+
+		PARTS	# ----- [ 1 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 0.41
+		END_PARTS
+
+		PARTS	# ----- [ 2 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 -1.10
+		END_PARTS
+
+		PARTS	# ----- [ 3 ] -----
+			POS = 0.00 0.00 0.00
+			ROT = 0.00 0.00 -0.38
+		END_PARTS
 	END_KEYSET
 END_MOTIONSET
 
