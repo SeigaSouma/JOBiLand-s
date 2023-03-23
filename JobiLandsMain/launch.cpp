@@ -23,7 +23,7 @@
 #define LAUNCH_FLY				(-13.0f)								// 発射物の飛ぶ勢い
 #define LAUNCH_POS				(D3DXVECTOR3(600.0f, 0.0f, 0.0f))		// 発射物の位置
 #define LAUNCH_RETURN_POS_X		(150.0f)								// 発射物の跳ね返し可能座標
-#define LAUNCH_RETURN_POS_Y		(300.0f)								// 発射物の跳ね返し可能座標
+#define LAUNCH_RETURN_POS_Y		(150.0f)								// 発射物の跳ね返し可能座標
 #define LAUNCH_LEVEL			(4)										// 発射物のレベル
 #define LAUNCH_NUM_RANGE		(3)										// 発射物の範囲の数
 
@@ -90,7 +90,7 @@ void InitLaunch(void)
 	g_nSetLaunchCount = 0;
 
 	// レベルを初期化する
-	g_nLevel = 0;
+	g_nLevel = 8;
 
 	// 遷移までのカウントを初期化
 	g_nSetLaunch = 0;
@@ -468,28 +468,28 @@ void ShotLaunchChunk(void)
 	{
 	case 0:
 
-		if (g_nSetLaunchCount == 20)
+		if (g_nSetLaunchCount == 25)
 		{ // 0キーを押した場合
 
 			// 発射物の設定処理
 			SetLaunch(3);
 		}
 
-		if (g_nSetLaunchCount == 40)
+		if (g_nSetLaunchCount == 50)
 		{ // 0キーを押した場合
 
 			// 発射物の設定処理
 			SetLaunch(3);
 		}
 
-		if (g_nSetLaunchCount == 60)
+		if (g_nSetLaunchCount == 75)
 		{ // 0キーを押した場合
 
 			// 発射物の設定処理
 			SetLaunch(3);
 		}
 
-		if (g_nSetLaunchCount == 80)
+		if (g_nSetLaunchCount == 100)
 		{ // 0キーを押した場合
 
 			// 発射物の設定処理
@@ -509,6 +509,266 @@ void ShotLaunchChunk(void)
 
 	case 1:
 
+		if (g_nSetLaunchCount == 25)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 50)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 75)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 100)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+
+			// カウントを0にする
+			g_nSetLaunchCount = 0;
+
+			// レベルを加算する
+			g_nLevel++;
+
+			// ゲーム状態を変える
+			*GetGameState() = GAMESTATE_NONE;
+		}
+
+		break;
+
+	case 2:
+
+		if (g_nSetLaunchCount == 25)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 50)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 100)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 125)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+
+			// カウントを0にする
+			g_nSetLaunchCount = 0;
+
+			// レベルを加算する
+			g_nLevel++;
+
+			// ゲーム状態を変える
+			*GetGameState() = GAMESTATE_NONE;
+		}
+
+		break;
+
+	case 3:
+
+		if (g_nSetLaunchCount == 25)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 75)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 100)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 125)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+
+			// カウントを0にする
+			g_nSetLaunchCount = 0;
+
+			// レベルを加算する
+			g_nLevel++;
+
+			// ゲーム状態を変える
+			*GetGameState() = GAMESTATE_NONE;
+		}
+
+		break;
+
+	case 4:
+
+		if (g_nSetLaunchCount == 25)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 50)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 75)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 100)
+		{ // 0キーを押した場合
+
+			// 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 125)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+
+			// カウントを0にする
+			g_nSetLaunchCount = 0;
+
+			// レベルを加算する
+			g_nLevel++;
+
+			// ゲーム状態を変える
+			*GetGameState() = GAMESTATE_NONE;
+		}
+
+		break;
+
+	case 5:
+
+		if (g_nSetLaunchCount == 25)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 50)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 100)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 125)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 150)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+
+			// カウントを0にする
+			g_nSetLaunchCount = 0;
+
+			// レベルを加算する
+			g_nLevel++;
+
+			// ゲーム状態を変える
+			*GetGameState() = GAMESTATE_NONE;
+		}
+
+		break;
+
+	case 6:
+
+		if (g_nSetLaunchCount == 20)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 40)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 60)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 80)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+
+			// カウントを0にする
+			g_nSetLaunchCount = 0;
+
+			// レベルを加算する
+			g_nLevel++;
+
+			// ゲーム状態を変える
+			*GetGameState() = GAMESTATE_NONE;
+		}
+
+		break;
+
+	case 7:
+
 		if (g_nSetLaunchCount == 20)
 		{ // 0キーを押した場合
 
@@ -523,17 +783,127 @@ void ShotLaunchChunk(void)
 			SetLaunch(3);
 		}
 
-		if (g_nSetLaunchCount == 60)
+		if (g_nSetLaunchCount == 80)
 		{ // 0キーを押した場合
 
 			// 発射物の設定処理
 			SetLaunch(3);
 		}
 
-		if (g_nSetLaunchCount == 80)
+		if (g_nSetLaunchCount == 100)
 		{ // 0キーを押した場合
 
 			// 発射物の設定処理
+			SetLaunch(3);
+
+			// カウントを0にする
+			g_nSetLaunchCount = 0;
+
+			// レベルを加算する
+			g_nLevel++;
+
+			// ゲーム状態を変える
+			*GetGameState() = GAMESTATE_NONE;
+		}
+
+		break;
+
+	case 8:
+
+		if (g_nSetLaunchCount == 20)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 50)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 60)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 90)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 120)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 130)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+
+			// カウントを0にする
+			g_nSetLaunchCount = 0;
+
+			// レベルを加算する
+			g_nLevel++;
+
+			// ゲーム状態を変える
+			*GetGameState() = GAMESTATE_NONE;
+		}
+
+		break;
+
+	case 9:
+
+		if (g_nSetLaunchCount == 20)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 35)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 60)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 85)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 105)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
+			SetLaunch(3);
+		}
+
+		if (g_nSetLaunchCount == 125)
+		{ // 0キーを押した場合
+
+		  // 発射物の設定処理
 			SetLaunch(3);
 
 			// カウントを0にする
