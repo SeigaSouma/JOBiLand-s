@@ -173,15 +173,8 @@ void UninitGame(void)
 //==============================================================
 void UpdateGame(void)
 {
-
-	//カメラの情報取得
-	Camera *pCamera = GetCamera();
-
 	//エディットの情報取得
 	Edit *pEdit = GetEdit();
-
-	//プレイヤーの情報取得
-	Player *pPlayer = GetPlayer();
 
 	if (GetFade() == FADE_NONE)
 	{//何もしていないとき
@@ -258,7 +251,7 @@ void UpdateGame(void)
 		UpdatePause();		//ポーズメニューを表示する
 	}
 
-	if (GetGameState() != GAMESTATE_START)
+	if (*GetGameState() != GAMESTATE_START)
 	{
 		if ((GetKeyboardTrigger(DIK_P) == true || GetGamepadTrigger(BUTTON_START, 0)) &&
 			GetFade() == FADE_NONE)
@@ -277,6 +270,12 @@ void UpdateGame(void)
 	
 	switch (g_gameState)
 	{
+	case GAMESTATE_SHOT:		// 打ち出す状態
+
+		// 発射する処理
+		ShotLaunchChunk();
+
+		break;
 
 	case GAMESTATE_END:
 
@@ -390,9 +389,9 @@ void SetGameState(GAMESTATE state, int nCounter)
 //==============================================================
 //ゲーム状態の取得
 //==============================================================
-GAMESTATE GetGameState(void)
+GAMESTATE *GetGameState(void)
 {
-	return g_gameState;
+	return &g_gameState;
 }
 
 //==============================================================
