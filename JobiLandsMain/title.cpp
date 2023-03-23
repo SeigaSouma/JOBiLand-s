@@ -29,16 +29,40 @@
 
 //マクロ定義
 #define CHANGE_TIME	(60 * 25)	//切り替えタイマー
+#define TITLETEX	"data/TEXTURE/title.png"
+#define PRESSENTERTEX	"data/TEXTURE/pressenter.png"
+#define FLASHING_TIME   (40)  //点滅時間
+#define MAX_TITLE		(2)		//テクスチャの最大数
+
+//=======================================
+//列挙型
+//=======================================
+typedef enum
+{
+	TITLE_LOGO,  //タイトルロゴ
+	TITLE_ENTER, //PressEnter
+	TITLE_MAX,
+}TITLE;
 
 //グローバル変数宣言
+LPDIRECT3DTEXTURE9 g_aTextureTitle[MAX_TITLE] = {};      //テクスチャ(3枚分)へのポインタ
+LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffTitle = NULL;       //頂点バッファへのポインタ
 bool g_bEndFrag;									//終了のフラグ
 Title g_Title;
+int g_EnterCounter;   //PressEnterの点滅カウンター
+int g_EnterState;     //現在の色
+bool g_TitleFade;     //falseに使用するときに必要
 
 //==================================================================================
 //タイトルの初期化処理
 //==================================================================================
 void InitTitle(void)
 {
+	LPDIRECT3DDEVICE9  pDevice;
+
+	//デバイスの取得
+	pDevice = GetDevice();
+
 	g_Title.OldSelect = TITLESELECT_START;	//前回の選択肢
 	g_Title.nSelect = TITLESELECT_START;	//今回の選択肢
 	g_Title.nCntChange = 0;
@@ -86,6 +110,67 @@ void InitTitle(void)
 
 	//BGMをセット
 	PlaySound(SOUND_LABEL_BGM_TITLE);
+
+	//0番目のテクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice, TITLETEX, &g_aTextureTitle[0]);
+
+	//1番目のテクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice, PRESSENTERTEX, &g_aTextureTitle[1]);
+
+	//頂点バッファの生成
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4 * MAX_TITLE,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_2D,
+		D3DPOOL_MANAGED,
+		&g_pVtxBuffTitle,
+		NULL);
+
+	//PressEnterの点滅カウンター
+	g_EnterCounter = 0;
+
+	//現在の色
+	g_EnterState = 0;
+
+
+	//頂点情報へのポインタ
+	VERTEX_2D *pVtx;
+
+	//頂点バッファをロックし、頂点情報へのポインタを取得
+	g_pVtxBuffTitle->Lock(0, 0, (void**)&pVtx, 0);
+
+	for (int nCnt = 0; nCnt < MAX_TITLE; nCnt++)
+	{
+
+		//頂点座標の設定
+		pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(SCREEN_WIDTH, 0.0f, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(0.0f, SCREEN_HEIGHT, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
+
+		//rhwの設定
+		pVtx[0].rhw = 1.0f;
+		pVtx[1].rhw = 1.0f;
+		pVtx[2].rhw = 1.0f;
+		pVtx[3].rhw = 1.0f;
+
+		//頂点カラーの設定
+		pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+		//テクスチャ座標の設定
+		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+		pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+		pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+		pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+		pVtx += 4;
+	}
+
+	//頂点バッファをアンロック
+	g_pVtxBuffTitle->Unlock();
+
 }
 
 //==================================================================================
@@ -130,6 +215,25 @@ void UninitTitle(void)
 
 	//パーティクルの終了処理
 	UninitParticle();
+
+	for (int nCntTitle = 0; nCntTitle < MAX_TITLE; nCntTitle++)
+	{
+		//テクスチャの破棄
+		if (g_aTextureTitle[nCntTitle] != NULL)
+		{
+			g_aTextureTitle[nCntTitle]->Release();
+
+			g_aTextureTitle[nCntTitle] = NULL;
+		}
+	}
+
+	//頂点バッファの破棄
+	if (g_pVtxBuffTitle != NULL)
+	{
+		g_pVtxBuffTitle->Release();
+		g_pVtxBuffTitle = NULL;
+	}
+
 }
 
 //==================================================================================
@@ -137,39 +241,63 @@ void UninitTitle(void)
 //==================================================================================
 void UpdateTitle(void)
 {
+	//頂点情報へのポインタ
+	VERTEX_2D *pVtx;
 
-	if (GetFade() == FADE_NONE && g_Title.nState == TITLESTATE_NONE)
-	{//何もしていないとき
+	//頂点バッファをロックし、頂点情報へのポインタを取得
+	g_pVtxBuffTitle->Lock(0, 0, (void**)&pVtx, 0);
 
-		//自動遷移カウンター加算
-		g_Title.nCntChange++;
-
-		//選択処理
-		UpdateSelectTitle();
-
-	}
-	else if (g_Title.nState == TITLESTATE_TKTK)
-	{//チカチカ状態のとき
-
-		//選択肢のチカチカ処理
-		//UpdateTitleTKTK();
-	}
-	else if (g_Title.nState == TITLESTATE_FADE)
-	{//遷移状態のとき
-
-		switch (g_Title.nSelect)
+	for (int nCntTitle = 0; nCntTitle < MAX_TITLE; nCntTitle++)
+	{
+		switch (nCntTitle)
 		{
-
-		case TITLESELECT_START:
-			SetFade(MODE_TUTORIAL);
+		case TITLE_LOGO:  //タイトルロゴ
 			break;
+		case TITLE_ENTER: //PressEnter
+			g_EnterCounter++;
 
-		case TITLESELECT_END:
-			g_bEndFrag = true;	//終了のフラグON
+			if (g_EnterCounter >= FLASHING_TIME)
+			{
+				g_EnterCounter = 0;
+
+				g_EnterState ^= 1;
+
+				if (g_EnterState == 1)
+				{
+					pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f);
+					pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f);
+					pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f);
+					pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f);
+				}
+				if (g_EnterState == 0)
+				{
+					pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+					pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+					pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+					pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+				}
+			}
 			break;
-
 		}
 
+		//テクスチャ座標の更新
+		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+		pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+		pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+		pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+		pVtx += 4;
+	}
+
+	//頂点バッファをアンロック
+	g_pVtxBuffTitle->Unlock();
+
+	//決定キー(ENTERキー)が押された
+	if (GetKeyboardTrigger(DIK_RETURN) == true/* || GetPadTrigger(BUTTON_A, 0) == true*/ && g_TitleFade == false)
+	{
+		//モード設定(チュートリアルに移行)
+		SetFade(MODE_GAME);
+		g_TitleFade = true;
 	}
 
 	//カメラの更新処理
@@ -246,6 +374,23 @@ void DrawTitle(int nType)
 
 		//パーティクルの描画処理
 		DrawParticle();
+
+		LPDIRECT3DDEVICE9 pDevice = GetDevice();	//デバイスの取得
+
+		//頂点バッファをデータストリームに設定
+		pDevice->SetStreamSource(0, g_pVtxBuffTitle, 0, sizeof(VERTEX_2D));
+
+		//頂点フォーマットの設定
+		pDevice->SetFVF(FVF_VERTEX_2D);
+
+		for (int nCntTitle = 0; nCntTitle < 2; nCntTitle++)
+		{
+			pDevice->SetTexture(0, g_aTextureTitle[nCntTitle]);
+
+			//ポリゴンの描画
+			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nCntTitle * 4, 2);
+			
+		}
 	}
 
 	if (nType == DRAWTYPE_UI)
