@@ -95,7 +95,7 @@ void InitLaunch(void)
 	g_nSetLaunchCount = 0;
 
 	// レベルを初期化する
-	g_nLevel = 9;
+	g_nLevel = 0;
 
 	// 遷移までのカウントを初期化
 	g_nSetLaunch = 0;
@@ -160,6 +160,9 @@ void UpdateLaunch(void)
 
 					// 発射物の跳ね返し処理
 					ReturnLaunch(&g_aLaunch[nCntLaunch]);
+
+					// ヒットさせる
+					bHit = true;
 				}
 
 				break;					// 抜け出す
@@ -321,6 +324,7 @@ void SetLaunch(int nLevel)
 	Player *pPlayer = GetPlayer();		// プレイヤーの情報を取得する
 	D3DXVECTOR3 distance;				// 距離
 	int nType;							// ランダムで算出する種類
+	int nBookType;
 
 	for (int nCntLaunch = 0; nCntLaunch < MAX_LAUNCH; nCntLaunch++)
 	{//パーツ分繰り返す
@@ -338,15 +342,19 @@ void SetLaunch(int nLevel)
 			{
 			case LAUNCHTYPE_GOOD:	// 良い奴
 
+				nBookType = rand() % 3 + 4;
+
 				// モデル情報を取得する
-				g_aLaunch[nCntLaunch].modelData = pModel[7];
+				g_aLaunch[nCntLaunch].modelData = pModel[nBookType];
 
 				break;				// 抜け出す
 
 			case LAUNCHTYPE_EVIL:	// 悪い奴
 
+				nBookType = rand() % 3;
+
 				// モデル情報を取得する
-				g_aLaunch[nCntLaunch].modelData = pModel[2];
+				g_aLaunch[nCntLaunch].modelData = pModel[nBookType];
 
 				break;				// 抜け出す
 			}
