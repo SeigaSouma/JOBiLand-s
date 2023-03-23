@@ -230,9 +230,6 @@ void InitRankingCamera(void)
 //==================================================================================
 void InitGameCamera(void)
 {
-	//プレイヤーの情報取得
-	Player *pPlayer = GetPlayer();
-
 	for (int nCntCamera = 0; nCntCamera < CAMERATYPE_MAX; nCntCamera++)
 	{
 		g_aCamera[nCntCamera].posR = D3DXVECTOR3(-37.0f, 185.0f, -103.0f);		//注視点

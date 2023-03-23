@@ -216,9 +216,9 @@ void InitScoreCircle(void)
 	Player *pPlayer = GetPlayer();
 
 	//ƒXƒRƒA‚Ì‰~Ý’è
-	SetScoreCircle(D3DXVECTOR3(pPlayer->pos.x, pPlayer->pos.y + 70.0f, pPlayer->pos.z - 2.02f), D3DXVECTOR3(0.0f, D3DX_PI * 0.5f, D3DX_PI * 0.5f), D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f), 100.0f, 0.0f, 0);
-	SetScoreCircle(D3DXVECTOR3(pPlayer->pos.x, pPlayer->pos.y + 70.0f, pPlayer->pos.z - 1.01f), D3DXVECTOR3(0.0f, D3DX_PI * 0.5f, D3DX_PI * 0.5f), D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f), 200.0f, 0.0f, 0);
-	SetScoreCircle(D3DXVECTOR3(pPlayer->pos.x, pPlayer->pos.y + 70.0f, pPlayer->pos.z), D3DXVECTOR3(0.0f, D3DX_PI * 0.5f, D3DX_PI * 0.5f), D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f), 300.0f, 0.0f, 0);
+	SetScoreCircle(D3DXVECTOR3(-200.0f, pPlayer->pos.y + 70.0f, pPlayer->pos.z - 2.02f), D3DXVECTOR3(0.0f, D3DX_PI * 0.5f, D3DX_PI * 0.5f), D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f), 100.0f, 0.0f, 0);
+	SetScoreCircle(D3DXVECTOR3(-200.0f, pPlayer->pos.y + 70.0f, pPlayer->pos.z - 1.01f), D3DXVECTOR3(0.0f, D3DX_PI * 0.5f, D3DX_PI * 0.5f), D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f), 200.0f, 0.0f, 0);
+	SetScoreCircle(D3DXVECTOR3(-200.0f, pPlayer->pos.y + 70.0f, pPlayer->pos.z), D3DXVECTOR3(0.0f, D3DX_PI * 0.5f, D3DX_PI * 0.5f), D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f), 300.0f, 0.0f, 0);
 }
 
 //==================================================================================
