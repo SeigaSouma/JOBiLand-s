@@ -352,6 +352,19 @@ void ControllPlayer(void)
 		//	PlaySound(SOUND_LABEL_SE_ARMMOVE);
 		//	SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_DOWN);
 		//}
+
+		if (GetKeyboardTrigger(DIK_W) == true || GetGamepadTrigger(BUTTON_A, 0))
+		{//Wが押された,嫌なもの
+			PlaySound(SOUND_LABEL_SE_ARMMOVE);
+			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
+		}
+
+		if (GetKeyboardTrigger(DIK_S) == true || GetGamepadTrigger(BUTTON_B, 0))
+		{//Wが押された,嫌なもの
+			PlaySound(SOUND_LABEL_SE_ARMMOVE);
+			SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_DOWN);
+		}
+
 	}
 
 	PrintDebugProc(
@@ -524,13 +537,18 @@ void CollisionCharPlayer(void)
 			if (pLaunch->modelData.bUse == true)
 			{//モデルが使用されていたら
 
-				if (pLaunch->modelData.pos.x <= -150.0f)
+				/*if (pLaunch->modelData.pos.x <= -150.0f)
 				{
 
+<<<<<<< HEAD
 					//SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
 					//ReturnLaunch(pLaunch);
 					
 				}
+=======
+					SetMotion(&g_aPlayer.aMotion, PLAYERMOTION_UP);
+					ReturnLaunch(pLaunch);
+				}*/
 
 				//キャラクター同士の当たり判定
 				bHit = bHitCharacter(
