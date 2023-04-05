@@ -7,9 +7,9 @@ NUM_MODEL = 11
 # モデルファイル名
 #------------------------------------------------------------------------------
 MODEL_FILENAME = data/MODEL/monster_bock0.x		# [0]
-MODEL_FILENAME = data/MODEL/cone000.x		# [1]
-MODEL_FILENAME = data/MODEL/monster_bock1.x		# [2]
-MODEL_FILENAME = data/MODEL/monster_bock2.x		# [3]
+MODEL_FILENAME = data/MODEL/monster_bock1.x		# [1]
+MODEL_FILENAME = data/MODEL/monster_bock2.x		# [2]
+MODEL_FILENAME = data/MODEL/cone000.x			# [3]
 MODEL_FILENAME = data/MODEL/rorimagazin_01.x		# [4]
 MODEL_FILENAME = data/MODEL/gyarumagazin_02.x		# [5]
 MODEL_FILENAME = data/MODEL/cospreymagazin_03.x		# [6]
@@ -24,6 +24,13 @@ MODEL_FILENAME = data/MODEL/mark_01.x		# [10]
 MODELSET
 	TYPE = 9
 	POS = 396.24 0.00 -3.73
+	ROT = 0.00 0.00 0.00
+	SHADOW = 1
+END_MODELSET
+
+MODELSET
+	TYPE = 9
+	POS = 801.29 0.00 -1.10
 	ROT = 0.00 0.00 0.00
 	SHADOW = 1
 END_MODELSET

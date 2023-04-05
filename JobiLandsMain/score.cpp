@@ -266,3 +266,8 @@ void CreatScoreBuff(void)
 	//頂点バッファをアンロックする
 	g_pVtxBuffScore->Unlock();
 }
+
+Score *GetScore(void)
+{
+	return &g_Score;
+}
